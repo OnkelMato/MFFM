@@ -34,10 +34,10 @@
             label2 = new Label();
             label3 = new Label();
             label4 = new Label();
-            firstname = new TextBox();
-            lastname = new TextBox();
-            address = new TextBox();
-            city = new TextBox();
+            Firstname = new TextBox();
+            Lastname = new TextBox();
+            Address = new TextBox();
+            City = new TextBox();
             Save = new Button();
             SaveAndClose = new Button();
             tableLayoutPanel1.SuspendLayout();
@@ -64,10 +64,10 @@
             tableLayoutPanel1.Controls.Add(label2, 0, 1);
             tableLayoutPanel1.Controls.Add(label3, 0, 2);
             tableLayoutPanel1.Controls.Add(label4, 0, 3);
-            tableLayoutPanel1.Controls.Add(firstname, 1, 0);
-            tableLayoutPanel1.Controls.Add(lastname, 1, 1);
-            tableLayoutPanel1.Controls.Add(address, 1, 2);
-            tableLayoutPanel1.Controls.Add(city, 1, 3);
+            tableLayoutPanel1.Controls.Add(Firstname, 1, 0);
+            tableLayoutPanel1.Controls.Add(Lastname, 1, 1);
+            tableLayoutPanel1.Controls.Add(Address, 1, 2);
+            tableLayoutPanel1.Controls.Add(City, 1, 3);
             tableLayoutPanel1.Location = new Point(14, 16);
             tableLayoutPanel1.Margin = new Padding(3, 4, 3, 4);
             tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -115,41 +115,41 @@
             label4.TabIndex = 3;
             label4.Text = "Ort";
             // 
-            // firstname
+            // Firstname
             // 
-            firstname.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            firstname.Location = new Point(282, 4);
-            firstname.Margin = new Padding(3, 4, 3, 4);
-            firstname.Name = "firstname";
-            firstname.Size = new Size(273, 27);
-            firstname.TabIndex = 4;
+            Firstname.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            Firstname.Location = new Point(282, 4);
+            Firstname.Margin = new Padding(3, 4, 3, 4);
+            Firstname.Name = "Firstname";
+            Firstname.Size = new Size(273, 27);
+            Firstname.TabIndex = 4;
             // 
-            // lastname
+            // Lastname
             // 
-            lastname.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            lastname.Location = new Point(282, 72);
-            lastname.Margin = new Padding(3, 4, 3, 4);
-            lastname.Name = "lastname";
-            lastname.Size = new Size(273, 27);
-            lastname.TabIndex = 5;
+            Lastname.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            Lastname.Location = new Point(282, 72);
+            Lastname.Margin = new Padding(3, 4, 3, 4);
+            Lastname.Name = "Lastname";
+            Lastname.Size = new Size(273, 27);
+            Lastname.TabIndex = 5;
             // 
-            // address
+            // Address
             // 
-            address.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            address.Location = new Point(282, 142);
-            address.Margin = new Padding(3, 4, 3, 4);
-            address.Name = "address";
-            address.Size = new Size(273, 27);
-            address.TabIndex = 6;
+            Address.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            Address.Location = new Point(282, 142);
+            Address.Margin = new Padding(3, 4, 3, 4);
+            Address.Name = "Address";
+            Address.Size = new Size(273, 27);
+            Address.TabIndex = 6;
             // 
-            // city
+            // City
             // 
-            city.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            city.Location = new Point(282, 206);
-            city.Margin = new Padding(3, 4, 3, 4);
-            city.Name = "city";
-            city.Size = new Size(273, 27);
-            city.TabIndex = 7;
+            City.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            City.Location = new Point(282, 206);
+            City.Margin = new Padding(3, 4, 3, 4);
+            City.Name = "City";
+            City.Size = new Size(273, 27);
+            City.TabIndex = 7;
             // 
             // Save
             // 
@@ -198,10 +198,10 @@
         private Label label2;
         private Label label3;
         private Label label4;
-        private TextBox firstname;
-        private TextBox lastname;
-        private TextBox address;
-        private TextBox city;
+        private TextBox Firstname;
+        private TextBox Lastname;
+        private TextBox Address;
+        private TextBox City;
         private Button Save;
         private Button SaveAndClose;
     }

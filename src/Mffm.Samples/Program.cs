@@ -16,6 +16,8 @@ internal static class Program
     [STAThread]
     private static void Main()
     {
+        // todo create ADRs using MADR framework from github
+
         // To customize application configuration such as set high DPI settings or default font,
         // see https://aka.ms/applicationconfiguration.
         ApplicationConfiguration.Initialize();

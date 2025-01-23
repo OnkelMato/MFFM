@@ -13,9 +13,7 @@ public class SavePersonCommand : ICommand
     {
         if (parameter is not EditFormModel model) return;
 
-        // todo does this makes sense?
-        File.AppendAllText(model.Id + ".txt", model.Firstname);
-        File.AppendAllText(model.Id + ".txt", model.Lastname);
+        // Logic to save the person
     }
 
     public event EventHandler? CanExecuteChanged;

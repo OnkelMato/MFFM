@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mffm", "Mffm\Mffm.csproj", "{99FB5445-34F0-4AE6-AFF6-F80DB5218DCA}"
 EndProject
@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mffm.Samples", "Mffm.Sample
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F19F3C46-755D-4F9A-83E1-14AD0C1E157C}"
 	ProjectSection(SolutionItems) = preProject
-		..\..\README.md = ..\..\README.md
+		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mffm.Microsoft.Extensions.DependencyInjection", "Mffm.Microsoft.Extensions.DependencyInjection\Mffm.Microsoft.Extensions.DependencyInjection.csproj", "{7E9CD299-DCCE-48D2-937D-39D837B393AB}"

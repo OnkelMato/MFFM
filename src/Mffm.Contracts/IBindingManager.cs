@@ -5,5 +5,5 @@ namespace Mffm.Contracts;
 /// </summary>
 public interface IBindingManager
 {
-    Form GetFormFor<TFormModel>(out TFormModel formModel) where TFormModel : class, IFormModel;
+    void CreateBindings(IFormModel formModel, Form form);
 }

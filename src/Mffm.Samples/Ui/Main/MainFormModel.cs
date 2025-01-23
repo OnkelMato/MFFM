@@ -12,6 +12,7 @@ public class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<LogMess
 {
     private string _logMessages = string.Empty;
     private string _logMessageToSend = string.Empty;
+    private string _peopleSelected;
 
     public MainFormModel(
         IWindowManager windowManager,
@@ -24,6 +25,8 @@ public class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<LogMess
         MenuEditPerson = new FunctionToCommandAdapter(_ => windowManager.Show<EditFormModel>());
         MenuEditProtocol = new FunctionToCommandAdapter(_ => windowManager.Show<ProtocolFormModel>());
         SendLogMessage = new SendLogMessageCommand(eventAggregator);
+
+        /*  */
     }
 
     #region Handle Incoming Messages
@@ -61,6 +64,19 @@ public class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<LogMess
         {
             if (value == _logMessageToSend) return;
             _logMessageToSend = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public IList<string> People { get; } = new List<string> { "Alice", "Bob", "Charlie" };
+
+    public string PeopleSelected
+    {
+        get => _peopleSelected;
+        set
+        {
+            if (value == _peopleSelected) return;
+            _peopleSelected = value;
             OnPropertyChanged();
         }
     }

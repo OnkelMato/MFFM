@@ -6,38 +6,35 @@ The term MFFM describes the Model-Form-FormModel, which is similar to the MVVM M
 
 As this is a part of a Clean Code training, the documentation tries to explain the ideas and clean code concepts.
 
-# How to use the framework
+## How to use the framework
 
 First of all, the framework uses the dependency inversion principle (DIP) and therefore it uses a dependency injection framework to simpleft dependency inversion. The main application uses the dependency injection extensions from Microsoft.
 
 ``` csharp
-            // register services. Bining manager requires the ability to resolve instances
-            services.AddSingleton<IBindingManager, BindingManager>(provider =>
-            {
-                return new BindingManager((type) => provider.GetService(type) ?? throw new ServiceNotFoundException($"Cannot resolve service for {type.FullName}"));
-            });
+    // the example uses the Microsoft dependency injection framework
 
-            services.AddSingleton<IWindowManager, WindowManager>();
-            services.AddSingleton<IEventAggregator, EventAggregator>();
+    // here is all the registration logic for the MFFM services and framework
+    // this includes the user interface which is formModels and forms
+    serviceCollection.ConfigureMffm(typeof(Program).Assembly);
 
-            // windows manager can start 
-            var windowManager = serviceProvider.GetService<IWindowManager>() ?? throw new ServiceNotFoundException("cannot find window manager for MFFM pattern");
-            windowManager.Run<MainFormModel>();
+    // Get window manager and run application
+    var windowManager = serviceProvider.GetService<IWindowManager>() ??
+                        throw new ServiceNotFoundException("cannot find window manager for MFFM pattern");
+    windowManager.Run<MainFormModel>();
 ```
 
-# Window Manager
+For the main form above a main form model has to be created. The connection between the Form and the FormModel is done by a naming convention.
 
-* Knows how to manage windows
-* Can do "ShowDialog()"
+``` csharp
 
-# Binding Manager
+    // Binding a command to a button with name "SendLogMessage"
+    public ICommand SendLogMessage { get; private set; }
 
-* Know Form and FormModel
-* Knows how to bind properties
+    // Binding a string to a textbox with name "SendLogMessage"
+    public string LogMessages /* Property with PropertyChanged */
 
-# Event Aggregator
-
-* Knows how to publish and subscribe events
-* Allows to decouple components
-* Allows to send messages between components
-
+    // Binding a list to a listbox with name "People".
+    // The "PeopleSelected" property can be bound to a textbox with name "PeopleSelected"
+    public IList<string> People { get; } = new List<string> { "Alice", "Bob", "Charlie" };
+    public string PeopleSelected /* Property with PropertyChanged */
+```
