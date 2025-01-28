@@ -25,8 +25,6 @@ public class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<LogMess
         MenuEditPerson = new FunctionToCommandAdapter(_ => windowManager.Show<EditFormModel>());
         MenuEditProtocol = new FunctionToCommandAdapter(_ => windowManager.Show<ProtocolFormModel>());
         SendLogMessage = new SendLogMessageCommand(eventAggregator);
-
-        /*  */
     }
 
     #region Handle Incoming Messages

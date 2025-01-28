@@ -1,5 +1,4 @@
-﻿using System.CodeDom;
-using System.Reflection;
+﻿using System.Reflection;
 using Mffm.Commands;
 using Mffm.Contracts;
 using Mffm.Core;
@@ -8,10 +7,15 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Mffm.Microsoft.Extensions.DependencyInjection;
 
+/// <summary>
+/// Abstraction for dependency injection framework and abstracts the MFFM related parts.
+/// Reduces the main function to a minimum.
+/// </summary>
 public static class MicrosoftDependencyInjectionExtension
 {
     public static void ConfigureMffm(this IServiceCollection services, params Assembly[] assemblies)
     {
+        // todo use a DI adapter to we can move this registration code to the mffm core and make almost everything internal
         var formMapperFactory = new DefaultFormMapperBuilder();
         foreach (var assembly in assemblies)
             formMapperFactory.RegisterAssembly(assembly);
@@ -34,5 +38,15 @@ public static class MicrosoftDependencyInjectionExtension
             .Where(t => typeof(IControlBinding).IsAssignableFrom(t) && t is { IsInterface: false, IsAbstract: false } && (t != typeof(DefaultBinding)))
             .ToList()
             .ForEach(t => services.AddTransient(typeof(IControlBinding), t));
+    }
+
+    public static IServiceProvider Run<TFormModel>(this IServiceProvider provider)
+        where TFormModel : class, IFormModel
+    {
+        var windowManager = provider.GetService<IWindowManager>() ??
+                            throw new ServiceNotFoundException("cannot find window manager for MFFM pattern");
+        windowManager.Run<TFormModel>();
+
+        return provider;
     }
 }

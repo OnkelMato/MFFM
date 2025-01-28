@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Windows.Input;
+using Mffm.Contracts;
 
 namespace Mffm.Bindings;
 
@@ -11,9 +12,9 @@ internal class FormModelAsParameterCommandDecorator : ICommand
     // todo check of this can interop with the adapter to add "notify" functionality
 
     private readonly ICommand _command;
-    private readonly object? _model;
+    private readonly IFormModel _model;
 
-    public FormModelAsParameterCommandDecorator(ICommand command, object model)
+    public FormModelAsParameterCommandDecorator(ICommand command, IFormModel model)
     {
         _command = command ?? throw new ArgumentNullException(nameof(command));
         _model = model ?? throw new ArgumentNullException(nameof(model));

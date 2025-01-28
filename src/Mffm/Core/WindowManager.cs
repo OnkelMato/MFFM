@@ -25,6 +25,7 @@ public class WindowManager(IServiceProvider serviceProvider, IBindingManager bin
     {
         formModel = _serviceProvider.GetService(typeof(TFormModel)) as TFormModel ?? throw new ServiceNotFoundException($"Cannot fond service for ${typeof(TFormModel).Name}");
 
+        // form mapper is responsible to getting the form for the form model
         var formType = _formMapper.GetFormFor<TFormModel>();
         var form = _serviceProvider.GetService(formType) as Form;
         if (form is null) throw new ServiceNotFoundException($"Cannot fond service for ${formType.Name}");
@@ -53,6 +54,10 @@ public class WindowManager(IServiceProvider serviceProvider, IBindingManager bin
         _openWindows.Remove(model);
     }
 
+    /// <summary>
+    /// Run is used to initially run the application. This is required as entry point.
+    /// </summary>
+    /// <typeparam name="TFormModel"></typeparam>
     public void Run<TFormModel>() where TFormModel : class, IFormModel
     {
         try

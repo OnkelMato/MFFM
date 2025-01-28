@@ -16,8 +16,6 @@ internal static class Program
     [STAThread]
     private static void Main()
     {
-        // todo create ADRs using MADR framework from github
-
         // To customize application configuration such as set high DPI settings or default font,
         // see https://aka.ms/applicationconfiguration.
         ApplicationConfiguration.Initialize();
@@ -33,10 +31,8 @@ internal static class Program
         // create the service provider aka container
         var serviceProvider = serviceCollection.BuildServiceProvider();
 
-        // Get window manager and run application
-        var windowManager = serviceProvider.GetService<IWindowManager>() ??
-                            throw new ServiceNotFoundException("cannot find window manager for MFFM pattern");
-        windowManager.Run<MainFormModel>();
+        // Run the application directly on service provider
+        serviceProvider.Run<MainFormModel>();
     }
 
     #region service configurations
