@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
-using Mffm.Bindings;
+using Mffm.Commands;
 using Mffm.Contracts;
 using Mffm.Samples.Ui.EditUser;
 using Mffm.Samples.Ui.Protocol;

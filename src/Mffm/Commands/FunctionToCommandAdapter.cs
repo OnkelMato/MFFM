@@ -1,6 +1,6 @@
 using System.Windows.Input;
 
-namespace Mffm.Bindings;
+namespace Mffm.Commands;
 
 /// <summary>
 ///     This adapter does not support the CanExecuteChanged event pass-through and property changes in model

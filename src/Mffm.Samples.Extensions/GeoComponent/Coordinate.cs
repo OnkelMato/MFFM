@@ -1,6 +1,4 @@
-﻿using System.Windows.Forms;
-
-namespace Mffm.Samples.Extensions.GeoComponent;
+﻿namespace Mffm.Samples.Extensions.GeoComponent;
 
 [Serializable]
 public class Coordinate

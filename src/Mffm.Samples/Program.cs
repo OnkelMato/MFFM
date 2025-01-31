@@ -1,4 +1,3 @@
-using Mffm.Contracts;
 using Mffm.Microsoft.Extensions.DependencyInjection;
 using Mffm.Samples.Core.Logging;
 using Mffm.Samples.Core.Services;
@@ -39,7 +38,7 @@ internal static class Program
         serviceProvider.Run<MainFormModel>();
     }
 
-    #region service configurations
+    #region Microsoft DI service configurations
 
     private static void ConfigureDemoAppServices(this IServiceCollection services)
     {

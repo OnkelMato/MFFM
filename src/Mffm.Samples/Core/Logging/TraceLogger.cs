@@ -2,7 +2,7 @@
 
 namespace Mffm.Samples.Core.Logging;
 
-internal class TraceLogger : IBmLogger
+public class TraceLogger : IBmLogger
 {
     public void LogDebug(string message)
     {

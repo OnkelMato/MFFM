@@ -1,8 +1,5 @@
 ﻿using System.Reflection;
-using Mffm.Commands;
 using Mffm.Contracts;
-using Mffm.Core;
-using Mffm.Core.ControlBindings;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Mffm.Microsoft.Extensions.DependencyInjection;

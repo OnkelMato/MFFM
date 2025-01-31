@@ -14,7 +14,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Mffm.Contracts\Mffm.Contracts.csproj" />
-		<ProjectReference Include="..\Mffm.Microsoft.Extensions.DependencyInjection\Mffm.Microsoft.Extensions.DependencyInjection.csproj" />
+		<ProjectReference Include="..\Mffm.Microsoft.Extensions.DependencyInjection\Mffm.DependencyInjection.Microsoft.Extensions.csproj" />
 		<ProjectReference Include="..\Mffm.Samples.Extensions\Mffm.Samples.Extensions.csproj" />
 		<ProjectReference Include="..\Mffm\Mffm.csproj" />
 	</ItemGroup>

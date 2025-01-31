@@ -12,11 +12,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mffm.Microsoft.Extensions.DependencyInjection", "Mffm.Microsoft.Extensions.DependencyInjection\Mffm.Microsoft.Extensions.DependencyInjection.csproj", "{7E9CD299-DCCE-48D2-937D-39D837B393AB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mffm.DependencyInjection.Microsoft.Extensions", "Mffm.DependencyInjection.Microsoft.Extensions\Mffm.DependencyInjection.Microsoft.Extensions.csproj", "{7E9CD299-DCCE-48D2-937D-39D837B393AB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mffm.Contracts", "Mffm.Contracts\Mffm.Contracts.csproj", "{438C1355-2560-48AE-A586-8CC79B28DA9A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mffm.Samples.Extensions", "Mffm.Samples.Extensions\Mffm.Samples.Extensions.csproj", "{7D78CB84-C790-4D86-AD45-7AF741212B8A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mffm.Samples.Autofac", "Mffm.Samples.Autofac\Mffm.Samples.Autofac.csproj", "{D2E1CE95-B180-4005-9878-887808ACE952}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mffm.DependencyInjection.Autofac", "Mffm.DependencyInjection.Autofac\Mffm.DependencyInjection.Autofac.csproj", "{BFADA2AB-39D1-4FFB-9CEF-228EB6137A06}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +48,14 @@ Global
 		{7D78CB84-C790-4D86-AD45-7AF741212B8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D78CB84-C790-4D86-AD45-7AF741212B8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D78CB84-C790-4D86-AD45-7AF741212B8A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D2E1CE95-B180-4005-9878-887808ACE952}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D2E1CE95-B180-4005-9878-887808ACE952}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D2E1CE95-B180-4005-9878-887808ACE952}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D2E1CE95-B180-4005-9878-887808ACE952}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFADA2AB-39D1-4FFB-9CEF-228EB6137A06}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFADA2AB-39D1-4FFB-9CEF-228EB6137A06}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFADA2AB-39D1-4FFB-9CEF-228EB6137A06}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFADA2AB-39D1-4FFB-9CEF-228EB6137A06}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

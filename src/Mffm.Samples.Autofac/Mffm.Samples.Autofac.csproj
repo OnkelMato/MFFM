@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="8.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mffm.Autofac\Mffm.DependencyInjection.Autofac.csproj" />
+    <ProjectReference Include="..\Mffm.Samples.Extensions\Mffm.Samples.Extensions.csproj" />
+    <ProjectReference Include="..\Mffm.Samples\Mffm.Samples.csproj" />
+  </ItemGroup>
+
+</Project>
