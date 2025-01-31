@@ -2,7 +2,7 @@
 using Mffm.Contracts;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Mffm.Microsoft.Extensions.DependencyInjection;
+namespace Mffm.DependencyInjection.Microsoft.Extensions;
 
 /// <summary>
 /// Abstraction for dependency injection framework and abstracts the MFFM related parts.

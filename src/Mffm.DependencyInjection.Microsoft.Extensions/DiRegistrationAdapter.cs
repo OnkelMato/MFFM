@@ -1,7 +1,7 @@
 ﻿using Mffm.Contracts;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Mffm.Microsoft.Extensions.DependencyInjection;
+namespace Mffm.DependencyInjection.Microsoft.Extensions;
 
 internal class DiRegistrationAdapter(IServiceCollection containerBuilder) : IServiceRegistrationAdapter
 {

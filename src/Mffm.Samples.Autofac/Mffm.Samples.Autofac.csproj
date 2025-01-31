@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Mffm.Autofac\Mffm.DependencyInjection.Autofac.csproj" />
+    <ProjectReference Include="..\Mffm.DependencyInjection.Autofac\Mffm.DependencyInjection.Autofac.csproj" />
     <ProjectReference Include="..\Mffm.Samples.Extensions\Mffm.Samples.Extensions.csproj" />
     <ProjectReference Include="..\Mffm.Samples\Mffm.Samples.csproj" />
   </ItemGroup>

@@ -1,5 +1,5 @@
 using Autofac;
-using Mffm.Autofac;
+using Mffm.DependencyInjection.Autofac;
 using Mffm.Samples.Core.Logging;
 using Mffm.Samples.Core.Services;
 using Mffm.Samples.Extensions.GeoComponent;

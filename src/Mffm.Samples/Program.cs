@@ -1,4 +1,4 @@
-using Mffm.Microsoft.Extensions.DependencyInjection;
+using Mffm.DependencyInjection.Microsoft.Extensions;
 using Mffm.Samples.Core.Logging;
 using Mffm.Samples.Core.Services;
 using Mffm.Samples.Extensions.GeoComponent;

@@ -4,7 +4,7 @@ using Autofac.Extensions.DependencyInjection;
 using Mffm.Contracts;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Mffm.Autofac;
+namespace Mffm.DependencyInjection.Autofac;
 
 /// <summary>
 /// Abstraction for dependency injection framework and abstracts the MFFM related parts.

@@ -1,7 +1,7 @@
 ﻿using Autofac;
 using Mffm.Contracts;
 
-namespace Mffm.Autofac;
+namespace Mffm.DependencyInjection.Autofac;
 
 internal class DiRegistrationAdapter(ContainerBuilder containerBuilder) : IServiceRegistrationAdapter
 {
