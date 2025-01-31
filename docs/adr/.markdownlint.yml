@@ -17,3 +17,6 @@ MD013: false
 #
 # Details: https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md#md024---multiple-headings-with-the-same-content
 MD024: false
+
+# for now we ignore duplicate heading 1 in readme
+MD025: false

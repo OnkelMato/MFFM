@@ -2,6 +2,7 @@
 using Mffm.Commands;
 using Mffm.Contracts;
 using Mffm.Samples.Core.Logging;
+using Mffm.Samples.Extensions.GeoComponent;
 
 namespace Mffm.Samples.Ui.EditUser;
 
@@ -27,6 +28,8 @@ public class EditFormModel : IFormModel
     public string Address { get; set; }
     public string City { get; set; }
     public int ZipCode { get; set; }
+
+    public Coordinate Coordinate { get; set; } = new Coordinate() { Latitude = 7.3, Longitude = 53.2 };
 
     /// <summary>
     ///     Close command provided by the MFFM framework

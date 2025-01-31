@@ -2,6 +2,7 @@ using Mffm.Contracts;
 using Mffm.Microsoft.Extensions.DependencyInjection;
 using Mffm.Samples.Core.Logging;
 using Mffm.Samples.Core.Services;
+using Mffm.Samples.Extensions.GeoComponent;
 using Mffm.Samples.Ui.EditUser;
 using Mffm.Samples.Ui.Main;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,7 +27,10 @@ internal static class Program
 
         // here is all the registration logic for the MFFM services and framework
         // this includes the user interface which is formModels and forms
-        serviceCollection.ConfigureMffm(typeof(Program).Assembly);
+        serviceCollection.ConfigureMffm(
+            typeof(Program).Assembly,
+            // the second assembly overrides the editform and adds some more mapping functionality
+            typeof(GeolocationControl).Assembly);
 
         // create the service provider aka container
         var serviceProvider = serviceCollection.BuildServiceProvider();

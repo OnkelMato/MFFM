@@ -2,7 +2,7 @@
 
 namespace Mffm.Core.ControlBindings;
 
-public class ListBoxBinding : IControlBinding
+internal class ListBoxBinding : IControlBinding
 {
     public bool Bind(Control control, IFormModel formModel)
     {

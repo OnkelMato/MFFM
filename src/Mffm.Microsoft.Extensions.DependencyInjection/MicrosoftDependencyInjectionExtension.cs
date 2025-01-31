@@ -13,38 +13,30 @@ namespace Mffm.Microsoft.Extensions.DependencyInjection;
 /// </summary>
 public static class MicrosoftDependencyInjectionExtension
 {
-    public static void ConfigureMffm(this IServiceCollection services, params Assembly[] assemblies)
+    /// <summary>
+    /// The method and naming convention is used to register all required containerBuilder for MFFM.
+    /// </summary>
+    public static void ConfigureMffm(this IServiceCollection containerBuilder, params Assembly[] assemblies)
     {
-        // todo use a DI adapter to we can move this registration code to the mffm core and make almost everything internal
-        var formMapperFactory = new DefaultFormMapperBuilder();
-        foreach (var assembly in assemblies)
-            formMapperFactory.RegisterAssembly(assembly);
-        services.AddSingleton(formMapperFactory.Build(t => services.AddTransient(t)));
+        // use adapter pattern so we can use different DI frameworks
+        var adapter = new DiRegistrationAdapter(containerBuilder);
 
-        services.AddSingleton<IBindingManager, BindingManager>();
-        services.AddSingleton<IWindowManager, WindowManager>();
-        services.AddSingleton<IEventAggregator, EventAggregator>();
-
-        // no service provider required as it is already implementing the correct "System.Component" interface by default
-        // which is used later.
-
-        // add additional (generic) commands
-        services.AddTransient<CloseFormCommand>();
-
-        // add all control bindings are added with reflection so it automatically picks up new bindings
-        // the default binding needs to be registered first so it is the last one to be checked
-        services.AddTransient<IControlBinding, DefaultBinding>();
-        typeof(DefaultBinding).Assembly.GetTypes()
-            .Where(t => typeof(IControlBinding).IsAssignableFrom(t) && t is { IsInterface: false, IsAbstract: false } && (t != typeof(DefaultBinding)))
-            .ToList()
-            .ForEach(t => services.AddTransient(typeof(IControlBinding), t));
+        // uses the adapter to register the containerBuilder. So the implementations can be private
+        adapter.RegisterServices();
+        adapter.RegisterExtensions(assemblies);
     }
 
+    /// <summary>
+    /// Create a method to run the application with the given form model. This hides the information about resolving a window manager.
+    /// </summary>
+    /// <typeparam name="TFormModel">View model to run the application. Former the "MainForm"</typeparam>
+    /// <param name="provider">Service provider to resolve the instance</param>
+    /// <returns></returns>
+    /// <exception cref="ServiceNotFoundException"></exception>
     public static IServiceProvider Run<TFormModel>(this IServiceProvider provider)
         where TFormModel : class, IFormModel
     {
-        var windowManager = provider.GetService<IWindowManager>() ??
-                            throw new ServiceNotFoundException("cannot find window manager for MFFM pattern");
+        var windowManager = provider.GetService<IWindowManager>() ?? throw new ServiceNotFoundException("cannot find window manager for MFFM pattern");
         windowManager.Run<TFormModel>();
 
         return provider;

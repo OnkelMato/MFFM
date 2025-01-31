@@ -7,7 +7,7 @@ namespace Mffm.Core;
 /// Provides logic for registering forms and form models. A form model, i.e. name without namespace, can only exist once.
 /// A 
 /// </summary>
-public class DefaultFormMapperBuilder : IFormMapperBuilder
+internal class DefaultFormMapperBuilder : IFormMapperBuilder
 {
     private readonly Dictionary<string, Type> _modelNameToFormModelMapping = new();
     private readonly Dictionary<string, Type> _modelNameToFormMapping = new();
@@ -38,8 +38,9 @@ public class DefaultFormMapperBuilder : IFormMapperBuilder
         }
     }
 
-    public IFormMapper Build(Action<Type> serviceRegistration)
+    public IFormMapper Build(IServiceRegistrationAdapter containerBuilder)
     {
+        // let's map the form models to the forms in a dictionary
         var mappedDic = new Dictionary<Type, Type>();
         _modelNameToFormModelMapping.Keys.ToList().ForEach(key =>
         {
@@ -47,8 +48,12 @@ public class DefaultFormMapperBuilder : IFormMapperBuilder
                 mappedDic[_modelNameToFormModelMapping[key]] = _modelNameToFormMapping[key];
         });
 
-        mappedDic.Keys.Concat(mappedDic.Values).ToList().ForEach(serviceRegistration);
+        // register all mappings (key and value)
+        mappedDic.Keys.Concat(mappedDic.Values)
+            .ToList()
+            .ForEach(t => containerBuilder.RegisterTransientType(t, t));
 
+        // let's create the mapper with the final mapping dictionary
         var formMapper = new DefaultFormMapper(mappedDic);
         return formMapper;
     }

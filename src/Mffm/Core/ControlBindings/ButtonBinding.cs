@@ -2,7 +2,7 @@
 
 namespace Mffm.Core.ControlBindings;
 
-public class ButtonBinding : IControlBinding
+internal class ButtonBinding : IControlBinding
 {
     public bool Bind(Control control, IFormModel formModel)
     {

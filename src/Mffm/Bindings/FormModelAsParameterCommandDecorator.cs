@@ -7,7 +7,7 @@ namespace Mffm.Bindings;
 /// <summary>
 ///     class used for data binding in the MFFM framework. The command parameter is the model itself.
 /// </summary>
-internal class FormModelAsParameterCommandDecorator : ICommand
+public class FormModelAsParameterCommandDecorator : ICommand
 {
     // todo check of this can interop with the adapter to add "notify" functionality
 

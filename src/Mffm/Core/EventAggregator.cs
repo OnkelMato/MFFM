@@ -3,7 +3,7 @@ using Mffm.Contracts;
 
 namespace Mffm.Core;
 
-public class EventAggregator : IEventAggregator
+internal class EventAggregator : IEventAggregator
 {
     private readonly List<Handler> _handlers = [];
 

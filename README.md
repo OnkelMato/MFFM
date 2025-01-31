@@ -11,16 +11,21 @@ As this is a part of a Clean Code training, the documentation tries to explain t
 First of all, the framework uses the dependency inversion principle (DIP) and therefore it uses a dependency injection framework to simpleft dependency inversion. The main application uses the dependency injection extensions from Microsoft.
 
 ``` csharp
-    // the example uses the Microsoft dependency injection framework
+// Initialize Dependency Injection
+    var serviceCollection = new ServiceCollection();
+
+    // register the services for the demo application that are injected into the form models
+    serviceCollection.ConfigureDemoAppServices();
 
     // here is all the registration logic for the MFFM services and framework
     // this includes the user interface which is formModels and forms
     serviceCollection.ConfigureMffm(typeof(Program).Assembly);
 
-    // Get window manager and run application
-    var windowManager = serviceProvider.GetService<IWindowManager>() ??
-                        throw new ServiceNotFoundException("cannot find window manager for MFFM pattern");
-    windowManager.Run<MainFormModel>();
+    // create the service provider aka container
+    var serviceProvider = serviceCollection.BuildServiceProvider();
+
+    // Run the application directly on service provider
+    serviceProvider.Run<MainFormModel>();
 ```
 
 For the main form above a main form model has to be created. The connection between the Form and the FormModel is done by a naming convention.
@@ -38,3 +43,16 @@ For the main form above a main form model has to be created. The connection betw
     public IList<string> People { get; } = new List<string> { "Alice", "Bob", "Charlie" };
     public string PeopleSelected /* Property with PropertyChanged */
 ```
+
+## Extensibility
+
+The project `Mffm.Samples.Extensions` demonstrates the following extensibility points:
+
+### Override a default form
+
+The default person edit form is overwritten with a custom form. The custom form is registered during the "assembly registration" for the MFFM framework. This is important for the IFormMapper default implementation. Otherwise a custom form mapper has to be implemented.
+
+### Map a custom control
+
+The custom control `GeolocaitonControl` represents a custom control which is used (in the person edit form). The binding is registered during the "assembly registration" for the MFFM framework but can be done directly in the service registration.
+

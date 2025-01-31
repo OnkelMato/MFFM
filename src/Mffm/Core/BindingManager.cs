@@ -4,11 +4,16 @@ using Mffm.Contracts;
 
 namespace Mffm.Core;
 
-public class BindingManager(IEnumerable<IControlBinding> bindings) : IBindingManager
+internal class BindingManager : IBindingManager
 {
     // we need to reverse the bindings to have the most specific bindings first.
     // this ensures the default can 
-    private readonly IEnumerable<IControlBinding> _bindings = bindings.Reverse() ?? [];
+    private readonly IEnumerable<IControlBinding> _bindings;
+
+    public BindingManager(IEnumerable<IControlBinding> bindings)
+    {
+        _bindings = bindings.Reverse() ?? [];
+    }
 
     #region GetAllControls helper
     private IEnumerable<Control> GetControlsRecursively(Control control)
