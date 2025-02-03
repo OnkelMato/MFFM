@@ -48,23 +48,27 @@ For the main form above a main form model has to be created. The connection betw
 
 ## Projects
 
-* Mffm => Main project with the framework
-* Mffm.Contracts => Contracts for the framework used by the application and the framework
-* Mffm.DependencyInjection.Autofac => Autofac implementation for the framework
-* Mffm.DependencyInjection.Microsoft.Extensions => Microsoft DI implementation for the framework
-* Mffm.Samples => Sample application using the framework
-* Mffm.Samples.Autofac => Sample application using the framework with Autofac
-* Mffm.Samples.Extensions => Sample of extensions
+* `Mffm` => Main project with the framework
+* `Mffm.Contracts` => Contracts for the framework used by the application and the framework
+* `Mffm.DependencyInjection.Autofac` => Autofac implementation for the framework
+* `Mffm.DependencyInjection.Microsoft.Extensions` => Microsoft DI implementation for the framework
+* `Mffm.Samples` => Sample application using the framework
+* `Mffm.Samples.Autofac` => Sample application using the framework with Autofac
+* `Mffm.Samples.Extensions` => Sample of extensions
 
 ## Extensibility
 
-The project `Mffm.Samples.Extensions` demonstrates the following extensibility points:
+The project `Mffm.Samples.Extensions` demonstrates the following extensibility points.
+
+* `GeoComponent`: Custom control with a custom dto and a control binding so data binding works
+* `EditForm.cs`: Use a custom form to override the default previously registered.
 
 ### Override a default form
 
-The default person edit form is overwritten with a custom form. The custom form is registered during the "assembly registration" for the MFFM framework. This is important for the IFormMapper default implementation. Otherwise a custom form mapper has to be implemented.
+The default person edit form is overwritten with a custom form. As the name of the form without namespace is the same then the form in the main project, it is replaced in the `IFormMapper`. It is possible to create a custom form mapper to change the behaviour of form to form model registration.
+
+Keep in mind that it is not possible to replace the form model as this container the main logic for the user interface.
 
 ### Map a custom control
 
-The custom control `GeolocaitonControl` represents a custom control which is used (in the person edit form). The binding is registered during the "assembly registration" for the MFFM framework but can be done directly in the service registration.
-
+The custom control `GeolocationControl` represents a custom control which is used (in the person edit form). The binding is registered during the "assembly registration" for the MFFM framework but can be done directly in the service registration.
