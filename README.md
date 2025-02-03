@@ -1,24 +1,24 @@
 # MFFM - A MVVM Pattern Implementation for WinForms
 
-The MFFM project is an outtake from a Clean Code training with a question "Can I do MVVM with Windows Forms". The project is a prototype implementation of a binding and separation of concern framework for a MVVM/MFFM pattern.
+The MFFM project is an extraction from a Clean Code training with a question "Can I do MVVM with Windows Forms?". The project is an implementation of clean code concepts, design pattern, and architectural decisions to implement a MVVM framework for Windows Forms.
 
-The term MFFM describes the Model-Form-FormModel, which is similar to the MVVM Model-View-ViewModel term.
+The term MFFM describes the Model-Form-FormModel, which is similar to the MVVM Model-View-ViewModel term. The binding manager uses `form model` property names to bind it to the corresponding control in the `form`. As a conclusion of the dynamic aproach, extensibility, and dependency inversion principle, a highly customizable and extensible framework is created.
 
-As this is a part of a Clean Code training, the documentation tries to explain the ideas and clean code concepts.
+The [ADRs](/docs/adr/README.md) describe the design decisions, design pattern, and clean code principles. As this is a part of a Clean Code training, the documentation tries to explain the ideas and clean code concepts.
 
 ## How to use the framework
 
-First of all, the framework uses the dependency inversion principle (DIP) and therefore it uses a dependency injection framework to simpleft dependency inversion. The main application uses the dependency injection extensions from Microsoft.
+First of all, the framework uses the dependency inversion principle (DIP) and therefore it uses a dependency injection framework to simplify dependency inversion. The default application uses the dependency injection extensions framework from Microsoft. Another example shows an [autofac](https://autofac.org/) minimal version which orchestrates the `form`/`form model` and the extensions project.
 
 ``` csharp
-// Initialize Dependency Injection
+    // Initialize Dependency Injection (Microsoft Container Builder)
     var serviceCollection = new ServiceCollection();
 
     // register the services for the demo application that are injected into the form models
     serviceCollection.ConfigureDemoAppServices();
 
     // here is all the registration logic for the MFFM services and framework
-    // this includes the user interface which is formModels and forms
+    // this includes the user interface which is formModels and forms from the main assembly
     serviceCollection.ConfigureMffm(typeof(Program).Assembly);
 
     // create the service provider aka container
@@ -31,18 +31,30 @@ First of all, the framework uses the dependency inversion principle (DIP) and th
 For the main form above a main form model has to be created. The connection between the Form and the FormModel is done by a naming convention.
 
 ``` csharp
-
     // Binding a command to a button with name "SendLogMessage"
     public ICommand SendLogMessage { get; private set; }
 
-    // Binding a string to a textbox with name "SendLogMessage"
+    // Binding a string to a textbox with name "LogMessages"
     public string LogMessages /* Property with PropertyChanged */
+
+    // Binding a custom DTO to a custom control with name "Coordinates" (see extensions sample)
+    public Coordinate Coordinate /* Property with PropertyChanged */
 
     // Binding a list to a listbox with name "People".
     // The "PeopleSelected" property can be bound to a textbox with name "PeopleSelected"
     public IList<string> People { get; } = new List<string> { "Alice", "Bob", "Charlie" };
     public string PeopleSelected /* Property with PropertyChanged */
 ```
+
+## Projects
+
+* Mffm => Main project with the framework
+* Mffm.Contracts => Contracts for the framework used by the application and the framework
+* Mffm.DependencyInjection.Autofac => Autofac implementation for the framework
+* Mffm.DependencyInjection.Microsoft.Extensions => Microsoft DI implementation for the framework
+* Mffm.Samples => Sample application using the framework
+* Mffm.Samples.Autofac => Sample application using the framework with Autofac
+* Mffm.Samples.Extensions => Sample of extensions
 
 ## Extensibility
 
