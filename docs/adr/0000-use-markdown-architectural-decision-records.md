@@ -2,8 +2,7 @@
 
 ## Context and Problem Statement
 
-We want to record architectural decisions made in this project independent whether decisions concern the architecture ("architectural decision record"), the code, or other fields.
-Which format and structure should these records follow?
+We want to record decisions made in this project independent whether decisions concern the architecture ("architectural decision record"), the code, or other fields. Which format and structure should these records follow?
 
 ## Considered Options
 

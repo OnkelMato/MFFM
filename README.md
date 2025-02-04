@@ -67,7 +67,7 @@ The project `Mffm.Samples.Extensions` demonstrates the following extensibility p
 
 The default person edit form is overwritten with a custom form. As the name of the form without namespace is the same then the form in the main project, it is replaced in the `IFormMapper`. It is possible to create a custom form mapper to change the behaviour of form to form model registration.
 
-Keep in mind that it is not possible to replace the form model as this container the main logic for the user interface.
+Keep in mind that it is not possible to replace the form model as this contains the main logic for the user interface.
 
 ### Map a custom control
 
