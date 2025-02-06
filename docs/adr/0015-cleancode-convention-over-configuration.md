@@ -4,10 +4,12 @@
 
 In a framework, a lot of things need to be defined. For exanple which form belongs to a formmodel or which property is bound to which control.
 
+Cf: [Wikipedia - Convention over Configuration](https://en.wikipedia.org/wiki/Convention_over_configuration)
+
 ## Considered Options
 
 * Explicit configuration for example during startup, configuration file or attributes.
-* Implicit convention for example XyzFormModel uses the XyzForm by a naming convention.
+* Implicit convention for example XyzFormModel uses the XyzForm through naming convention.
 
 ## Decision Outcome
 

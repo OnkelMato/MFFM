@@ -23,6 +23,8 @@ Choosen option is: "Concepts similar to Caliburn.Micro" with the following desig
 * Minimal core with extensibility
 * Use and describe design pattern and clean code principles
 
+### Consequences‚Í
+
 ## Diagram
 
 The following diagram shows the different interfaces and dependency levels.

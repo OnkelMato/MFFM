@@ -22,6 +22,6 @@ Choosen option is: "Implement MVVM for Windows Forms and call it MFFM"
 * Supports the "zero business logic in UI"
 * Supports the "form model does nit know UI"
 
-## Consequences
+### Consequences
 
-* The implementation will be a framework with supporting classes
+* The implementation will be a framework with classes to implement some of the design principles.
