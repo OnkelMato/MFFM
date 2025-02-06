@@ -11,13 +11,27 @@ Binding is supported by default in Windows Forms, a MFFM approach shall be evalu
 ## Considered Options
 
 * Concepts similar to Caliburn.Micro for WPF
+* Failure is an option
 
 ## Decision Outcome
 
-Choosen option is: "Concepts similar to Caliburn.Micro" with the following design principles
+Choosen option is: "Concepts similar to Caliburn.Micro" with the following design principles:
 
 * Use data binding for a view model (form model) to view (form) binding
 * No code-behind or form model knowledge in form
 * No form knowledge in form model
 * Minimal core with extensibility
 * Use and describe design pattern and clean code principles
+
+## Diagram
+
+The following diagram shows the different interfaces and dependency levels.
+
+```mermaid
+flowchart TD
+    A(IWindowManager) --> B(IBindingManager + IFromMapper)
+    B --> D(*Forms*)
+    B --> E(IControlBinding)
+    B --> F(*FormModels*)
+    F --> G(*Model* i.g. Database, Business Logic, External Systems)
+```
