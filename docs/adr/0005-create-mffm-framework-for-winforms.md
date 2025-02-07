@@ -23,7 +23,7 @@ Choosen option is: "Concepts similar to Caliburn.Micro" with the following desig
 * Minimal core with extensibility
 * Use and describe design pattern and clean code principles
 
-### Consequences‚Í
+### Consequences
 
 ## Diagram
 
@@ -34,7 +34,8 @@ flowchart TD
     A(IWindowManager) --> B(IBindingManager)
     B --> E(IControlBinding)
     A --> C(IFromMapper)
-    C --> D(*Forms*)
-    C --> F(*FormModels*)
-    F --> G(*Model* i.g. Database, Business Logic, External Systems)
+    C --> D(*Form*)
+    C --> F(*IFormModel*)
+    F --> G(FormModel)
+    G --> H(*Model* i.g. Database, Business Logic, External Systems)
 ```
