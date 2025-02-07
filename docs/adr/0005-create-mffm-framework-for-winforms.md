@@ -31,9 +31,9 @@ The following diagram shows the different interfaces and dependency levels.
 
 ```mermaid
 flowchart TD
-    A(IWindowManager) --> B(IBindingManager + IFromMapper)
-    B --> D(*Forms*)
+    A(IWindowManager) --> B(IBindingManager)
     B --> E(IControlBinding)
-    B --> F(*FormModels*)
-    F --> G(*Model* i.g. Database, Business Logic, External Systems)
-```
+    A --> C(IFromMapper)
+    C --> D(*Forms*)
+    C --> F(*FormModels*)
+‚```
