@@ -21,4 +21,4 @@ Choosen option is: "Use information hiding principle"
 
 ### Consequences
 
-* The user has less options for example to reuse existing code
+* The user has less options to reuse existing code
