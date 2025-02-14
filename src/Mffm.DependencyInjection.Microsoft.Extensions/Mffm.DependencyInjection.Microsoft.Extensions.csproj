@@ -13,7 +13,6 @@
 		<PackageTags>library</PackageTags>
 		<IncludeSymbols>False</IncludeSymbols>
 		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
-		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 
