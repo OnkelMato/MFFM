@@ -28,7 +28,7 @@ jobs:
 
     - name: Use GitVersion
       id: gitversion
-      run: echo "version=$(dotnet gitversion /output json /showvariable NuGetVersionV2)" >> $GITHUB_OUTPUT
+      run: '"version=$(dotnet gitversion /output json /showvariable NuGetVersionV2)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8'
 
     - name: Restore dependencies
       run: dotnet restore
