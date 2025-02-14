@@ -2,8 +2,8 @@ name: .NET Build, Pack, and Publish
 
 on:
   push:
-#    branches:
-#      - main
+    tags:        
+      - '*'
 jobs:
   build:
 
