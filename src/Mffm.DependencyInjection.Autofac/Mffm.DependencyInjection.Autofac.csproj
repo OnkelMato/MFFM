@@ -6,6 +6,18 @@
 		<Nullable>enable</Nullable>
 	</PropertyGroup>
 
+	<PropertyGroup>
+		<Authors>Thomas Ley</Authors>
+		<Description>Nada NZazu is a package with a UI form generator.</Description>
+		<PackageProjectUrl>https://github.com/OnkelMato/MFFM</PackageProjectUrl>
+		<PackageTags>library</PackageTags>
+		<IncludeSymbols>False</IncludeSymbols>
+		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+		<PackageIcon>packageicon.png</PackageIcon>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	</PropertyGroup>
+
 	<ItemGroup>
 		<PackageReference Include="Autofac" Version="8.2.0" />
 		<PackageReference Include="Autofac.Extensions.DependencyInjection" Version="10.0.0" />
