@@ -2,12 +2,15 @@ name: .NET Build, Pack, and Publish
 
 on:
   push:
-    branches:
-      - main
+#    branches:
+#      - main
 jobs:
   build:
 
     runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: ./src
 
     steps:
     - uses: actions/checkout@v2
