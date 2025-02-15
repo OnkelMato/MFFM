@@ -81,6 +81,7 @@ internal class BindingManager : IBindingManager
         }
 
         // the menu strip is a special case but not worth create a separate extensibility (like above with controls)
+        // refactor this to IBinding so it can be extended
         var allItems = GetMenuItemsRecursively(form.MainMenuStrip?.Items);
         foreach (var menuItem in allItems)
         {
@@ -89,18 +90,12 @@ internal class BindingManager : IBindingManager
 
             menuItem.DataBindings.Add(new Binding(nameof(menuItem.CommandParameter), formModel, null, true, DataSourceUpdateMode.Never));
             menuItem.DataBindings.Add(new Binding(nameof(menuItem.Command), formModel, menuItem.Name, true, DataSourceUpdateMode.OnPropertyChanged));
-
-
         }
 
-        //foreach (var property in formModel.GetType().GetProperties())
-        //{
-        //    var menuItem = form.MainMenuStrip?.Items?.Find(property.Name, true)?.FirstOrDefault();
-        //    if (menuItem is not null)
-        //    {
-        //        // we have to bind the commandparameter first to have it passed during the binding of the command itself
-        //        continue;
-        //    }
-        //}
+        // todo Change this to IBinding so it can be extended
+        if (formModel.GetType().GetProperty("Title") is not null)
+        {
+            form.DataBindings.Add(new Binding(nameof(form.Text), formModel, "Title", true, DataSourceUpdateMode.Never));
+        }
     }
 }

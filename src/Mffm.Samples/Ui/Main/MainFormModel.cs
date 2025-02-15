@@ -10,9 +10,12 @@ namespace Mffm.Samples.Ui.Main;
 
 public class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<LogMessage>
 {
+    private const string TitleDefault = "MFFM Sample Application";
+
     private string _logMessages = string.Empty;
     private string _logMessageToSend = string.Empty;
     private string _peopleSelected;
+    private string _title;
 
     public MainFormModel(
         IWindowManager windowManager,
@@ -25,6 +28,8 @@ public class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<LogMess
         MenuEditPerson = new FunctionToCommandAdapter(_ => windowManager.Show<EditFormModel>());
         MenuEditProtocol = new FunctionToCommandAdapter(_ => windowManager.Show<ProtocolFormModel>());
         SendLogMessage = new SendLogMessageCommand(eventAggregator);
+
+        _title = TitleDefault;
     }
 
     #region Handle Incoming Messages
@@ -32,6 +37,7 @@ public class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<LogMess
     public Task HandleAsync(LogMessage message, CancellationToken cancellationToken)
     {
         LogMessages = string.Join(Environment.NewLine, message.Message, LogMessages);
+        Title = $"{TitleDefault} ({message.Message})";
         return Task.CompletedTask;
     }
 
@@ -75,6 +81,21 @@ public class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<LogMess
         {
             if (value == _peopleSelected) return;
             _peopleSelected = value;
+            OnPropertyChanged();
+        }
+    }
+
+    #endregion
+
+    #region Form Properties
+
+    public string Title
+    {
+        get => _title;
+        set
+        {
+            if (value == _title) return;
+            _title = value;
             OnPropertyChanged();
         }
     }
