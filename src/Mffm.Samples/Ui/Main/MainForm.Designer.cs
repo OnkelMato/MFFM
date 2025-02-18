@@ -150,7 +150,6 @@
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
             Name = "MainForm";
-            Text = "MFFM Sample Application";
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
             sendMessagesGroup.ResumeLayout(false);
