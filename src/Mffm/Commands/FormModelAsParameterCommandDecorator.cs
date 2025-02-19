@@ -23,6 +23,9 @@ public class FormModelAsParameterCommandDecorator : ICommand
         command.CanExecuteChanged += (sender, args) => CanExecuteChanged?.Invoke(this, args);
         if (model is INotifyPropertyChanged notifyPropertyChanged)
             notifyPropertyChanged.PropertyChanged += (sender, args) => CanExecuteChanged?.Invoke(this, args);
+
+        // execute canexecutechanged once to set the initial state
+        CanExecuteChanged?.Invoke(this, EventArgs.Empty);
     }
 
     public bool CanExecute(object? parameter)

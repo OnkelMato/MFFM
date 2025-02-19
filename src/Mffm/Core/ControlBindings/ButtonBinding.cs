@@ -4,6 +4,7 @@ namespace Mffm.Core.ControlBindings;
 
 internal class ButtonBinding : IControlBinding
 {
+    // todo make this invariant!
     public bool Bind(Control control, IFormModel formModel)
     {
         if (control is not Button button) { return false; }

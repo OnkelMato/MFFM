@@ -18,6 +18,7 @@ public static class MffmDependencyInjectionRegistrations
         containerBuilder.RegisterSingletonType(typeof(IBindingManager), typeof(BindingManager));
         containerBuilder.RegisterSingletonType(typeof(IWindowManager), typeof(WindowManager));
         containerBuilder.RegisterSingletonType(typeof(IEventAggregator), typeof(EventAggregator));
+        containerBuilder.RegisterSingletonType(typeof(ICommandResolver), typeof(CommandResolver));
 
         // add additional (generic) commands
         containerBuilder.RegisterTransientType(typeof(CloseFormCommand), typeof(CloseFormCommand));

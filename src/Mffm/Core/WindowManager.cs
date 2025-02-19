@@ -19,15 +19,19 @@ internal class WindowManager(IServiceProvider serviceProvider, IBindingManager b
     // keep track of all open windows so we can close them
     private readonly Dictionary<IFormModel, WeakReference<Form>> _openWindows = new();
 
-    private Form GetFormFor<TFormModel>(out TFormModel formModel)
+    private Form GetFormFor<TFormModel>()
         where TFormModel : class, IFormModel
     {
-        formModel = _serviceProvider.GetService(typeof(TFormModel)) as TFormModel ?? throw new ServiceNotFoundException($"Cannot fond service for ${typeof(TFormModel).Name}");
+        IFormModel formModel = _serviceProvider.GetService(typeof(TFormModel)) as TFormModel ?? throw new ServiceNotFoundException($"Cannot fond service for ${typeof(TFormModel).Name}");
 
         // form mapper is responsible to getting the form for the form model
         var formType = _formMapper.GetFormFor<TFormModel>();
         var form = _serviceProvider.GetService(formType) as Form;
         if (form is null) throw new ServiceNotFoundException($"Cannot fond service for ${formType.Name}");
+
+        // track forms and formModels
+        _openWindows.Add(formModel, new WeakReference<Form>(form));
+        form.FormClosed += (_, _) => _openWindows.Remove(formModel);
 
         // binding manager is responsible for the data binding and connection between the FormModel and the Form
         _bindingManager.CreateBindings(formModel, form);
@@ -37,10 +41,8 @@ internal class WindowManager(IServiceProvider serviceProvider, IBindingManager b
 
     public void Show<TFormModel>() where TFormModel : class, IFormModel
     {
-        var form = GetFormFor(out TFormModel model);
+        var form = GetFormFor<TFormModel>();
 
-        _openWindows.Add(model, new WeakReference<Form>(form));
-        form.FormClosed += (_, _) => _openWindows.Remove(model);
         form.Show();
     }
 
@@ -61,11 +63,7 @@ internal class WindowManager(IServiceProvider serviceProvider, IBindingManager b
     {
         try
         {
-            var form = GetFormFor<TFormModel>(out var model)
-                       ?? throw new Exception($"Cannot find the form for ${typeof(TFormModel)}");
-
-            _openWindows.Add(model, new WeakReference<Form>(form));
-            form.FormClosed += (_, _) => _openWindows.Remove(model);
+            var form = GetFormFor<TFormModel>() ?? throw new Exception($"Cannot find the form for ${typeof(TFormModel)}");
 
             Application.Run(form);
         }
