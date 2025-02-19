@@ -5,13 +5,18 @@ namespace Mffm.Core;
 
 internal class BindingManager : IBindingManager
 {
+    private readonly IFormBinding _formBinding;
+    private readonly IMenuItemBinding _menuItemBinding;
+
     // we need to reverse the bindings to have the most specific bindings first.
     // this ensures the default can 
     private readonly IEnumerable<IControlBinding> _bindings;
 
-    public BindingManager(IEnumerable<IControlBinding> bindings)
+    public BindingManager(IEnumerable<IControlBinding> bindings, IFormBinding formBinding, IMenuItemBinding menuItemBinding)
     {
-        _bindings = bindings.Reverse() ?? [];
+        _formBinding = formBinding ?? throw new ArgumentNullException(nameof(formBinding));
+        _menuItemBinding = menuItemBinding ?? throw new ArgumentNullException(nameof(menuItemBinding));
+        _bindings = bindings.Reverse();
     }
 
     #region GetAllControls helper
@@ -86,16 +91,10 @@ internal class BindingManager : IBindingManager
         foreach (var menuItem in allItems)
         {
             if (string.IsNullOrEmpty(menuItem.Name)) continue;
-            if (formModel.GetType().GetProperty(menuItem.Name) is null) continue;
-
-            menuItem.DataBindings.Add(new Binding(nameof(menuItem.CommandParameter), formModel, null, true, DataSourceUpdateMode.Never));
-            menuItem.DataBindings.Add(new Binding(nameof(menuItem.Command), formModel, menuItem.Name, true, DataSourceUpdateMode.OnPropertyChanged));
+            _menuItemBinding.Bind(menuItem, formModel);
         }
 
-        // todo Change this to IBinding so it can be extended
-        if (formModel.GetType().GetProperty("Title") is not null)
-        {
-            form.DataBindings.Add(new Binding(nameof(form.Text), formModel, "Title", true, DataSourceUpdateMode.Never));
-        }
+        // lets bind the form itself
+        _formBinding.Bind(form, formModel);
     }
 }

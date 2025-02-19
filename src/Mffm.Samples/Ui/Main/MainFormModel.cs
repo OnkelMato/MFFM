@@ -1,8 +1,10 @@
 using System.ComponentModel;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Mffm.Commands;
 using Mffm.Contracts;
+using Mffm.Samples.Properties;
 using Mffm.Samples.Ui.EditUser;
 using Mffm.Samples.Ui.Protocol;
 
@@ -29,9 +31,13 @@ public class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<LogMess
         MenuEditPerson = new FunctionToCommandAdapter(_ => windowManager.Show<EditFormModel>());
         MenuEditProtocol = new FunctionToCommandAdapter(_ => windowManager.Show<ProtocolFormModel>());
         SendLogMessage = new SendLogMessageCommand(eventAggregator);
+        SendLogMessageMenu = new SendLogMessageCommand(eventAggregator);
+        SendLogMessageMenuIcon = Image.FromStream(new MemoryStream(Resources.icon_senden));
 
         _title = TitleDefault;
     }
+
+    public Image SendLogMessageMenuIcon { get; set; }
 
     #region Handle Incoming Messages
 
@@ -51,6 +57,7 @@ public class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<LogMess
     public ICommand MenuFileClose { get; private set; }
     public ICommand MenuEditPerson { get; private set; }
     public ICommand SendLogMessage { get; private set; }
+    public ICommand SendLogMessageMenu { get; set; }
 
     public string LogMessages
     {

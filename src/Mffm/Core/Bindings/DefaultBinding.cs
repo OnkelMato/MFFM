@@ -1,6 +1,6 @@
 ﻿using Mffm.Contracts;
 
-namespace Mffm.Core.ControlBindings;
+namespace Mffm.Core.Bindings;
 
 internal class DefaultBinding : IControlBinding
 {
@@ -8,7 +8,6 @@ internal class DefaultBinding : IControlBinding
     {
         if (formModel.GetType().GetProperty(control.Name) is null) return false;
         
-        //return false;
         // it just binds to the text property
         var binding = new Binding(nameof(control.Text), formModel, control.Name, true, DataSourceUpdateMode.OnPropertyChanged);
         control.DataBindings.Add(binding);

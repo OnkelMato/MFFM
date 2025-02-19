@@ -1,6 +1,6 @@
 ﻿using Mffm.Contracts;
 
-namespace Mffm.Core.ControlBindings;
+namespace Mffm.Core.Bindings;
 
 internal class StatusStripBinding : IControlBinding
 {
@@ -11,11 +11,9 @@ internal class StatusStripBinding : IControlBinding
 
         foreach (ToolStripItem item in statusStrip.Items)
         {
-            if (item is ToolStripStatusLabel label && formModel.GetType().GetProperty(item.Name) is not null)
-            {
-                label.DataBindings.Add(new Binding(nameof(label.Text), formModel, item.Name, true, DataSourceUpdateMode.OnPropertyChanged));
-            }
-
+            if (item is ToolStripStatusLabel label && formModel.GetType().GetProperty(item.Name!) is not null)
+                label.DataBindings.Add(
+                    new Binding(nameof(label.Text), formModel, item.Name, true, DataSourceUpdateMode.OnPropertyChanged));
         }
 
         return true;
