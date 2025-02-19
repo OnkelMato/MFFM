@@ -12,9 +12,10 @@ public class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<LogMess
 {
     private const string TitleDefault = "MFFM Sample Application";
 
+    private string _lastLogMessage = string.Empty;
     private string _logMessages = string.Empty;
     private string _logMessageToSend = string.Empty;
-    private string _peopleSelected;
+    private string _peopleSelected = string.Empty;
     private string _title;
 
     public MainFormModel(
@@ -38,6 +39,7 @@ public class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<LogMess
     {
         LogMessages = string.Join(Environment.NewLine, message.Message, LogMessages);
         Title = $"{TitleDefault} ({message.Message})";
+        LastLogMessage = message.Message;
         return Task.CompletedTask;
     }
 
@@ -57,6 +59,17 @@ public class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<LogMess
         {
             if (value == _logMessages) return;
             _logMessages = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string LastLogMessage
+    {
+        get => _lastLogMessage;
+        set
+        {
+            if (value == _lastLogMessage) return;
+            _lastLogMessage = value;
             OnPropertyChanged();
         }
     }

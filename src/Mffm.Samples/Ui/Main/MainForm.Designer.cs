@@ -40,8 +40,11 @@
             People = new ListBox();
             PeopleSelected = new TextBox();
             sendMessagesGroup = new GroupBox();
+            statusStrip1 = new StatusStrip();
+            LastLogMessage = new ToolStripStatusLabel();
             menuStrip1.SuspendLayout();
             sendMessagesGroup.SuspendLayout();
+            statusStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
@@ -139,11 +142,28 @@
             sendMessagesGroup.TabStop = false;
             sendMessagesGroup.Text = "Send Log Messages";
             // 
+            // statusStrip1
+            // 
+            statusStrip1.ImageScalingSize = new Size(20, 20);
+            statusStrip1.Items.AddRange(new ToolStripItem[] { LastLogMessage });
+            statusStrip1.Location = new Point(0, 670);
+            statusStrip1.Name = "statusStrip1";
+            statusStrip1.Size = new Size(1203, 26);
+            statusStrip1.TabIndex = 7;
+            statusStrip1.Text = "statusStrip1";
+            // 
+            // LastLogMessage
+            // 
+            LastLogMessage.Name = "LastLogMessage";
+            LastLogMessage.Size = new Size(118, 20);
+            LastLogMessage.Text = "LastLogMessage";
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1203, 696);
+            Controls.Add(statusStrip1);
             Controls.Add(sendMessagesGroup);
             Controls.Add(PeopleSelected);
             Controls.Add(People);
@@ -154,6 +174,8 @@
             menuStrip1.PerformLayout();
             sendMessagesGroup.ResumeLayout(false);
             sendMessagesGroup.PerformLayout();
+            statusStrip1.ResumeLayout(false);
+            statusStrip1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -172,5 +194,7 @@
         private ListBox People;
         private TextBox PeopleSelected;
         private GroupBox sendMessagesGroup;
+        private StatusStrip statusStrip1;
+        private ToolStripStatusLabel LastLogMessage;
     }
 }
