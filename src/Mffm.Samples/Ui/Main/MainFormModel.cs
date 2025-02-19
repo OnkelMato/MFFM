@@ -1,8 +1,10 @@
 using System.ComponentModel;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Mffm.Commands;
 using Mffm.Contracts;
+using Mffm.Samples.Properties;
 using Mffm.Samples.Ui.EditUser;
 using Mffm.Samples.Ui.Protocol;
 
@@ -12,9 +14,10 @@ public class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<LogMess
 {
     private const string TitleDefault = "MFFM Sample Application";
 
+    private string _lastLogMessage = string.Empty;
     private string _logMessages = string.Empty;
     private string _logMessageToSend = string.Empty;
-    private string _peopleSelected;
+    private string _peopleSelected = string.Empty;
     private string _title;
 
     public MainFormModel(
@@ -24,13 +27,20 @@ public class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<LogMess
         eventAggregator.Subscribe(this);
 
         // this happens when you don't have a command and can use window manager directly
-        MenuFileClose = new FunctionToCommandAdapter(_ => windowManager.Close(this));
+        MenuFileClose = new CloseApplicationCommand(windowManager);
         MenuEditPerson = new FunctionToCommandAdapter(_ => windowManager.Show<EditFormModel>());
         MenuEditProtocol = new FunctionToCommandAdapter(_ => windowManager.Show<ProtocolFormModel>());
+     
+        // use the regular command for the menu
+        SendLogMessageMenu = new SendLogMessageCommand(eventAggregator);
+        SendLogMessageMenuIcon = Image.FromStream(new MemoryStream(Resources.icon_senden));
+
         SendLogMessage = new SendLogMessageCommand(eventAggregator);
 
         _title = TitleDefault;
     }
+
+    public Image SendLogMessageMenuIcon { get; set; }
 
     #region Handle Incoming Messages
 
@@ -38,6 +48,7 @@ public class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<LogMess
     {
         LogMessages = string.Join(Environment.NewLine, message.Message, LogMessages);
         Title = $"{TitleDefault} ({message.Message})";
+        LastLogMessage = message.Message;
         return Task.CompletedTask;
     }
 
@@ -49,6 +60,7 @@ public class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<LogMess
     public ICommand MenuFileClose { get; private set; }
     public ICommand MenuEditPerson { get; private set; }
     public ICommand SendLogMessage { get; private set; }
+    public ICommand SendLogMessageMenu { get; set; }
 
     public string LogMessages
     {
@@ -57,6 +69,17 @@ public class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<LogMess
         {
             if (value == _logMessages) return;
             _logMessages = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public string LastLogMessage
+    {
+        get => _lastLogMessage;
+        set
+        {
+            if (value == _lastLogMessage) return;
+            _lastLogMessage = value;
             OnPropertyChanged();
         }
     }
