@@ -10,5 +10,5 @@ public interface IMenuItemBinding
     /// </summary>
     /// <param name="item">item which should be bound to the formModel</param>
     /// <param name="formModel">FormModel to bind to the control</param>
-    void Bind(ToolStripItem item, IFormModel formModel);
+    void Bind(ToolStripMenuItem item, IFormModel formModel);
 }

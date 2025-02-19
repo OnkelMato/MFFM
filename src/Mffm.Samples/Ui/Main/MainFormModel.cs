@@ -27,12 +27,15 @@ public class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<LogMess
         eventAggregator.Subscribe(this);
 
         // this happens when you don't have a command and can use window manager directly
-        MenuFileClose = new FunctionToCommandAdapter(_ => windowManager.Close(this));
+        MenuFileClose = new CloseApplicationCommand(windowManager);
         MenuEditPerson = new FunctionToCommandAdapter(_ => windowManager.Show<EditFormModel>());
         MenuEditProtocol = new FunctionToCommandAdapter(_ => windowManager.Show<ProtocolFormModel>());
-        SendLogMessage = new SendLogMessageCommand(eventAggregator);
+     
+        // use the regular command for the menu
         SendLogMessageMenu = new SendLogMessageCommand(eventAggregator);
         SendLogMessageMenuIcon = Image.FromStream(new MemoryStream(Resources.icon_senden));
+
+        SendLogMessage = new SendLogMessageCommand(eventAggregator);
 
         _title = TitleDefault;
     }
