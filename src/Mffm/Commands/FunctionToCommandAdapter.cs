@@ -1,25 +1,30 @@
 using System.Windows.Input;
 
-namespace Mffm.Commands;
-
-/// <summary>
-///     This adapter does not support the CanExecuteChanged event pass-through and property changes in model
-/// </summary>
-public class FunctionToCommandAdapter(Action<object> execute, Predicate<object>? canExecute = null)
-    : ICommand
+namespace Mffm.Commands
 {
-    private readonly Predicate<object> _canExecute = canExecute ?? (_ => true);
-    private readonly Action<object> _execute = execute ?? throw new ArgumentNullException(nameof(execute));
-
-    public bool CanExecute(object? context)
+    /// <summary>
+    ///     This adapter does not support the CanExecuteChanged event pass-through and property changes in model
+    /// </summary>
+    public class FunctionToCommandAdapter(Action<object> execute, Predicate<object>? canExecute = null)
+        : ICommand
     {
-        return _canExecute(context!);
-    }
+        private readonly Predicate<object> _canExecute = canExecute ?? (_ => true);
+        private readonly Action<object> _execute = execute ?? throw new ArgumentNullException(nameof(execute));
 
-    public void Execute(object? context)
-    {
-        _execute(context!);
-    }
+        /// <inheritdoc />
+        public bool CanExecute(object? context)
+        {
+            return _canExecute(context!);
+        }
 
-    public event EventHandler? CanExecuteChanged;
+        /// <inheritdoc />
+        public void Execute(object? context)
+        {
+            _execute(context!);
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <inheritdoc />
+        public event EventHandler? CanExecuteChanged;
+    }
 }

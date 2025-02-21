@@ -1,101 +1,106 @@
 using System.Diagnostics;
+using System.Windows.Forms;
 using Mffm.Contracts;
 
-namespace Mffm.Core;
-
-internal class BindingManager : IBindingManager
+namespace Mffm.Core
 {
-    // we need to reverse the bindings to have the most specific bindings first.
-    // this ensures the default can 
-    private readonly IEnumerable<IControlBinding> _bindings;
-
-    public BindingManager(IEnumerable<IControlBinding> bindings)
+    internal class BindingManager : IBindingManager
     {
-        _bindings = bindings.Reverse() ?? [];
-    }
+        // we need to reverse the bindings to have the most specific bindings first.
+        // this ensures the default can 
+        private readonly IEnumerable<IControlBinding> _bindings;
 
-    #region GetAllControls helper
-    private IEnumerable<Control> GetControlsRecursively(Control control)
-    {
-        if (control.Controls.Count == 0) { return []; }
-
-        var result = new List<Control>();
-        foreach (Control innerControl in control.Controls)
+        public BindingManager(IEnumerable<IControlBinding> bindings)
         {
-            result.Add(innerControl);
-            result.AddRange(GetControlsRecursively(innerControl));
+            _bindings = bindings.Reverse() ?? [];
         }
 
-        return result;
-    }
-
-    private IEnumerable<Control> GetAllControls(Form form)
-    {
-        var result = new List<Control>();
-
-        foreach (Control control in form.Controls)
+        #region GetAllControls helper
+        private IEnumerable<Control> GetControlsRecursively(Control control)
         {
-            result.Add(control);
-            result.AddRange(GetControlsRecursively(control));
-        }
+            if (control.Controls.Count == 0) { return []; }
 
-        return result;
-    }
-    #endregion
-
-    #region GetAllMenuItems helper
-
-    private IEnumerable<ToolStripMenuItem> GetMenuItemsRecursively(ToolStripItemCollection? items)
-    {
-        if (items is null) { return []; }
-
-        var result = new List<ToolStripMenuItem>();
-        foreach (var item in items)
-        {
-            if (item is ToolStripMenuItem menuItem)
+            var result = new List<Control>();
+            foreach (Control innerControl in control.Controls)
             {
-                result.Add(menuItem);
-                result.AddRange(GetMenuItemsRecursively(menuItem.DropDownItems));
+                result.Add(innerControl);
+                result.AddRange(GetControlsRecursively(innerControl));
             }
+
+            return result;
         }
-        return result;
-    }
 
-    #endregion
-
-    public void CreateBindings(IFormModel formModel, Form form)
-    {
-        // let us iterate over all controls and let the binding handle the control to model binding
-        foreach (Control formControl in GetAllControls(form))
+        private IEnumerable<Control> GetAllControls(Form form)
         {
-            Debug.WriteLine($"Control {formControl.Name} found of type {formControl.GetType().Name}");
-            foreach (var controlBinding in _bindings)
+            var result = new List<Control>();
+
+            foreach (Control control in form.Controls)
             {
-                // binding can return if the binding was handles
-                if (controlBinding.Bind(formControl, formModel))
+                result.Add(control);
+                result.AddRange(GetControlsRecursively(control));
+            }
+
+            return result;
+        }
+        #endregion
+
+        #region GetAllMenuItems helper
+
+        private IEnumerable<ToolStripMenuItem> GetMenuItemsRecursively(ToolStripItemCollection? items)
+        {
+            if (items is null) { return []; }
+
+            var result = new List<ToolStripMenuItem>();
+            foreach (var item in items)
+            {
+                if (item is ToolStripMenuItem menuItem)
                 {
-                    Debug.WriteLine($"Control {formControl.Name} was handled by {controlBinding.GetType().Name}");
-                    break; // because it was handled
+                    result.Add(menuItem);
+                    result.AddRange(GetMenuItemsRecursively(menuItem.DropDownItems));
                 }
             }
+            return result;
         }
 
-        // the menu strip is a special case but not worth create a separate extensibility (like above with controls)
-        // refactor this to IBinding so it can be extended
-        var allItems = GetMenuItemsRecursively(form.MainMenuStrip?.Items);
-        foreach (var menuItem in allItems)
-        {
-            if (string.IsNullOrEmpty(menuItem.Name)) continue;
-            if (formModel.GetType().GetProperty(menuItem.Name) is null) continue;
+        #endregion
 
-            menuItem.DataBindings.Add(new Binding(nameof(menuItem.CommandParameter), formModel, null, true, DataSourceUpdateMode.Never));
-            menuItem.DataBindings.Add(new Binding(nameof(menuItem.Command), formModel, menuItem.Name, true, DataSourceUpdateMode.OnPropertyChanged));
-        }
-
-        // todo Change this to IBinding so it can be extended
-        if (formModel.GetType().GetProperty("Title") is not null)
+        public void CreateBindings(IFormModel formModel, Form form)
         {
-            form.DataBindings.Add(new Binding(nameof(form.Text), formModel, "Title", true, DataSourceUpdateMode.Never));
+            // let us iterate over all controls and let the binding handle the control to model binding
+            foreach (Control formControl in GetAllControls(form))
+            {
+                Debug.WriteLine($"Control {formControl.Name} found of type {formControl.GetType().Name}");
+                foreach (var controlBinding in _bindings)
+                {
+                    // binding can return if the binding was handles
+                    if (controlBinding.Bind(formControl, formModel))
+                    {
+                        Debug.WriteLine($"Control {formControl.Name} was handled by {controlBinding.GetType().Name}");
+                        break; // because it was handled
+                    }
+                }
+            }
+
+            // the menu strip is a special case but not worth create a separate extensibility (like above with controls)
+            // refactor this to IBinding so it can be extended
+            var allItems = GetMenuItemsRecursively(form.MainMenuStrip?.Items);
+            foreach (var menuItem in allItems)
+            {
+                if (string.IsNullOrEmpty(menuItem.Name)) continue;
+                if (formModel.GetType().GetProperty(menuItem.Name) is null) continue;
+#if NET5_0_OR_GREATER
+                menuItem.DataBindings.Add(new Binding(nameof(menuItem.CommandParameter), formModel, null, true, DataSourceUpdateMode.Never));
+                menuItem.DataBindings.Add(new Binding(nameof(menuItem.Command), formModel, menuItem.Name, true, DataSourceUpdateMode.OnPropertyChanged));
+#else
+            // todo fixme, but how? button decorator? button binding adapter?
+#endif
+            }
+
+            // todo Change this to IBinding so it can be extended
+            if (formModel.GetType().GetProperty("Title") is not null)
+            {
+                form.DataBindings.Add(new Binding(nameof(form.Text), formModel, "Title", true, DataSourceUpdateMode.Never));
+            }
         }
     }
 }

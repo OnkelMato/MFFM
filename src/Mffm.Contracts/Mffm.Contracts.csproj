@@ -1,15 +1,16 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net9.0-windows</TargetFramework>
+		<TargetFrameworks>net9.0-windows;net8.0-windows;net48</TargetFrameworks>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<LangVersion>12.0</LangVersion>
 		<Nullable>enable</Nullable>
 		<UseWindowsForms>true</UseWindowsForms>
 	</PropertyGroup>
 
 	<PropertyGroup>
 		<Authors>Thomas Ley</Authors>
-		<Description>Nada NZazu is a package with a UI form generator.</Description>
+		<Description>Contracts for the MFFM framework. MFFM is an MVVM adaption for Windows Forms.</Description>
 		<PackageProjectUrl>https://github.com/OnkelMato/MFFM</PackageProjectUrl>
 		<PackageTags>library</PackageTags>
 		<IncludeSymbols>False</IncludeSymbols>

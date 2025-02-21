@@ -1,14 +1,15 @@
-﻿namespace Mffm.Samples.Core.Services;
-
-public class GreetingRepository : IGreetingRepository
+﻿namespace Mffm.Samples.Core.Services
 {
-    public string GetGreeting(IDateTimeProvider dateTime)
+    public class GreetingRepository : IGreetingRepository
     {
-        return dateTime.Now.Hour switch
+        public string GetGreeting(IDateTimeProvider dateTime)
         {
-            < 12 => "Good Morning",
-            < 17 => "Good Afternoon",
-            _ => "Good Evening"
-        };
+            return dateTime.Now.Hour switch
+            {
+                < 12 => "Good Morning",
+                < 17 => "Good Afternoon",
+                _ => "Good Evening"
+            };
+        }
     }
 }

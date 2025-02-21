@@ -1,24 +1,25 @@
-﻿namespace Mffm.Samples.Core.Logging;
-
-internal class EmptyLogger : IBmLogger
+﻿namespace Mffm.Samples.Core.Logging
 {
-    public void LogDebug(string message)
+    internal class EmptyLogger : IBmLogger
     {
-        // Do nothing
-    }
+        public void LogDebug(string message)
+        {
+            // Do nothing
+        }
 
-    public void LogInfo(string message)
-    {
-        // Do nothing
-    }
+        public void LogInfo(string message)
+        {
+            // Do nothing
+        }
 
-    public void LogWarning(string message)
-    {
-        // Do nothing
-    }
+        public void LogWarning(string message)
+        {
+            // Do nothing
+        }
 
-    public void LogError(string message, Exception ex)
-    {
-        // Do nothing
+        public void LogError(string message, Exception ex)
+        {
+            // Do nothing
+        }
     }
 }

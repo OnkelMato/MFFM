@@ -2,41 +2,51 @@
 using System.Windows.Input;
 using Mffm.Contracts;
 
-namespace Mffm.Commands;
-
-/// <summary>
-///     class used for data binding in the MFFM framework. The command parameter is the model itself.
-/// </summary>
-public class FormModelAsParameterCommandDecorator : ICommand
+namespace Mffm.Commands
 {
-    // todo check of this can interop with the adapter to add "notify" functionality
-
-    private readonly ICommand _command;
-    private readonly IFormModel _model;
-
-    public FormModelAsParameterCommandDecorator(ICommand command, IFormModel model)
+    /// <summary>
+    ///     class used for data binding in the MFFM framework. The command parameter is the model itself.
+    /// </summary>
+    public class FormModelAsParameterCommandDecorator : ICommand
     {
-        _command = command ?? throw new ArgumentNullException(nameof(command));
-        _model = model ?? throw new ArgumentNullException(nameof(model));
+        // todo check of this can interop with the adapter to add "notify" functionality
 
-        // let's hand over the notification that properties have changed
-        command.CanExecuteChanged += (sender, args) => CanExecuteChanged?.Invoke(this, args);
-        if (model is INotifyPropertyChanged notifyPropertyChanged)
-            notifyPropertyChanged.PropertyChanged += (sender, args) => CanExecuteChanged?.Invoke(this, args);
+        private readonly ICommand _command;
+        private readonly IFormModel _model;
 
-        // execute canexecutechanged once to set the initial state
-        CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FormModelAsParameterCommandDecorator"/> class.
+        /// </summary>
+        /// <param name="command"></param>
+        /// <param name="model"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public FormModelAsParameterCommandDecorator(ICommand command, IFormModel model)
+        {
+            _command = command ?? throw new ArgumentNullException(nameof(command));
+            _model = model ?? throw new ArgumentNullException(nameof(model));
+
+            // let's hand over the notification that properties have changed
+            command.CanExecuteChanged += (sender, args) => CanExecuteChanged?.Invoke(this, args);
+            if (model is INotifyPropertyChanged notifyPropertyChanged)
+                notifyPropertyChanged.PropertyChanged += (sender, args) => CanExecuteChanged?.Invoke(this, args);
+
+            // execute canexecutechanged once to set the initial state
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <inheritdoc />
+        public bool CanExecute(object? parameter)
+        {
+            return _command.CanExecute(_model);
+        }
+
+        /// <inheritdoc />
+        public void Execute(object? parameter)
+        {
+            _command.Execute(_model);
+        }
+
+        /// <inheritdoc />
+        public event EventHandler? CanExecuteChanged;
     }
-
-    public bool CanExecute(object? parameter)
-    {
-        return _command.CanExecute(_model);
-    }
-
-    public void Execute(object? parameter)
-    {
-        _command.Execute(_model);
-    }
-
-    public event EventHandler? CanExecuteChanged;
 }

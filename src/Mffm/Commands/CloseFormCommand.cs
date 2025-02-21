@@ -1,31 +1,37 @@
 ﻿using System.Windows.Input;
 using Mffm.Contracts;
 
-namespace Mffm.Commands;
-
-public class CloseFormCommand(IWindowManager windowManager) : ICommand
+namespace Mffm.Commands
 {
-    private readonly IWindowManager _windowManager =
-        windowManager ?? throw new ArgumentNullException(nameof(windowManager));
-
-    public bool CanExecute(object? parameter)
+    /// <inheritdoc />
+    public class CloseFormCommand(IWindowManager windowManager) : ICommand
     {
-        var model = parameter as IFormModel;
-        if (model == null)
-            return false;
+        private readonly IWindowManager _windowManager =
+            windowManager ?? throw new ArgumentNullException(nameof(windowManager));
 
-        return _windowManager.IsFormOpen(model!);
+        /// <inheritdoc />
+        public bool CanExecute(object? parameter)
+        {
+            // ReSharper disable once ConvertIfStatementToReturnStatement
+            if (parameter is not IFormModel model)
+                return false;
+
+            return _windowManager.IsFormOpen(model!);
+        }
+
+        /// <inheritdoc />
+        public void Execute(object? parameter)
+        {
+            var model = parameter as IFormModel;
+            if (model == null)
+                throw new ArgumentNullException(nameof(parameter),
+                    "It seems that the CommandParameter in Binding is not set to the model");
+
+            _windowManager.Close(model);
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        /// <inheritdoc />
+        public event EventHandler? CanExecuteChanged;
     }
-
-    public void Execute(object? parameter)
-    {
-        var model = parameter as IFormModel;
-        if (model == null)
-            throw new ArgumentNullException(nameof(parameter),
-                "It seems that the CommandParameter in Binding is not set to the model");
-
-        _windowManager.Close(model);
-    }
-
-    public event EventHandler? CanExecuteChanged;
 }
