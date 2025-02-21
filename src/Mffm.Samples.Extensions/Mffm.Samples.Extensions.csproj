@@ -6,7 +6,7 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Configurations>Debug;Release;Debug_48</Configurations>
+	  <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
 
   <PropertyGroup>

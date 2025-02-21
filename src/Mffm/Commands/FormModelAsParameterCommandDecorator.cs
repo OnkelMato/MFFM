@@ -2,51 +2,50 @@
 using System.Windows.Input;
 using Mffm.Contracts;
 
-namespace Mffm.Commands
+namespace Mffm.Commands;
+
+/// <summary>
+///     class used for data binding in the MFFM framework. The command parameter is the model itself.
+/// </summary>
+public class FormModelAsParameterCommandDecorator : ICommand
 {
+    // todo check of this can interop with the adapter to add "notify" functionality
+
+    private readonly ICommand _command;
+    private readonly IFormModel _model;
+
     /// <summary>
-    ///     class used for data binding in the MFFM framework. The command parameter is the model itself.
+    ///    Initializes a new instance of the <see cref="FormModelAsParameterCommandDecorator" /> class.
     /// </summary>
-    public class FormModelAsParameterCommandDecorator : ICommand
+    /// <param name="command"></param>
+    /// <param name="model"></param>
+    /// <exception cref="ArgumentNullException"></exception>
+    public FormModelAsParameterCommandDecorator(ICommand command, IFormModel model)
     {
-        // todo check of this can interop with the adapter to add "notify" functionality
+        _command = command ?? throw new ArgumentNullException(nameof(command));
+        _model = model ?? throw new ArgumentNullException(nameof(model));
 
-        private readonly ICommand _command;
-        private readonly IFormModel _model;
+        // let's hand over the notification that properties have changed
+        command.CanExecuteChanged += (sender, args) => CanExecuteChanged?.Invoke(this, args);
+        if (model is INotifyPropertyChanged notifyPropertyChanged)
+            notifyPropertyChanged.PropertyChanged += (sender, args) => CanExecuteChanged?.Invoke(this, args);
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="FormModelAsParameterCommandDecorator"/> class.
-        /// </summary>
-        /// <param name="command"></param>
-        /// <param name="model"></param>
-        /// <exception cref="ArgumentNullException"></exception>
-        public FormModelAsParameterCommandDecorator(ICommand command, IFormModel model)
-        {
-            _command = command ?? throw new ArgumentNullException(nameof(command));
-            _model = model ?? throw new ArgumentNullException(nameof(model));
-
-            // let's hand over the notification that properties have changed
-            command.CanExecuteChanged += (sender, args) => CanExecuteChanged?.Invoke(this, args);
-            if (model is INotifyPropertyChanged notifyPropertyChanged)
-                notifyPropertyChanged.PropertyChanged += (sender, args) => CanExecuteChanged?.Invoke(this, args);
-
-            // execute canexecutechanged once to set the initial state
-            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-        }
-
-        /// <inheritdoc />
-        public bool CanExecute(object? parameter)
-        {
-            return _command.CanExecute(_model);
-        }
-
-        /// <inheritdoc />
-        public void Execute(object? parameter)
-        {
-            _command.Execute(_model);
-        }
-
-        /// <inheritdoc />
-        public event EventHandler? CanExecuteChanged;
+        // execute canexecutechanged once to set the initial state
+        CanExecuteChanged?.Invoke(this, EventArgs.Empty);
     }
+
+    /// <inheritdoc />
+    public bool CanExecute(object? parameter)
+    {
+        return _command.CanExecute(_model);
+    }
+
+    /// <inheritdoc />
+    public void Execute(object? parameter)
+    {
+        _command.Execute(_model);
+    }
+
+    /// <inheritdoc />
+    public event EventHandler? CanExecuteChanged;
 }

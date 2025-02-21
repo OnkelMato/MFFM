@@ -1,37 +1,50 @@
 ﻿using System.Windows.Input;
 using Mffm.Contracts;
 
-namespace Mffm.Commands
+namespace Mffm.Commands;
+
+/// <summary>
+/// Command to close a form. It checks if the form is open and then closes it.
+/// Thw window manager is responsible for the form management.
+/// </summary>
+/// <param name="windowManager"></param>
+public class CloseFormCommand(IWindowManager windowManager) : ICommand
 {
-    /// <inheritdoc />
-    public class CloseFormCommand(IWindowManager windowManager) : ICommand
+    private readonly IWindowManager _windowManager =
+        windowManager ?? throw new ArgumentNullException(nameof(windowManager));
+
+    /// <summary>
+    /// Checks if the form is open and can be closed.
+    /// </summary>
+    /// <param name="parameter"></param>
+    /// <returns></returns>
+    public bool CanExecute(object? parameter)
     {
-        private readonly IWindowManager _windowManager =
-            windowManager ?? throw new ArgumentNullException(nameof(windowManager));
+        var model = parameter as IFormModel;
+        if (model == null)
+            return false;
 
-        /// <inheritdoc />
-        public bool CanExecute(object? parameter)
-        {
-            // ReSharper disable once ConvertIfStatementToReturnStatement
-            if (parameter is not IFormModel model)
-                return false;
-
-            return _windowManager.IsFormOpen(model!);
-        }
-
-        /// <inheritdoc />
-        public void Execute(object? parameter)
-        {
-            var model = parameter as IFormModel;
-            if (model == null)
-                throw new ArgumentNullException(nameof(parameter),
-                    "It seems that the CommandParameter in Binding is not set to the model");
-
-            _windowManager.Close(model);
-            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-        }
-
-        /// <inheritdoc />
-        public event EventHandler? CanExecuteChanged;
+        return _windowManager.IsFormOpen(model!);
     }
+
+    /// <summary>
+    /// Closes the form.
+    /// </summary>
+    /// <param name="parameter"></param>
+    /// <exception cref="ArgumentNullException"></exception>
+    public void Execute(object? parameter)
+    {
+        var model = parameter as IFormModel;
+        if (model == null)
+            throw new ArgumentNullException(nameof(parameter),
+                "It seems that the CommandParameter in Binding is not set to the model");
+
+        _windowManager.Close(model);
+        CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    /// <summary>
+    /// Event handler for the CanExecuteChanged event.
+    /// </summary>
+    public event EventHandler? CanExecuteChanged;
 }

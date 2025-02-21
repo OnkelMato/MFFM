@@ -2,19 +2,20 @@
 
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
-		<TargetFrameworks>net48;net9.0-windows;net8.0-windows;</TargetFrameworks>
+		<TargetFrameworks>net48;net9.0-windows</TargetFrameworks>
 		<LangVersion>12.0</LangVersion>
 		<Nullable>enable</Nullable>
 		<UseWindowsForms>true</UseWindowsForms>
 		<ImplicitUsings>enable</ImplicitUsings>
-		<Configurations>Debug;Release;Debug_48</Configurations>
+		<Configurations>net48;net9;Release</Configurations>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net48|AnyCPU'">
-		<TargetFramework>net48</TargetFramework>
+	<PropertyGroup Condition="'$(Configuration)' == 'net9'">
+		<TargetFramework>net9.0-windows</TargetFramework>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net9|AnyCPU'">
-		<TargetFramework>net9</TargetFramework>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'net48'">
+		<TargetFramework>net48</TargetFramework>
 	</PropertyGroup>
 
 	<PropertyGroup>
