@@ -6,6 +6,14 @@
 		<LangVersion>12.0</LangVersion>
 		<Nullable>enable</Nullable>
 		<UseWindowsForms>true</UseWindowsForms>
+		<Configurations>Debug;Release;Debug_48</Configurations>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net48|AnyCPU'">
+		<TargetFramework>net48</TargetFramework>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'net9|AnyCPU'">
+		<TargetFramework>net9</TargetFramework>
 	</PropertyGroup>
 
 	<PropertyGroup>

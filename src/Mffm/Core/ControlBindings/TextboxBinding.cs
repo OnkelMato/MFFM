@@ -11,9 +11,6 @@ namespace Mffm.Core.ControlBindings
 
             textBox.DataBindings.Add(new Binding(nameof(textBox.Text), formModel, control.Name, true, DataSourceUpdateMode.OnPropertyChanged));
 
-            // this is a hack so we change the value on change and not on leave. This might be important.
-            //textBox.KeyPress += (sender, args) => { textBox?.DataBindings[nameof(textBox.Text)]?.WriteValue(); };
-
             return true;
         }
     }

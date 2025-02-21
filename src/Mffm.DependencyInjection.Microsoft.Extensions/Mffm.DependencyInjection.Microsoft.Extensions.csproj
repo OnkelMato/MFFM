@@ -4,6 +4,7 @@
 	  <TargetFramework>net9.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <Configurations>Debug;Release;Debug_48</Configurations>
   </PropertyGroup>
 
 	<PropertyGroup>

@@ -1,4 +1,5 @@
-﻿using Mffm.Contracts;
+﻿using System.ComponentModel;
+using Mffm.Contracts;
 
 namespace Mffm.Core.ControlBindings
 {
@@ -18,7 +19,18 @@ namespace Mffm.Core.ControlBindings
 #if NET5_0_OR_GREATER
                     label.DataBindings.Add(new Binding(nameof(label.Text), formModel, item.Name, true, DataSourceUpdateMode.OnPropertyChanged));
 #else
-                    // todo fixme, but how? button decorator? button binding adapter?
+                    // set value and attach to PropertyChanged event
+                    label.Text = formModel.GetType().GetProperty(item.Name!)!.GetValue(formModel).ToString();
+
+                    // ReSharper disable once SuspiciousTypeConversion.Global
+                    if (formModel is INotifyPropertyChanged notifyModel)
+                        notifyModel.PropertyChanged += (sender, args) =>
+                        {
+                            if (args.PropertyName == item.Name)
+                            {
+                                label.Text = formModel.GetType().GetProperty(item.Name!)!.GetValue(formModel).ToString();
+                            }
+                        };
 #endif
                 }
 
