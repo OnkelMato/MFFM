@@ -1,9 +1,10 @@
-namespace Mffm.Samples.Ui.Main;
-
-public partial class MainForm : Form
+namespace Mffm.Samples.Ui.Main
 {
-    public MainForm()
+    public partial class MainForm : Form
     {
-        InitializeComponent();
+        public MainForm()
+        {
+            InitializeComponent();
+        }
     }
 }

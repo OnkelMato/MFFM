@@ -14,6 +14,12 @@ public class FormModelAsParameterCommandDecorator : ICommand
     private readonly ICommand _command;
     private readonly IFormModel _model;
 
+    /// <summary>
+    ///    Initializes a new instance of the <see cref="FormModelAsParameterCommandDecorator" /> class.
+    /// </summary>
+    /// <param name="command"></param>
+    /// <param name="model"></param>
+    /// <exception cref="ArgumentNullException"></exception>
     public FormModelAsParameterCommandDecorator(ICommand command, IFormModel model)
     {
         _command = command ?? throw new ArgumentNullException(nameof(command));
@@ -28,15 +34,18 @@ public class FormModelAsParameterCommandDecorator : ICommand
         CanExecuteChanged?.Invoke(this, EventArgs.Empty);
     }
 
+    /// <inheritdoc />
     public bool CanExecute(object? parameter)
     {
         return _command.CanExecute(_model);
     }
 
+    /// <inheritdoc />
     public void Execute(object? parameter)
     {
         _command.Execute(_model);
     }
 
+    /// <inheritdoc />
     public event EventHandler? CanExecuteChanged;
 }

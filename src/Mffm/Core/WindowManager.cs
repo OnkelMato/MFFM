@@ -9,7 +9,9 @@ namespace Mffm.Core;
 ///     handler is added to the FormClosed event of the form to remove the form from the
 ///     dictionary.
 /// </summary>
+/// <param name="serviceProvider"></param>
 /// <param name="bindingManager"></param>
+/// <param name="formMapper"></param>
 internal class WindowManager(IServiceProvider serviceProvider, IBindingManager bindingManager, IFormMapper formMapper) : IWindowManager
 {
     private readonly IServiceProvider _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
@@ -61,16 +63,9 @@ internal class WindowManager(IServiceProvider serviceProvider, IBindingManager b
     /// <typeparam name="TFormModel"></typeparam>
     public void Run<TFormModel>() where TFormModel : class, IFormModel
     {
-        try
-        {
-            var form = GetFormFor<TFormModel>() ?? throw new Exception($"Cannot find the form for ${typeof(TFormModel)}");
+        var form = GetFormFor<TFormModel>() ?? throw new Exception($"Cannot find the form for ${typeof(TFormModel)}");
 
-            Application.Run(form);
-        }
-        catch (Exception ex)
-        {
-            throw;
-        }
+        Application.Run(form);
     }
 
     public bool IsFormOpen(IFormModel model)

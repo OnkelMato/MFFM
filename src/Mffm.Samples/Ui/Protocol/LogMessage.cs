@@ -1,8 +1,9 @@
-namespace Mffm.Samples.Ui.Protocol;
-
-public class LogMessage
+namespace Mffm.Samples.Ui.Protocol
 {
-    public string Message { get; set; }
+    public class LogMessage
+    {
+        public string Message { get; set; }
 
-    public DateTime Timestamp { get; set; }
+        public DateTime Timestamp { get; set; }
+    }
 }

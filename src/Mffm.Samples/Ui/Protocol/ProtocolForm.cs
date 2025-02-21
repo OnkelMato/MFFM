@@ -1,9 +1,10 @@
-﻿namespace Mffm.Samples.Ui.Protocol;
-
-public partial class ProtocolForm : Form
+﻿namespace Mffm.Samples.Ui.Protocol
 {
-    public ProtocolForm()
+    public partial class ProtocolForm : Form
     {
-        InitializeComponent();
+        public ProtocolForm()
+        {
+            InitializeComponent();
+        }
     }
 }

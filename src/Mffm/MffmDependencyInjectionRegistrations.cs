@@ -12,6 +12,11 @@ namespace Mffm;
 /// </summary>
 public static class MffmDependencyInjectionRegistrations
 {
+    /// <summary>
+    /// Registers all MFFM related services.
+    /// </summary>
+    /// <param name="containerBuilder"></param>
+    /// <returns></returns>
     public static IServiceRegistrationAdapter RegisterServices(this IServiceRegistrationAdapter containerBuilder)
     {
         // register core singleton services
@@ -36,6 +41,12 @@ public static class MffmDependencyInjectionRegistrations
         return containerBuilder;
     }
 
+    /// <summary>
+    /// Registers all MFFM related extensions.
+    /// </summary>
+    /// <param name="containerBuilder"></param>
+    /// <param name="assemblies"></param>
+    /// <returns></returns>
     public static IServiceRegistrationAdapter RegisterExtensions(
         this IServiceRegistrationAdapter containerBuilder,
         Assembly[] assemblies)

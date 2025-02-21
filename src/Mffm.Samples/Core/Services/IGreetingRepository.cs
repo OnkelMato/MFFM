@@ -1,6 +1,7 @@
-﻿namespace Mffm.Samples.Core.Services;
-
-public interface IGreetingRepository
+﻿namespace Mffm.Samples.Core.Services
 {
-    string GetGreeting(IDateTimeProvider dateTime);
+    public interface IGreetingRepository
+    {
+        string GetGreeting(IDateTimeProvider dateTime);
+    }
 }
