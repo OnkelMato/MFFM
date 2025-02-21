@@ -1,14 +1,15 @@
 ﻿using Mffm.Contracts;
 
-namespace Mffm.Samples.Extensions.GeoComponent;
-
-public class CoordinateControlBinding : IControlBinding
+namespace Mffm.Samples.Extensions.GeoComponent
 {
-    public bool Bind(Control control, IFormModel formModel)
+    public class CoordinateControlBinding : IControlBinding
     {
-        if (control is not GeolocationControl) return false;
+        public bool Bind(Control control, IFormModel formModel)
+        {
+            if (control is not GeolocationControl) return false;
 
-        control.DataBindings.Add(new Binding(nameof(GeolocationControl.Coordinate), formModel, control.Name, true, DataSourceUpdateMode.OnPropertyChanged));
-        return true;
+            control.DataBindings.Add(new Binding(nameof(GeolocationControl.Coordinate), formModel, control.Name, true, DataSourceUpdateMode.OnPropertyChanged));
+            return true;
+        }
     }
 }

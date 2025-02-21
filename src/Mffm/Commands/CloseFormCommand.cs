@@ -40,6 +40,7 @@ public class CloseFormCommand(IWindowManager windowManager) : ICommand
                 "It seems that the CommandParameter in Binding is not set to the model");
 
         _windowManager.Close(model);
+        CanExecuteChanged?.Invoke(this, EventArgs.Empty);
     }
 
     /// <summary>

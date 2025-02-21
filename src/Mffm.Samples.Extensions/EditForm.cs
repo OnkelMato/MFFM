@@ -1,12 +1,13 @@
-﻿namespace Mffm.Samples.Extensions;
-
-/// <summary>
-/// Edit form that overrides the default form from the main application.
-/// </summary>
-public partial class EditForm : Form
+﻿namespace Mffm.Samples.Extensions
 {
-    public EditForm()
+    /// <summary>
+    /// Edit form that overrides the default form from the main application.
+    /// </summary>
+    public partial class EditForm : Form
     {
-        InitializeComponent();
+        public EditForm()
+        {
+            InitializeComponent();
+        }
     }
 }

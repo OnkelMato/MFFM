@@ -1,7 +1,8 @@
-﻿namespace Mffm.Samples.Core.Services;
-
-public class DateTimeProvider : IDateTimeProvider
+﻿namespace Mffm.Samples.Core.Services
 {
-    public DateTime Now => DateTime.Now;
-    //public DateTime Now { get; } = DateTime.Now;
+    public class DateTimeProvider : IDateTimeProvider
+    {
+        public DateTime Now => DateTime.Now;
+        //public DateTime Now { get; } = DateTime.Now;
+    }
 }

@@ -1,6 +1,7 @@
-﻿namespace Mffm.Samples.Core.Services;
-
-public interface IDateTimeProvider
+﻿namespace Mffm.Samples.Core.Services
 {
-    DateTime Now { get; }
+    public interface IDateTimeProvider
+    {
+        DateTime Now { get; }
+    }
 }

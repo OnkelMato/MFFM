@@ -1,12 +1,13 @@
-﻿namespace Mffm.Samples.Ui.EditUser;
-
-/// <summary>
-///     Edit form which uses the BindingSource for data binding
-/// </summary>
-public partial class EditForm : Form
+﻿namespace Mffm.Samples.Ui.EditUser
 {
-    public EditForm()
+    /// <summary>
+    ///     Edit form which uses the BindingSource for data binding
+    /// </summary>
+    public partial class EditForm : Form
     {
-        InitializeComponent();
+        public EditForm()
+        {
+            InitializeComponent();
+        }
     }
 }
