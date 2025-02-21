@@ -2,7 +2,7 @@
 using Mffm.Commands;
 using Mffm.Contracts;
 using Mffm.Core;
-using Mffm.Core.ControlBindings;
+using Mffm.Core.Bindings;
 
 namespace Mffm;
 
@@ -23,13 +23,16 @@ public static class MffmDependencyInjectionRegistrations
         // add additional (generic) commands
         containerBuilder.RegisterTransientType(typeof(CloseFormCommand), typeof(CloseFormCommand));
 
-        // register internal control bindings
+        // register internal control bindings. DefaultBinding is the fallback binding therefore it is registered first.
         containerBuilder.RegisterTransientType(typeof(IControlBinding), typeof(DefaultBinding));
         typeof(DefaultBinding).Assembly.GetTypes()
             .Where(t => typeof(IControlBinding).IsAssignableFrom(t) && t is { IsInterface: false, IsAbstract: false } &&
                         (t != typeof(DefaultBinding)))
             .ToList()
             .ForEach(t => containerBuilder.RegisterTransientType(typeof(IControlBinding), t));
+
+        containerBuilder.RegisterTransientType(typeof(IFormBinding), typeof(DefaultFormBinding));
+        containerBuilder.RegisterTransientType(typeof(IMenuItemBinding), typeof(DefaultMenuItemBinding));
         return containerBuilder;
     }
 
