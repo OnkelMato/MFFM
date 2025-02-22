@@ -39,8 +39,8 @@ public class CloseFormCommand(IWindowManager windowManager) : ICommand
             throw new ArgumentNullException(nameof(parameter),
                 "It seems that the CommandParameter in Binding is not set to the model");
 
-        // Get Property DialogResult with reflection from the model 
-        var dialogResultProperty = (DialogResult)(model.GetType().GetProperty("DialogResult")?.GetValue(model) ?? DialogResult.None);
+        // Get property result with reflection from the formModel so we set this to the 
+        var dialogResultProperty = (DialogResult)(model.GetType().GetProperty(MffmConstants.DialogResultPropertyName)?.GetValue(model) ?? DialogResult.None);
 
         _windowManager.Close(model, dialogResultProperty);
         CanExecuteChanged?.Invoke(this, EventArgs.Empty);

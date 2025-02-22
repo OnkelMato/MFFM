@@ -1,18 +1,18 @@
 ﻿using System.Windows.Input;
 using Mffm.Contracts;
 
-namespace Mffm.Core.ControlBindings
+namespace Mffm.Core.Bindings;
+
+internal class ButtonBinding : IControlBinding
 {
-    internal class ButtonBinding : IControlBinding
+    // todo make this invariant!
+    public bool Bind(Control control, IFormModel formModel)
     {
-        // todo make this invariant!
-        public bool Bind(Control control, IFormModel formModel)
-        {
-            if (control is not Button button) { return false; }
+        if (control is not Button button) { return false; }
 
 #if NET5_0_OR_GREATER
-            button.DataBindings.Add(new Binding(nameof(button.CommandParameter), formModel, null, true, DataSourceUpdateMode.Never));
-            button.DataBindings.Add(new Binding(nameof(button.Command), formModel, control.Name, true, DataSourceUpdateMode.OnPropertyChanged));
+        button.DataBindings.Add(new Binding(nameof(button.CommandParameter), formModel, null, true, DataSourceUpdateMode.Never));
+        button.DataBindings.Add(new Binding(nameof(button.Command), formModel, control.Name, true, DataSourceUpdateMode.OnPropertyChanged));
 #else
             var command = formModel.GetType().GetProperty(button.Name!)?.GetValue(formModel) as ICommand;
             if (command is null) return false;
@@ -22,7 +22,6 @@ namespace Mffm.Core.ControlBindings
 
             command.CanExecuteChanged += (sender, args) => button.Enabled = command.CanExecute(formModel);
 #endif
-            return true;
-        }
+        return true;
     }
 }

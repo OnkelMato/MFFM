@@ -1,5 +1,4 @@
 using System.ComponentModel;
-using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Mffm.Commands;
@@ -20,9 +19,6 @@ public class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<LogMess
     private string _logMessageToSend = string.Empty;
     private string _peopleSelected = string.Empty;
     private string _title;
-
-    // todo make this a "by convention" thing
-    public object? Context { get; set; }
 
     public MainFormModel(
         IWindowManager windowManager,
@@ -52,12 +48,6 @@ public class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<LogMess
         var result = _windowManager.ShowModal<EditFormModel>(ctx);
         if (result == DialogResult.OK)
             PeopleSelected = ctx.Firstname;
-    }
-
-    private object? GetPersonContext()
-    {
-        // use a simple string as context
-        return PeopleSelected;
     }
 
     public Image SendLogMessageMenuIcon { get; set; }

@@ -24,8 +24,9 @@ internal class WindowManager(IServiceProvider serviceProvider, IBindingManager b
     private Form GetFormFor<TFormModel>(object? context = null)
         where TFormModel : class, IFormModel
     {
+        // get form model and set the context
         IFormModel formModel = _serviceProvider.GetService(typeof(TFormModel)) as TFormModel ?? throw new ServiceNotFoundException($"Cannot fond service for ${typeof(TFormModel).Name}");
-        formModel.Context = context;
+        formModel.GetType().GetProperty(MffmConstants.ContextPropertyName)?.SetValue(formModel, context);
 
         // form mapper is responsible to getting the form for the form model
         var formType = _formMapper.GetFormFor<TFormModel>();
@@ -64,7 +65,7 @@ internal class WindowManager(IServiceProvider serviceProvider, IBindingManager b
         if (!hasWindow) return false;
 
         //set the dialog result from model (optional property) and override it with the parameter
-        var dialogResultProperty = (DialogResult?)(model.GetType().GetProperty("DialogResult")?.GetValue(model));
+        var dialogResultProperty = (DialogResult?)(model.GetType().GetProperty(MffmConstants.DialogResultPropertyName)?.GetValue(model));
         if (dialogResultProperty != null) form!.DialogResult = dialogResultProperty.Value; // set the DialogResult property from the model
         if (dialogResult != null) form!.DialogResult = dialogResult.Value; // override the setting from property
         
