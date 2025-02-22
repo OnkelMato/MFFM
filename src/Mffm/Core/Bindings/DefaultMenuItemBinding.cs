@@ -15,7 +15,7 @@ internal class DefaultMenuItemBinding : IMenuItemBinding
             menuItem.DataBindings.Add(
                 new Binding(nameof(menuItem.Command), formModel, menuItem.Name, true, DataSourceUpdateMode.OnPropertyChanged));
 
-        // Lets bind icons and shortcuts.
+        // Let's bind icons and shortcuts.
         // If the command is not IExtendCommand, we bind the icon and shortcut keys from the model by convention.
         if (formModel.GetType().GetProperty(menuItem.Name!)?.GetValue(formModel) is not IExtendedCommand command)
         {
@@ -38,45 +38,30 @@ internal class DefaultMenuItemBinding : IMenuItemBinding
         var command = formModel.GetType().GetProperty(menuItem.Name!)?.GetValue(formModel) as ICommand;
         if (command is null) return;
 
+        // Bind the command in an old-fashioned way
         menuItem.Click += (sender, args) => command.Execute(formModel);
         menuItem.Enabled = command.CanExecute(formModel);
 
         command.CanExecuteChanged += (sender, args) => menuItem.Enabled = command.CanExecute(formModel);
 
-
-        // Bind the command in an old-fashioned way
-        if (formModel.GetType().GetProperty(menuItem.Name!) is not null)
-            menuItem.Click += (sender, args) =>
-            {
-                var property = formModel.GetType().GetProperty(menuItem.Name!);
-                if (property != null)
-                {
-                    var command = property.GetValue(formModel) as ICommand;
-                    command?.Execute(null);
-                }
-            };
-      
-
-        // Let's bind icons and shortcuts.
-        // If the command is not IExtendCommand, we bind the icon and shortcut keys from the model by convention.
-        if (formModel.GetType().GetProperty(menuItem.Name!)?.GetValue(formModel) is not IExtendedCommand extendedCommand)
-        {
-            if (formModel.GetType().GetProperty(menuItem.Name! + "Icon") is not null)
-            {
-                var propertyValue = formModel.GetType().GetProperty(menuItem.Name! + "Icon")?.GetValue(formModel) as Image;
-                menuItem.Image = propertyValue;
-            }
-
-            if (formModel.GetType().GetProperty(menuItem.Name! + "ShortcutKeys") is not null)
-            {
-                var propertyValue = formModel.GetType().GetProperty(menuItem.Name! + "ShortcutKeys")?.GetValue(formModel);
-                menuItem.ShortcutKeys = (Keys)propertyValue!;
-            }
-        }
-        else
+        // let's bind icons and shortcuts to the command
+        if (command is IExtendedCommand extendedCommand)
         {
             menuItem.Image = extendedCommand.Icon;
             menuItem.ShortcutKeys = extendedCommand.ShortcutKeys ?? Keys.None;
+        }
+
+        // Let's override icons and shortcuts with formModel properties if they are present.
+        if (formModel.GetType().GetProperty(menuItem.Name! + "Icon") is not null)
+        {
+            var propertyValue = formModel.GetType().GetProperty(menuItem.Name! + "Icon")?.GetValue(formModel) as Image;
+            menuItem.Image = propertyValue;
+        }
+
+        if (formModel.GetType().GetProperty(menuItem.Name! + "ShortcutKeys") is not null)
+        {
+            var propertyValue = formModel.GetType().GetProperty(menuItem.Name! + "ShortcutKeys")?.GetValue(formModel);
+            menuItem.ShortcutKeys = (Keys)propertyValue!;
         }
 #endif
     }

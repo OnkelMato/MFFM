@@ -1,9 +1,8 @@
-namespace Mffm.Contracts
+namespace Mffm.Contracts;
+
+/// <summary>
+/// Represents a model for a form.
+/// </summary>
+public interface IFormModel
 {
-    /// <summary>
-    /// Represents a model for a form.
-    /// </summary>
-    public interface IFormModel
-    {
-    }
 }
