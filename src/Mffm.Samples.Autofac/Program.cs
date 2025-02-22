@@ -14,7 +14,7 @@ namespace Mffm.Samples.Autofac
         ///     The main entry point for the application.
         /// </summary>
         [STAThread]
-        private static void Main()
+        private static int Main()
         {
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
@@ -35,7 +35,7 @@ namespace Mffm.Samples.Autofac
             var serviceProvider = serviceCollection.Build();
 
             // Run the application directly on service provider
-            serviceProvider.Run<MainFormModel>();
+            return serviceProvider.Run<MainFormModel>();
         }
 
         #region Microsoft DI service configurations

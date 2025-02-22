@@ -7,7 +7,8 @@ namespace Mffm.Core.ControlBindings
         // todo make this invariant!
         public bool Bind(Control control, IFormModel formModel)
         {
-            if (control is not TextBox textBox) { return false; }
+            if (formModel.GetType().GetProperty(control.Name) is null) return false;
+            if (control is not TextBox textBox) return false;
 
             textBox.DataBindings.Add(new Binding(nameof(textBox.Text), formModel, control.Name, true, DataSourceUpdateMode.OnPropertyChanged));
 

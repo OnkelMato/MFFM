@@ -8,10 +8,9 @@ namespace Mffm.Core.ControlBindings
         {
             if (formModel.GetType().GetProperty(control.Name) is null) return false;
         
-            //return false;
             // it just binds to the text property
-            var binding = new Binding(nameof(control.Text), formModel, control.Name, true, DataSourceUpdateMode.OnPropertyChanged);
-            control.DataBindings.Add(binding);
+            control.DataBindings.Add(
+                new Binding(nameof(control.Text), formModel, control.Name, true, DataSourceUpdateMode.OnPropertyChanged));
 
             return true;
         }

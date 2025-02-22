@@ -12,6 +12,7 @@ namespace Mffm.Samples.Ui.Main;
 
 public class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<LogMessage>
 {
+    private readonly IWindowManager _windowManager;
     private const string TitleDefault = "MFFM Sample Application";
 
     private string _lastLogMessage = string.Empty;
@@ -20,17 +21,21 @@ public class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<LogMess
     private string _peopleSelected = string.Empty;
     private string _title;
 
+    // todo make this a "by convention" thing
+    public object? Context { get; set; }
+
     public MainFormModel(
         IWindowManager windowManager,
         IEventAggregator eventAggregator)
     {
+        _windowManager = windowManager ?? throw new ArgumentNullException(nameof(windowManager));
         eventAggregator.Subscribe(this);
 
         // this happens when you don't have a command and can use window manager directly
         MenuFileClose = new CloseApplicationCommand(windowManager);
-        MenuEditPerson = new FunctionToCommandAdapter(_ => windowManager.Show<EditFormModel>());
+        MenuEditPerson = new FunctionToCommandAdapter(_ => ShowPersonDialog());
         MenuEditProtocol = new FunctionToCommandAdapter(_ => windowManager.Show<ProtocolFormModel>());
-     
+
         // use the regular command for the menu
         SendLogMessageMenu = new SendLogMessageCommand(eventAggregator);
         SendLogMessageMenuIcon = Image.FromStream(new MemoryStream(Resources.icon_senden));
@@ -38,6 +43,21 @@ public class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<LogMess
         SendLogMessage = new SendLogMessageCommand(eventAggregator);
 
         _title = TitleDefault;
+    }
+
+    private void ShowPersonDialog()
+    {
+        var ctx = new EditFormModelContext() { Firstname = PeopleSelected };
+
+        var result = _windowManager.ShowModal<EditFormModel>(ctx);
+        if (result == DialogResult.OK)
+            PeopleSelected = ctx.Firstname;
+    }
+
+    private object? GetPersonContext()
+    {
+        // use a simple string as context
+        return PeopleSelected;
     }
 
     public Image SendLogMessageMenuIcon { get; set; }

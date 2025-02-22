@@ -1,4 +1,5 @@
-﻿using System.Windows.Input;
+﻿using System.Windows.Forms;
+using System.Windows.Input;
 using Mffm.Commands;
 using Mffm.Contracts;
 using Mffm.Samples.Core.Logging;
@@ -6,16 +7,24 @@ using Mffm.Samples.Extensions.GeoComponent;
 
 namespace Mffm.Samples.Ui.EditUser
 {
+    public class EditFormModelContext
+    {
+        public string? Firstname { get; set; }
+    }
+
     public class EditFormModel : IFormModel
     {
+        private EditFormModelContext _context = new() { };
+        public DialogResult DialogResult { get; set; }
+
         public EditFormModel(IBmLogger logger, CloseFormCommand closeFormCommand, SavePersonCommand savePersonCommand)
         {
-            Close = closeFormCommand ?? throw new ArgumentNullException(nameof(closeFormCommand));
+            Close = new SetResultDecorator(closeFormCommand, DialogResult.Abort) ?? throw new ArgumentNullException(nameof(closeFormCommand));
             Save = savePersonCommand ?? throw new ArgumentNullException(nameof(savePersonCommand));
 
-            SaveAndClose = new CompositeCommand(savePersonCommand, closeFormCommand);
+            SaveAndClose = new CompositeCommand(savePersonCommand, new SetResultDecorator(closeFormCommand, DialogResult.OK));
+            Context = new EditFormModelContext() { Firstname = "Onkel" };
 
-            Firstname = "Onkel";
             Lastname = "Mato";
             Address = "Matostrasse 1";
             City = "Mato City";
@@ -23,11 +32,22 @@ namespace Mffm.Samples.Ui.EditUser
         }
 
         public Guid Id { get; set; }
-        public string Firstname { get; set; }
+
+        public string? Firstname
+        {
+            get => _context.Firstname;
+            set => _context.Firstname = value;
+        }
+
         public string Lastname { get; set; }
         public string Address { get; set; }
         public string City { get; set; }
         public int ZipCode { get; set; }
+
+        public object? Context
+        {
+            set => _context = (value as EditFormModelContext) ?? new EditFormModelContext();
+        }
 
         public Coordinate Coordinate { get; set; } = new Coordinate() { Latitude = 7.3, Longitude = 53.2 };
 

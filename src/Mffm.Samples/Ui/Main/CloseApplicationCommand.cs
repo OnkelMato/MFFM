@@ -29,9 +29,10 @@ namespace Mffm.Samples.Ui.Main
 
         public void Execute(object? parameter)
         {
-            if (parameter is not IFormModel model) return;
+            if (parameter is not MainFormModel model) return;
 
-            _windowManager.Close(model);
+            // we can pass the dialog result directly here
+            _windowManager.Close(model, DialogResult.OK);
         }
 
         public event EventHandler? CanExecuteChanged;

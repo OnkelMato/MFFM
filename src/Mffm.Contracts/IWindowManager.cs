@@ -10,19 +10,26 @@ namespace Mffm.Contracts
         /// Shows a form of the specified type.
         /// </summary>
         /// <typeparam name="TFormModel">The type of the form model.</typeparam>
-        void Show<TFormModel>() where TFormModel : class, IFormModel;
+        void Show<TFormModel>(object? context = null) where TFormModel : class, IFormModel;
+
+        /// <summary>
+        /// Shows a form of the specified type.
+        /// </summary>
+        /// <typeparam name="TFormModel">The type of the form model.</typeparam>
+        DialogResult ShowModal<TFormModel>(object? context = null) where TFormModel : class, IFormModel;
 
         /// <summary>
         /// Closes the specified form model.
         /// </summary>
         /// <param name="model">The form model to close.</param>
-        void Close(IFormModel model);
+        /// <param name="dialogResult">Overrides the form model DialogResult property for the result.</param>
+        bool Close(IFormModel model, DialogResult? dialogResult = null);
 
         /// <summary>
         /// Runs a form of the specified type.
         /// </summary>
         /// <typeparam name="TFormModel">The type of the form model.</typeparam>
-        void Run<TFormModel>() where TFormModel : class, IFormModel;
+        DialogResult Run<TFormModel>(object? context = null) where TFormModel : class, IFormModel;
 
         /// <summary>
         /// Determines whether the specified form model is open.
