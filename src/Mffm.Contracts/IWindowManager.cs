@@ -37,4 +37,11 @@ public interface IWindowManager
     /// <param name="model">The form model to check.</param>
     /// <returns><c>true</c> if the form model is open; otherwise, <c>false</c>.</returns>
     bool IsFormOpen(IFormModel model);
+
+    /// <summary>
+    /// Attaches the specified form adapter to the form model.
+    /// </summary>
+    /// <param name="formAdapter"></param>
+    /// <param name="formModel"></param>
+    void AttachToForm(IFormAdapter formAdapter, IFormModel formModel);
 }
