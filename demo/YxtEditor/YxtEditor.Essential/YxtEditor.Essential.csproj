@@ -10,8 +10,8 @@
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.4.1" />
-    <PackageReference Include="Mffm" Version="0.2.0" />
-    <PackageReference Include="Mffm.DependencyInjection.Microsoft.Extensions" Version="0.2.0" />
+    <PackageReference Include="Mffm" Version="0.4.0" />
+    <PackageReference Include="Mffm.DependencyInjection.Microsoft.Extensions" Version="0.4.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.2" />
     <PackageReference Include="YamlDotNet" Version="16.3.0" />
   </ItemGroup>
