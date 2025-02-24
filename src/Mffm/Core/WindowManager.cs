@@ -1,4 +1,5 @@
 using Mffm.Contracts;
+using System.Reflection;
 
 namespace Mffm.Core;
 
@@ -92,5 +93,13 @@ internal class WindowManager(IServiceProvider serviceProvider, IBindingManager b
     public bool IsFormOpen(IFormModel model)
     {
         return _openWindows.ContainsKey(model);
+    }
+
+    public void AttachToForm(IFormAdapter formAdapter, IFormModel formModel)
+    {
+        var hasWindow = _openWindows[formModel].TryGetTarget(out var form);
+        if (!hasWindow) return;
+
+        formAdapter.InitializeWith(form!);
     }
 }
