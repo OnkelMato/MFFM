@@ -40,6 +40,9 @@ namespace LinkManager48
 
         private static void ConfigureAppServices(this ContainerBuilder services)
         {
+            // bunch of commands
+            services.RegisterType<CreateCategoryCommand>().AsSelf();
+
             // additional services
             services.RegisterType<MainFormMenuLinkManager>().AsSelf();
             services.RegisterType<LinkDragAndDropManager>().AsSelf();

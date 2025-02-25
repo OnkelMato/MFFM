@@ -3,15 +3,21 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Windows.Forms;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Windows.Input;
 using LinkManager48.MffmExtensions;
 using LinkManager48.Models;
+using Mffm.Commands;
 using Mffm.Contracts;
+using Mffm.Core;
 
 namespace LinkManager48.FormModels
 {
-    internal class MainFormModel : IFormModel, INotifyPropertyChanged
+    internal class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<CategoryAddedMessage>
     {
+        public CreateCategoryCommand CreateCategory { get; }
         private BindableTreeViewModel _linkTreeViewSelected;
         private string _title = Constants.AppName;
         private BindingList<BindableTreeViewModel> _linkTreeView;
@@ -25,8 +31,11 @@ namespace LinkManager48.FormModels
         public MainFormModel(
             IEventAggregator eventAggregator, IWindowManager windowManager,
             MainFormMenuLinkManager mainFormMenuStripManager, LinkDragAndDropManager linkDragAndDrop,
-            ILinkRepository linkRepository)
+            ILinkRepository linkRepository, CreateCategoryCommand createCategoryCommand)
         {
+            CreateCategory = createCategoryCommand ?? throw new ArgumentNullException(nameof(createCategoryCommand));
+            eventAggregator.Subscribe(this);
+
             // we use a menu strip manager to handle the menu items. 
             windowManager.AttachToForm(mainFormMenuStripManager, this);
             windowManager.AttachToForm(linkDragAndDrop, this);
@@ -100,39 +109,72 @@ namespace LinkManager48.FormModels
         }
 
         #endregion
+
+        public Task HandleAsync(CategoryAddedMessage message, CancellationToken cancellationToken)
+        {
+            LinkTreeView.Add(new BindableTreeViewModel() { Text = message.CategoryName });
+            OnPropertyChanged(nameof(LinkTreeView));
+            return Task.CompletedTask;
+        }
     }
 
+    internal class CreateCategoryCommand : ICommand
+    {
+        private readonly IWindowManager _windowManager;
 
-    internal class LinkDragAndDropManager : IFormAdapter
+        public CreateCategoryCommand(IWindowManager windowManager)
+        {
+            _windowManager = windowManager ?? throw new ArgumentNullException(nameof(windowManager));
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return true;
+        }
+
+        public void Execute(object parameter)
+        {
+            _windowManager.ShowModal<CreateCategoryFormModel>();
+        }
+
+        public event EventHandler CanExecuteChanged;
+    }
+
+    internal class CategoryAddedMessage
+    {
+        public string CategoryName { get; }
+
+        public CategoryAddedMessage(string categoryName)
+        {
+            CategoryName = categoryName;
+        }
+    }
+
+    internal class CreateCategoryFormModel : IFormModel
     {
         private readonly IEventAggregator _eventAggregator;
-        private readonly ILinkRepository _repository;
 
-        public LinkDragAndDropManager(IEventAggregator eventAggregator, ILinkRepository repository)
+        public CreateCategoryFormModel(
+            ICommandResolver commandResolver,
+            IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator ?? throw new ArgumentNullException(nameof(eventAggregator));
-            _repository = repository ?? throw new ArgumentNullException(nameof(repository));
+
+            Ok = new CompositeCommand(
+                new FunctionToCommandAdapter(ctx => PublishCategor()),
+                commandResolver.ResolveCommand<CloseFormCommand>());
+            Cancel = commandResolver.ResolveCommand<CloseFormCommand>();
         }
 
-        public void InitializeWith(Form form)
+        private void PublishCategor()
         {
-            form.AllowDrop = true;
-            form.DragEnter += (sender, args) =>
-            {
-                if (args.Data.GetDataPresent(DataFormats.Text))
-                    args.Effect = DragDropEffects.Copy;
-            };
-            form.DragDrop += (sender, args) =>
-            {
-                if (args.Data.GetDataPresent(DataFormats.Text))
-                {
-                    var link = args.Data.GetData(DataFormats.Text).ToString();
-
-                    var linkModel = new MyLink(link, link);
-                    _repository.SaveOrUpdate(linkModel);
-                    //MessageBox.Show(link);
-                }
-            };
+            _eventAggregator.Publish(new CategoryAddedMessage(CategoryName));
         }
+
+        public string CategoryName { get; set; }
+
+        public ICommand Ok { get; set; }
+
+        public ICommand Cancel { get; set; }
     }
 }
