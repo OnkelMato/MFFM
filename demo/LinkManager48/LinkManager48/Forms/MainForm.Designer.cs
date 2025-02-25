@@ -34,7 +34,7 @@ namespace LinkManager48.Forms
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.QuitButton = new System.Windows.Forms.ToolStripMenuItem();
             this.linksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.LinkTreeView = new BindableTreeView();
+            this.LinkTreeView = new LinkManager48.MffmExtensions.BindableTreeView();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -80,7 +80,8 @@ namespace LinkManager48.Forms
             this.LinkTreeView.Location = new System.Drawing.Point(12, 31);
             this.LinkTreeView.Name = "LinkTreeView";
             this.LinkTreeView.RootModels = null;
-            this.LinkTreeView.Size = new System.Drawing.Size(396, 905);
+            this.LinkTreeView.SelectedModel = null;
+            this.LinkTreeView.Size = new System.Drawing.Size(396, 724);
             this.LinkTreeView.TabIndex = 2;
             // 
             // MainForm

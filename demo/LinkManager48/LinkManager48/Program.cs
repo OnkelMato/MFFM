@@ -42,8 +42,9 @@ namespace LinkManager48
         {
             // additional services
             services.RegisterType<MainFormMenuLinkManager>().AsSelf();
-            services.RegisterType<LinkFactory>().As<ILinkFactory>();
+            services.RegisterType<LinkDragAndDropManager>().AsSelf();
             services.RegisterType<DefaultHttpClient>().As<IHttpClient>();
+            services.RegisterType<JsonLinkRepository>().As<ILinkRepository>().SingleInstance();
         }
 
         /// <summary>

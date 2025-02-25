@@ -25,6 +25,7 @@ namespace LinkManager48.FormModels
             if (message.ChangeType == ChangeType.Created)
             {
                 var item = new ToolStripMenuItem(message.Link.Title);
+                item.Tag = message.Link;
                 item.Click += (sender, args) => System.Diagnostics.Process.Start(message.Link.Link);
                 _menu?.DropDownItems.Add(item);
             }
