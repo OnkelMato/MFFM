@@ -1,4 +1,6 @@
-﻿namespace LinkManager48
+﻿using LinkManager48.MffmExtensions;
+
+namespace LinkManager48
 {
     partial class LinkTreeView
     {
@@ -28,12 +30,13 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.treeView = new System.Windows.Forms.TreeView();
+            this.treeView = new BindableTreeView();
             this.SuspendLayout();
             // 
             // treeView
             // 
             this.treeView.AllowDrop = true;
+            this.treeView.Dock = System.Windows.Forms.DockStyle.Fill;
             this.treeView.Location = new System.Drawing.Point(0, 0);
             this.treeView.Name = "treeView";
             this.treeView.Size = new System.Drawing.Size(375, 799);
@@ -43,7 +46,6 @@
             // 
             // LinkTreeView
             // 
-            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.treeView);
@@ -55,6 +57,6 @@
 
         #endregion
 
-        private System.Windows.Forms.TreeView treeView;
+        private BindableTreeView treeView;
     }
 }

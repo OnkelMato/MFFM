@@ -1,25 +1,64 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using LinkManager48.MffmExtensions;
 using Mffm.Contracts;
 
-namespace LinkManager48
+namespace LinkManager48.FormModels
 {
     internal class MainFormModel : IFormModel, INotifyPropertyChanged
     {
-        public string Title { get; set; }
+        private BindableTreeViewModel _linkTreeViewSelected;
+        private string _title = Constants.AppName;
+        private BindingList<BindableTreeViewModel> _linkTreeView;
 
-        public MainFormModel(IEventAggregator eventAggregator, IWindowManager windowManager, MenuStripFavouriteManager menuStripManager)
+        public string Title
         {
-            // todo  windowManager.AttachToForm(menuStripManager, this);
+            get => _title;
+            set => SetField(ref _title, value);
         }
 
-        #region NotofyPropertyChanged
+        public MainFormModel(IEventAggregator eventAggregator, IWindowManager windowManager, MainFormMenuLinkManager mainFormMenuStripManager)
+        {
+            // we use a menu strip manager to handle the menu items. 
+            windowManager.AttachToForm(mainFormMenuStripManager, this);
+            
+            LinkTreeView = new BindingList<BindableTreeViewModel>()
+            {
+                new BindableTreeViewModel() { Text = "Root", Children = 
+                    new BindingList<BindableTreeViewModel>() { new BindableTreeViewModel() { Text = "Child" } } },
+                new BindableTreeViewModel() { Text = "Root2" }
+            };
+            LinkTreeViewSelected = LinkTreeView[1];
+        }
+
+        public BindableTreeViewModel LinkTreeViewSelected
+        {
+            get => _linkTreeViewSelected;
+            set
+            {
+                SetField(ref _linkTreeViewSelected, value);
+                Title = value.Text + $" {Constants.AppName}";
+            }
+        }
+
+        public BindingList<BindableTreeViewModel> LinkTreeView
+        {
+            get => _linkTreeView;
+            set
+            {
+                SetField(ref _linkTreeView, value);
+                value.ListChanged += (sender, args) =>
+                {
+                    if (args.ListChangedType == ListChangedType.ItemChanged)
+                    {
+                        Title = LinkTreeViewSelected.Text + $" {Constants.AppName}";
+                    }
+                };
+            }
+        }
+
+        #region NotifyPropertyChanged
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -38,33 +77,4 @@ namespace LinkManager48
 
         #endregion
     }
-
-    internal class MenuStripFavouriteManager:
-    // todo : IFormAdapter,
-        IHandle<LinkChangedMessage>
-    {
-        private ToolStripItem _menu;
-
-        public MenuStripFavouriteManager(IEventAggregator eventAggregator)
-        {
-            eventAggregator.Subscribe(this);
-        }
-
-        public void InitializeWith(Form form)
-        {
-            _menu = form.MainMenuStrip.Items.Find("linksMenu", true).First();
-        }
-
-        public Task HandleAsync(LinkChangedMessage message, CancellationToken cancellationToken)
-        {
-            if (message.ChangeType == ChangeType.Created)
-            {
-                var item = new ToolStripMenuItem("New Link");
-                _menu?.Container?.Add(item);
-            }
-
-            return Task.CompletedTask;
-        }
-    }
-
 }

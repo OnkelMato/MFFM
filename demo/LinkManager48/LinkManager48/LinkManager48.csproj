@@ -40,19 +40,19 @@
       <HintPath>..\packages\Autofac.Extensions.DependencyInjection.10.0.0\lib\netstandard2.0\Autofac.Extensions.DependencyInjection.dll</HintPath>
     </Reference>
     <Reference Include="Mffm, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mffm.0.4.1\lib\net481\Mffm.dll</HintPath>
+      <HintPath>..\packages\Mffm.0.4.2\lib\net481\Mffm.dll</HintPath>
     </Reference>
     <Reference Include="Mffm.Contracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mffm.Contracts.0.4.1\lib\net481\Mffm.Contracts.dll</HintPath>
+      <HintPath>..\packages\Mffm.Contracts.0.4.2\lib\net481\Mffm.Contracts.dll</HintPath>
     </Reference>
     <Reference Include="Mffm.DependencyInjection.Autofac, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mffm.DependencyInjection.Autofac.0.4.1\lib\net481\Mffm.DependencyInjection.Autofac.dll</HintPath>
+      <HintPath>..\packages\Mffm.DependencyInjection.Autofac.0.4.2\lib\net481\Mffm.DependencyInjection.Autofac.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=9.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.9.0.2\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=8.0.0.1, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.8.0.1\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=9.0.0.2, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.9.0.2\lib\net462\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.4.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -86,6 +86,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MffmExtensions\BindableTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ChangeType.cs" />
+    <Compile Include="Constants.cs" />
+    <Compile Include="FormModels\MainFormMenuLinkManager.cs" />
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -93,13 +99,20 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FormModels\MainFormModel.cs" />
+    <Compile Include="LinkChangedMessage.cs" />
     <Compile Include="LinkTreeView.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="LinkTreeView.Designer.cs">
       <DependentUpon>LinkTreeView.cs</DependentUpon>
     </Compile>
-    <Compile Include="MffmExtensions\FormAdapter.cs" />
+    <Compile Include="MffmExtensions\BindableTreeViewBinding.cs" />
+    <Compile Include="MffmExtensions\BindableTreeViewModel.cs" />
+    <Compile Include="Models\DefaultHttpClient.cs" />
+    <Compile Include="Models\IHttpClient.cs" />
+    <Compile Include="Models\ILinkFactory.cs" />
+    <Compile Include="Models\LinkFactory.cs" />
+    <Compile Include="Models\MyLink.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\MainForm.resx">
@@ -132,8 +145,5 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <Content Include="ILLink\ILLink.Descriptors.LibraryBuild.xml" />
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

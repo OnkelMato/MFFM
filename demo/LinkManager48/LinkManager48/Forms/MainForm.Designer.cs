@@ -1,4 +1,6 @@
-﻿namespace LinkManager48
+﻿using LinkManager48.MffmExtensions;
+
+namespace LinkManager48.Forms
 {
     partial class MainForm
     {
@@ -32,7 +34,7 @@
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.QuitButton = new System.Windows.Forms.ToolStripMenuItem();
             this.linksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.linkTreeView = new LinkManager48.LinkTreeView();
+            this.LinkTreeView = new BindableTreeView();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -44,7 +46,7 @@
             this.linksToolStripMenuItem});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(401, 30);
+            this.menuStrip.Size = new System.Drawing.Size(420, 28);
             this.menuStrip.TabIndex = 1;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -69,24 +71,24 @@
             this.linksToolStripMenuItem.Tag = "links";
             this.linksToolStripMenuItem.Text = "Links";
             // 
-            // linkTreeView
+            // LinkTreeView
             // 
-            this.linkTreeView.AllowDrop = true;
-            this.linkTreeView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.LinkTreeView.AllowDrop = true;
+            this.LinkTreeView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.linkTreeView.Location = new System.Drawing.Point(12, 31);
-            this.linkTreeView.Name = "linkTreeView";
-            this.linkTreeView.Size = new System.Drawing.Size(377, 797);
-            this.linkTreeView.TabIndex = 2;
+            this.LinkTreeView.Location = new System.Drawing.Point(12, 31);
+            this.LinkTreeView.Name = "LinkTreeView";
+            this.LinkTreeView.RootModels = null;
+            this.LinkTreeView.Size = new System.Drawing.Size(396, 905);
+            this.LinkTreeView.TabIndex = 2;
             // 
             // MainForm
             // 
-            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(401, 840);
-            this.Controls.Add(this.linkTreeView);
+            this.ClientSize = new System.Drawing.Size(420, 948);
+            this.Controls.Add(this.LinkTreeView);
             this.Controls.Add(this.menuStrip);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.MainMenuStrip = this.menuStrip;
@@ -103,7 +105,7 @@
         private System.Windows.Forms.MenuStrip menuStrip;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem QuitButton;
-        private LinkTreeView linkTreeView;
+        private BindableTreeView LinkTreeView;
         private System.Windows.Forms.ToolStripMenuItem linksToolStripMenuItem;
     }
 }

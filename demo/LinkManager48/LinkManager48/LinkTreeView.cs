@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using LinkManager48.MffmExtensions;
+using LinkManager48.Models;
 using Mffm.Contracts;
 using Mffm.Core;
 
@@ -15,36 +14,46 @@ namespace LinkManager48
 {
     internal partial class LinkTreeView : UserControl, IHandle<LinkChangedMessage>
     {
-        private IEventAggregator _eventAggregator;
+        private readonly IEventAggregator _eventAggregator;
+        private readonly ILinkFactory _linkFactory;
 
         public LinkTreeView()
         {
             InitializeComponent();
 
-            
+            // get services from IoC container. As we cannot use DI here, we need to that this way
             _eventAggregator = Program.GetService<IEventAggregator>();
-            if (_eventAggregator != null)
-                _eventAggregator.Subscribe(this);
-        }
+            _eventAggregator?.Subscribe(this);
 
-        public void InitializeDi(IEventAggregator eventAggregator)
-        {
+            _linkFactory = Program.GetService<ILinkFactory>() ?? new LinkFactory(new DefaultHttpClient());
+
+            treeView.RootModels = new BindingList<BindableTreeViewModel>((new[] { new BindableTreeViewModel() { Text = "Test" } }).ToList());
         }
 
         public Task HandleAsync(LinkChangedMessage message, CancellationToken cancellationToken)
         {
+
+
             return Task.CompletedTask;
         }
 
         private void treeView_DragDrop(object sender, DragEventArgs e)
         {
-            // convert to bus message to create item
-            if (Clipboard.ContainsText(TextDataFormat.Text))
+            var data = (string)e.Data.GetData(typeof(string));
+            if (!string.IsNullOrEmpty(data))
             {
-                string clipboardText = Clipboard.GetText(TextDataFormat.Text);
-                // Do whatever you need to do with clipboardText
+                var title = new Uri(data).Host;
+                try
+                {
+                    title = _linkFactory.Create(data).Title;
+                }
+                catch (Exception exception)
+                {
+                    Console.WriteLine(exception);
+                }
+
                 var msg = new LinkChangedMessage(
-                    new MyLink(clipboardText),
+                    new MyLink(data, title),
                     ChangeType.Created);
                 _eventAggregator.Publish(msg);
             }
@@ -54,34 +63,5 @@ namespace LinkManager48
         {
             e.Effect = DragDropEffects.Link;
         }
-    }
-
-    internal class MyLink
-    {
-        public string Link { get; }
-
-        public MyLink(string link)
-        {
-            Link = link;
-        }
-    }
-
-    internal class LinkChangedMessage
-    {
-        public LinkChangedMessage(MyLink link, ChangeType changeType)
-        {
-            Link = link;
-            ChangeType = changeType;
-        }
-
-        public MyLink Link { get; }
-        public ChangeType ChangeType { get; }
-    }
-
-    internal enum ChangeType
-    {
-        Created = 1,
-        Changed = 2,
-        Deleted = 3
     }
 }
