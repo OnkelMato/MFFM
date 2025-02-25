@@ -1,4 +1,5 @@
 using Mffm.Contracts;
+using System;
 using System.Reflection;
 
 namespace Mffm.Core;
@@ -21,6 +22,7 @@ internal class WindowManager(IServiceProvider serviceProvider, IBindingManager b
 
     // keep track of all open windows so we can close them
     private readonly Dictionary<IFormModel, WeakReference<Form>> _openWindows = new();
+    private readonly List<Tuple<IFormModel, Action>> _deferredExecutionActions = new();
 
     private Form GetFormFor<TFormModel>(object? context = null)
         where TFormModel : class, IFormModel
@@ -37,6 +39,13 @@ internal class WindowManager(IServiceProvider serviceProvider, IBindingManager b
         // track forms and formModels
         _openWindows.Add(formModel, new WeakReference<Form>(form));
         form.FormClosed += (_, _) => _openWindows.Remove(formModel);
+        // execute deferred actions
+        foreach (var action in _deferredExecutionActions.ToArray())
+            if (action.Item1 == formModel)
+            {
+                action.Item2();
+                _deferredExecutionActions.Remove(action);
+            }
 
         // binding manager is responsible for the data binding and connection between the FormModel and the Form
         _bindingManager.CreateBindings(formModel, form);
@@ -69,7 +78,7 @@ internal class WindowManager(IServiceProvider serviceProvider, IBindingManager b
         var dialogResultProperty = (DialogResult?)(model.GetType().GetProperty(MffmConstants.DialogResultPropertyName)?.GetValue(model));
         if (dialogResultProperty != null) form!.DialogResult = dialogResultProperty.Value; // set the DialogResult property from the model
         if (dialogResult != null) form!.DialogResult = dialogResult.Value; // override the setting from property
-        
+
         form!.Close();
 
         _openWindows.Remove(model);
@@ -97,7 +106,15 @@ internal class WindowManager(IServiceProvider serviceProvider, IBindingManager b
 
     public void AttachToForm(IFormAdapter formAdapter, IFormModel formModel)
     {
-        var hasWindow = _openWindows[formModel].TryGetTarget(out var form);
+        // it is a bit complicated here, as this is usually called during a constructor call. 
+        // so in that case the windows is not in dictionary, we need to wait until it is added
+        if (!_openWindows.TryGetValue(formModel, out var window))
+        {
+            _deferredExecutionActions.Add(new Tuple<IFormModel, Action>(formModel, () => AttachToForm(formAdapter, formModel)));
+            return;
+        }
+
+        var hasWindow = window.TryGetTarget(out var form);
         if (!hasWindow) return;
 
         formAdapter.InitializeWith(form!);
