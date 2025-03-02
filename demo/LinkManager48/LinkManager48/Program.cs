@@ -1,10 +1,8 @@
 ﻿using Autofac;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using LinkManager48.FormModels;
+using LinkManager48.FormModels.Commands;
 using LinkManager48.Models;
 using Mffm.DependencyInjection.Autofac;
 
@@ -24,11 +22,11 @@ namespace LinkManager48
             Application.SetCompatibleTextRenderingDefault(false);
 
             var serviceCollection = new ContainerBuilder();
-            serviceCollection.ConfigureAppServices();
 
             // here is all the registration logic for the MFFM services and framework
             // this includes the user interface which is formModels and forms
             serviceCollection.ConfigureMffm(typeof(MainFormModel).Assembly);
+            serviceCollection.ConfigureAppServices();
 
             // create the service provider aka container
             _serviceProvider = serviceCollection.Build();
@@ -37,9 +35,10 @@ namespace LinkManager48
             return _serviceProvider.Run<MainFormModel>();
         }
 
-
         private static void ConfigureAppServices(this ContainerBuilder services)
         {
+            services.RegisterType<LinkDetailControlModel>().AsSelf();
+
             // bunch of commands
             services.RegisterType<CreateCategoryCommand>().AsSelf();
 
@@ -51,7 +50,8 @@ namespace LinkManager48
         }
 
         /// <summary>
-        /// Get a service from the service provider. This is a helper method to avoid direct access to the container.
+        /// Get a service from the service provider.
+        /// This is a helper method to avoid direct access to the container.
         /// </summary>
         /// <typeparam name="TService"></typeparam>
         /// <returns></returns>

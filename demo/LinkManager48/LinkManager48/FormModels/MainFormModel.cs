@@ -3,24 +3,23 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
+using LinkManager48.FormModels.Commands;
 using LinkManager48.MffmExtensions;
 using LinkManager48.Models;
-using Mffm.Commands;
 using Mffm.Contracts;
-using Mffm.Core;
 
 namespace LinkManager48.FormModels
 {
-    internal class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<CategoryAddedMessage>
+    internal class MainFormModel : Mffm.Contracts.IFormModel, INotifyPropertyChanged, IHandle<CategoryAddedMessage>
     {
         public CreateCategoryCommand CreateCategory { get; }
-        private BindableTreeViewModel _linkTreeViewSelected;
+        private TreeViewNodeModel _linkTreeViewNodeSelected;
         private string _title = Constants.AppName;
-        private BindingList<BindableTreeViewModel> _linkTreeView;
+        private BindingList<TreeViewNodeModel> _linkTreeView;
+        private TreeViewNodeModel _coreTreeViewSelected;
+        private LinkDetailControlModel _selectedLink;
 
         public string Title
         {
@@ -45,50 +44,41 @@ namespace LinkManager48.FormModels
             var categories = allLinks.Select(x => x.Category ?? "_").Distinct();
 
             // create nodes for each category.
-            var nodes = categories.ToDictionary(category => category, category => new BindableTreeViewModel() { Text = category });
+            var nodes = categories.ToDictionary(category => category, category => new TreeViewNodeModel() { Text = category });
 
             foreach (var link in allLinks)
-                nodes[link.Category ?? "_"].Children.Add(new BindableTreeViewModel() { Text = link.Title });
-
-            LinkTreeView = new BindingList<BindableTreeViewModel>(nodes.Values.ToList());
-            //LinkTreeView = new BindingList<BindableTreeViewModel>(
-            //    linkRepository
-            //        .GetLinks()
-            //        .Select(x => new BindableTreeViewModel() { Text = x.Title }).ToList());
-            // todo make this more awesome. 
-            //LinkTreeView = new BindingList<BindableTreeViewModel>()
-            //{
-            //    new BindableTreeViewModel() { Text = "Root", Children = 
-            //        new BindingList<BindableTreeViewModel>() { new BindableTreeViewModel() { Text = "Child" } } },
-            //    new BindableTreeViewModel() { Text = "Root2" }
-            //};
-            //LinkTreeViewSelected = LinkTreeView[1];
-        }
-
-        public BindableTreeViewModel LinkTreeViewSelected
-        {
-            get => _linkTreeViewSelected;
-            set
-            {
-                SetField(ref _linkTreeViewSelected, value);
-                Title = value.Text + $" {Constants.AppName}";
-            }
-        }
-
-        public BindingList<BindableTreeViewModel> LinkTreeView
-        {
-            get => _linkTreeView;
-            set
-            {
-                SetField(ref _linkTreeView, value);
-                value.ListChanged += (sender, args) =>
+                nodes[link.Category ?? "_"].Children.Add(new TreeViewNodeModel()
                 {
-                    if (args.ListChangedType == ListChangedType.ItemChanged)
-                    {
-                        Title = LinkTreeViewSelected.Text + $" {Constants.AppName}";
-                    }
-                };
+                    Text = link.Title,
+                    Data = link
+                });
+
+            CoreTreeView = new BindingList<TreeViewNodeModel>(nodes.Values.ToList());
+            SelectedLink = new LinkDetailControlModel();
+        }
+
+
+        //########################################################
+
+        public BindingList<TreeViewNodeModel> CoreTreeView { get; set; }
+
+        public TreeViewNodeModel CoreTreeViewSelected
+        {
+            get => _coreTreeViewSelected;
+            set
+            {
+                SetField(ref _coreTreeViewSelected, value);
+                Title = (value?.Text ?? "<nil>") + $" [{Constants.AppName}]";
+                SelectedLink.Context = value?.Data as MyLink;
             }
+        }
+
+        //########################################################
+
+        public LinkDetailControlModel SelectedLink
+        {
+            get => _selectedLink;
+            set => SetField(ref _selectedLink, value);
         }
 
         #region NotifyPropertyChanged
@@ -112,69 +102,9 @@ namespace LinkManager48.FormModels
 
         public Task HandleAsync(CategoryAddedMessage message, CancellationToken cancellationToken)
         {
-            LinkTreeView.Add(new BindableTreeViewModel() { Text = message.CategoryName });
-            OnPropertyChanged(nameof(LinkTreeView));
+            CoreTreeView.Add(new TreeViewNodeModel() { Text = message.CategoryName });
+            //OnPropertyChanged(nameof(LinkTreeView));
             return Task.CompletedTask;
         }
-    }
-
-    internal class CreateCategoryCommand : ICommand
-    {
-        private readonly IWindowManager _windowManager;
-
-        public CreateCategoryCommand(IWindowManager windowManager)
-        {
-            _windowManager = windowManager ?? throw new ArgumentNullException(nameof(windowManager));
-        }
-
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public void Execute(object parameter)
-        {
-            _windowManager.ShowModal<CreateCategoryFormModel>();
-        }
-
-        public event EventHandler CanExecuteChanged;
-    }
-
-    internal class CategoryAddedMessage
-    {
-        public string CategoryName { get; }
-
-        public CategoryAddedMessage(string categoryName)
-        {
-            CategoryName = categoryName;
-        }
-    }
-
-    internal class CreateCategoryFormModel : IFormModel
-    {
-        private readonly IEventAggregator _eventAggregator;
-
-        public CreateCategoryFormModel(
-            ICommandResolver commandResolver,
-            IEventAggregator eventAggregator)
-        {
-            _eventAggregator = eventAggregator ?? throw new ArgumentNullException(nameof(eventAggregator));
-
-            Ok = new CompositeCommand(
-                new FunctionToCommandAdapter(ctx => PublishCategor()),
-                commandResolver.ResolveCommand<CloseFormCommand>());
-            Cancel = commandResolver.ResolveCommand<CloseFormCommand>();
-        }
-
-        private void PublishCategor()
-        {
-            _eventAggregator.Publish(new CategoryAddedMessage(CategoryName));
-        }
-
-        public string CategoryName { get; set; }
-
-        public ICommand Ok { get; set; }
-
-        public ICommand Cancel { get; set; }
     }
 }

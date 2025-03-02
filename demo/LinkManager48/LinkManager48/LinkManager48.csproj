@@ -98,19 +98,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FormModels\LinkDragAndDropManager.cs" />
+    <Compile Include="CategoryAddedMessage.cs" />
+    <Compile Include="FormModels\Commands\CreateCategoryCommand.cs" />
+    <Compile Include="FormModels\CreateCategoryFormModel.cs" />
+    <Compile Include="FormModels\FormAdapters\LinkDragAndDropManager.cs" />
+    <Compile Include="FormModels\LinkDetailControlModel.cs" />
     <Compile Include="Forms\CreateCategoryForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\CreateCategoryForm.Designer.cs">
       <DependentUpon>CreateCategoryForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="MffmExtensions\BindableTreeView.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="ChangeType.cs" />
     <Compile Include="Constants.cs" />
-    <Compile Include="FormModels\MainFormMenuLinkManager.cs" />
+    <Compile Include="FormModels\FormAdapters\MainFormMenuLinkManager.cs" />
+    <Compile Include="Forms\LinkDetailControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Forms\LinkDetailControl.Designer.cs">
+      <DependentUpon>LinkDetailControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -119,8 +126,9 @@
     </Compile>
     <Compile Include="FormModels\MainFormModel.cs" />
     <Compile Include="LinkChangedMessage.cs" />
-    <Compile Include="MffmExtensions\BindableTreeViewBinding.cs" />
-    <Compile Include="MffmExtensions\BindableTreeViewModel.cs" />
+    <Compile Include="MffmExtensions\ControlModelBinding.cs" />
+    <Compile Include="MffmExtensions\TreeViewNodeModel.cs" />
+    <Compile Include="MffmExtensions\TreeViewBinding.cs" />
     <Compile Include="Models\DefaultHttpClient.cs" />
     <Compile Include="Models\IHttpClient.cs" />
     <Compile Include="Models\MyLink.cs" />
@@ -128,6 +136,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Forms\CreateCategoryForm.resx">
       <DependentUpon>CreateCategoryForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\LinkDetailControl.resx">
+      <DependentUpon>LinkDetailControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -155,8 +166,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="FormModels\Commands\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
