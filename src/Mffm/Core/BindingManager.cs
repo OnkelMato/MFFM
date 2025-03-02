@@ -68,6 +68,14 @@ internal class BindingManager : IBindingManager
 
     #endregion
 
+    public void CreateBindings(IFormModel formModel, Control control)
+    {
+        foreach (var formControl in GetControlsRecursively(control))
+            foreach (var binding in _bindings)
+                if (binding.Bind(formControl, formModel))
+                    break;
+    }
+
     public void CreateBindings(IFormModel formModel, Form form)
     {
         // let us iterate over all controls and let the binding handle the control to model binding
@@ -94,7 +102,7 @@ internal class BindingManager : IBindingManager
             _menuItemBinding.Bind(menuItem, formModel);
         }
 
-        // lets bind the form itself
+        // let's bind the form itself
         _formBinding.Bind(form, formModel);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Mffm.Contracts;
+using System.Windows.Forms;
 
 namespace Mffm.Core.Bindings;
 
@@ -10,7 +11,10 @@ internal class TextboxBinding : IControlBinding
         if (formModel.GetType().GetProperty(control.Name) is null) return false;
         if (control is not TextBox textBox) return false;
 
-        textBox.DataBindings.Add(new Binding(nameof(textBox.Text), formModel, control.Name, true, DataSourceUpdateMode.OnPropertyChanged));
+        // check if binding already exists
+        if (control.DataBindings.HasNoBindingFor(nameof(textBox.Text)))
+            textBox.DataBindings.Add(
+                new Binding(nameof(textBox.Text), formModel, control.Name, true, DataSourceUpdateMode.OnPropertyChanged));
 
         return true;
     }

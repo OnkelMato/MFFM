@@ -12,4 +12,6 @@ public interface IBindingManager
     /// <param name="formModel">FormModem to bind to form</param>
     /// <param name="form">Form to bind to formModel</param>
     void CreateBindings(IFormModel formModel, Form form);
+
+    void CreateBindings(IFormModel formModel, Control control);
 }
