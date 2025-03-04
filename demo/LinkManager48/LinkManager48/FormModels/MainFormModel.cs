@@ -12,12 +12,14 @@ using Mffm.Contracts;
 
 namespace LinkManager48.FormModels
 {
-    internal class MainFormModel : Mffm.Contracts.IFormModel, INotifyPropertyChanged, IHandle<CategoryAddedMessage>
+    internal class MainFormModel :
+        IFormModel,
+        INotifyPropertyChanged,
+        IHandle<CategoryAddedMessage>,
+        IHandle<LinkChangedMessage>
     {
         public CreateCategoryCommand CreateCategory { get; }
-        private TreeViewNodeModel _linkTreeViewNodeSelected;
         private string _title = Constants.AppName;
-        private BindingList<TreeViewNodeModel> _linkTreeView;
         private TreeViewNodeModel _coreTreeViewSelected;
         private LinkDetailControlModel _selectedLink;
 
@@ -28,9 +30,10 @@ namespace LinkManager48.FormModels
         }
 
         public MainFormModel(
-            IEventAggregator eventAggregator, IWindowManager windowManager,
+            IEventAggregator eventAggregator, IWindowManager windowManager, ILinkRepository linkRepository,
             MainFormMenuLinkManager mainFormMenuStripManager, LinkDragAndDropManager linkDragAndDrop,
-            ILinkRepository linkRepository, CreateCategoryCommand createCategoryCommand)
+            CreateCategoryCommand createCategoryCommand,
+            LinkDetailControlModel selectedLink)
         {
             CreateCategory = createCategoryCommand ?? throw new ArgumentNullException(nameof(createCategoryCommand));
             eventAggregator.Subscribe(this);
@@ -54,7 +57,7 @@ namespace LinkManager48.FormModels
                 });
 
             CoreTreeView = new BindingList<TreeViewNodeModel>(nodes.Values.ToList());
-            SelectedLink = new LinkDetailControlModel();
+            SelectedLink = selectedLink;
         }
 
 
@@ -104,6 +107,54 @@ namespace LinkManager48.FormModels
         {
             CoreTreeView.Add(new TreeViewNodeModel() { Text = message.CategoryName });
             //OnPropertyChanged(nameof(LinkTreeView));
+            return Task.CompletedTask;
+        }
+
+        public Task HandleAsync(LinkChangedMessage message, CancellationToken cancellationToken)
+        {
+            switch (message.ChangeType)
+            {
+                case LinkChangedMessage.TypeOfChange.Created:
+                    var categoryNode = CoreTreeView.FirstOrDefault(x => x.Text == message.Link.Category);
+                    if (categoryNode == null)
+                    {
+                        categoryNode = new TreeViewNodeModel() { Text = message.Link.Category };
+                        CoreTreeView.Add(categoryNode);
+                    }
+                    categoryNode.Children.Add(new TreeViewNodeModel() { Text = message.Link.Title, Data = message.Link });
+                    break;
+
+                case LinkChangedMessage.TypeOfChange.Changed:
+                    var node = CoreTreeView
+                        .SelectMany(x => x.Children)
+                        .First(x => ((MyLink)x.Data).Id == message.Link.Id);
+
+                    // check if we need to change the parent node
+                    var catNode = CoreTreeView.First(x => message.Link.Category == x.Text);
+                    if (!catNode.Children.Contains(node))
+                    {
+                        var oldCategoryNode = CoreTreeView.First(x => x.Children.Contains(node));
+                        oldCategoryNode.Children.Remove(node);
+                        catNode.Children.Add(node);
+                    }
+
+                    // let's update the node
+                    node.Data = message.Link;
+                    node.Text = message.Link.Title;
+                    break;
+
+                case LinkChangedMessage.TypeOfChange.Deleted:
+                    var removeNode = CoreTreeView
+                        .SelectMany(x => x.Children)
+                        .First(x => ((MyLink)x.Data).Id == message.Link.Id);
+                    var removeCategory = CoreTreeView.First(x => x.Children.Contains(removeNode));
+                    removeCategory.Children.Remove(removeNode);
+                    break;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
             return Task.CompletedTask;
         }
     }

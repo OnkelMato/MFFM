@@ -22,7 +22,7 @@ namespace LinkManager48.FormModels
 
         public Task HandleAsync(LinkChangedMessage message, CancellationToken cancellationToken)
         {
-            if (message.ChangeType == ChangeType.Created)
+            if (message.ChangeType == LinkChangedMessage.TypeOfChange.Created)
             {
                 var item = new ToolStripMenuItem(message.Link.Title);
                 item.Tag = message.Link;

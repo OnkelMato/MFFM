@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows.Forms;
 using Mffm.Contracts;
 
@@ -126,11 +124,12 @@ namespace LinkManager48.MffmExtensions
 
             private void AddItem(int newIndex)
             {
-                var dataItem = _getDataItemFunc(_bindingSource.Current);
+                var dataItem = _getDataItemFunc(_bindingSource[newIndex]);
                 if (_currentAddItem == null)
                 {
                     var treeNode = _addTreeNodeFunc(dataItem);
-                    if (treeNode == null) return;
+                    if (treeNode == null || _treeNodeCollection.Contains(treeNode)) return;
+
                     _treeNodeCollection.Insert(newIndex, treeNode);
                     _currentAddItem = treeNode;
                     return;
@@ -175,7 +174,7 @@ namespace LinkManager48.MffmExtensions
 
         private const string Selected = "Selected";
 
-        public bool Bind(Control control, Mffm.Contracts.IFormModel formModel)
+        public bool Bind(Control control, IFormModel formModel)
         {
             if (!(control is TreeView treeView)) return false;
 
@@ -215,6 +214,7 @@ namespace LinkManager48.MffmExtensions
                 (item, treeNode) =>
                 {
                     treeNode.Text = item.Text;
+                    treeNode.Tag = item;
                 });
 
             // this is the trick to bind the selected node.

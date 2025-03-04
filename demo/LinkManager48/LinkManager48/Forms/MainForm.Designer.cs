@@ -80,7 +80,7 @@ namespace LinkManager48.Forms
             // CreateCategory
             // 
             this.CreateCategory.Name = "CreateCategory";
-            this.CreateCategory.Size = new System.Drawing.Size(224, 26);
+            this.CreateCategory.Size = new System.Drawing.Size(199, 26);
             this.CreateCategory.Text = "&Create Category";
             // 
             // linksToolStripMenuItem
@@ -97,7 +97,7 @@ namespace LinkManager48.Forms
             | System.Windows.Forms.AnchorStyles.Right)));
             this.CoreTreeView.Location = new System.Drawing.Point(12, 31);
             this.CoreTreeView.Name = "CoreTreeView";
-            this.CoreTreeView.Size = new System.Drawing.Size(414, 341);
+            this.CoreTreeView.Size = new System.Drawing.Size(414, 743);
             this.CoreTreeView.TabIndex = 3;
             // 
             // SelectedLink
@@ -105,7 +105,7 @@ namespace LinkManager48.Forms
             this.SelectedLink.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.SelectedLink.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.SelectedLink.Location = new System.Drawing.Point(12, 378);
+            this.SelectedLink.Location = new System.Drawing.Point(12, 780);
             this.SelectedLink.Name = "SelectedLink";
             this.SelectedLink.Size = new System.Drawing.Size(414, 152);
             this.SelectedLink.TabIndex = 4;
@@ -114,7 +114,7 @@ namespace LinkManager48.Forms
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(438, 542);
+            this.ClientSize = new System.Drawing.Size(438, 944);
             this.Controls.Add(this.SelectedLink);
             this.Controls.Add(this.CoreTreeView);
             this.Controls.Add(this.menuStrip);

@@ -40,13 +40,13 @@
       <HintPath>..\packages\Autofac.Extensions.DependencyInjection.10.0.0\lib\netstandard2.0\Autofac.Extensions.DependencyInjection.dll</HintPath>
     </Reference>
     <Reference Include="Mffm, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mffm.0.4.3\lib\net481\Mffm.dll</HintPath>
+      <HintPath>..\packages\Mffm.0.5.0\lib\net481\Mffm.dll</HintPath>
     </Reference>
     <Reference Include="Mffm.Contracts, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mffm.Contracts.0.4.3\lib\net481\Mffm.Contracts.dll</HintPath>
+      <HintPath>..\packages\Mffm.Contracts.0.5.0\lib\net481\Mffm.Contracts.dll</HintPath>
     </Reference>
     <Reference Include="Mffm.DependencyInjection.Autofac, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Mffm.DependencyInjection.Autofac.0.4.3\lib\net481\Mffm.DependencyInjection.Autofac.dll</HintPath>
+      <HintPath>..\packages\Mffm.DependencyInjection.Autofac.0.5.0\lib\net481\Mffm.DependencyInjection.Autofac.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=9.0.0.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.9.0.2\lib\net462\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
@@ -98,7 +98,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CategoryAddedMessage.cs" />
+    <Compile Include="Messages\CategoryAddedMessage.cs" />
     <Compile Include="FormModels\Commands\CreateCategoryCommand.cs" />
     <Compile Include="FormModels\CreateCategoryFormModel.cs" />
     <Compile Include="FormModels\FormAdapters\LinkDragAndDropManager.cs" />
@@ -109,7 +109,6 @@
     <Compile Include="Forms\CreateCategoryForm.Designer.cs">
       <DependentUpon>CreateCategoryForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ChangeType.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="FormModels\FormAdapters\MainFormMenuLinkManager.cs" />
     <Compile Include="Forms\LinkDetailControl.cs">
@@ -125,8 +124,8 @@
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
     <Compile Include="FormModels\MainFormModel.cs" />
-    <Compile Include="LinkChangedMessage.cs" />
-    <Compile Include="MffmExtensions\ControlModelBinding.cs" />
+    <Compile Include="Messages\LinkChangedMessage.cs" />
+    <Compile Include="MffmExtensions\ComboBoxBinding.cs" />
     <Compile Include="MffmExtensions\TreeViewNodeModel.cs" />
     <Compile Include="MffmExtensions\TreeViewBinding.cs" />
     <Compile Include="Models\DefaultHttpClient.cs" />

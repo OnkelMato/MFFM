@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using LinkManager48.Forms;
 using LinkManager48.Models;
 using Mffm.Contracts;
+using Mffm.Core;
 
 namespace LinkManager48.FormModels
 {
@@ -32,20 +33,13 @@ namespace LinkManager48.FormModels
             {
                 var n = tv.GetNodeAt(tv.PointToClient(new System.Drawing.Point(args.X, args.Y)));
                 var category = n?.Parent?.Text ?? n?.Text ?? string.Empty;
-                //if (n.Tag is TreeViewNodeModel model)
-                //{
-                //    var link = args.Data.GetData(DataFormats.Text).ToString();
-                //    var linkModel = new MyLink(link, link) { Category = model.Text };
-                //    _repository.SaveOrUpdate(linkModel);
-                //}
-                if (args.Data.GetDataPresent(DataFormats.Text))
-                {
-                    var link = args.Data.GetData(DataFormats.Text).ToString();
 
-                    var linkModel = new MyLink(link, link, category);
-                    _repository.SaveOrUpdate(linkModel);
-                    //MessageBox.Show(link);
-                }
+                if (!args.Data.GetDataPresent(DataFormats.Text)) return;
+                var link = args.Data.GetData(DataFormats.Text).ToString();
+
+                var linkModel = new MyLink(link, link, category);
+                _repository.SaveOrUpdate(linkModel);
+                _eventAggregator.Publish(new LinkChangedMessage(linkModel, LinkChangedMessage.TypeOfChange.Created));
             };
         }
     }
