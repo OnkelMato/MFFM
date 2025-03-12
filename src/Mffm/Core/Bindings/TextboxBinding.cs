@@ -7,11 +7,11 @@ internal class TextboxBinding : IControlBinding
     // todo make this invariant!
     public bool Bind(Control control, IFormModel formModel)
     {
-        if (control is not TextBox textBox) { return false; }
+        if (formModel.TryFindProperty(control.Name)) return false;
+        if (formModel.GetType().GetProperty(control.Name) is null) return false;
+        if (control is not TextBox) return false;
 
-        if (formModel.GetType().GetProperty(textBox.Name) is not null)
-            textBox.DataBindings.Add(
-                new Binding(nameof(textBox.Text), formModel, textBox.Name, true, DataSourceUpdateMode.OnPropertyChanged));
+        control.DataBindings.TryAddBinding(nameof(TextBox.Text), formModel, control.Name);
 
         return true;
     }

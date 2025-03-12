@@ -35,12 +35,11 @@ public static class AutofacRegistrationExtension
     /// <param name="provider">Service provider to resolve the instance</param>
     /// <returns></returns>
     /// <exception cref="ServiceNotFoundException"></exception>
-    public static IContainer Run<TFormModel>(this IContainer provider)
+    public static int Run<TFormModel>(this IContainer provider)
         where TFormModel : class, IFormModel
     {
         var windowManager = provider.Resolve<IWindowManager>() ?? throw new ServiceNotFoundException("cannot find window manager for MFFM pattern");
-        windowManager.Run<TFormModel>();
-
-        return provider;
+        // let's exit with code 0
+        return (int)windowManager.Run<TFormModel>() - 1;
     }
 }

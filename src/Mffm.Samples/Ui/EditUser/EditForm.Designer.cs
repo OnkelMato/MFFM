@@ -46,6 +46,7 @@
             // Close
             // 
             Close.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            Close.DialogResult = DialogResult.Cancel;
             Close.Location = new Point(482, 291);
             Close.Margin = new Padding(3, 4, 3, 4);
             Close.Name = "Close";
@@ -165,6 +166,7 @@
             // SaveAndClose
             // 
             SaveAndClose.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
+            SaveAndClose.DialogResult = DialogResult.OK;
             SaveAndClose.Location = new Point(390, 291);
             SaveAndClose.Margin = new Padding(3, 4, 3, 4);
             SaveAndClose.Name = "SaveAndClose";

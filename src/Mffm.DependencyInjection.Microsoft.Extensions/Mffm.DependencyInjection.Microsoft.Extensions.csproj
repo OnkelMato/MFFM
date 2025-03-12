@@ -4,11 +4,12 @@
 	  <TargetFramework>net9.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+	  <Configurations>Debug;Release</Configurations>
   </PropertyGroup>
 
 	<PropertyGroup>
 		<Authors>Thomas Ley</Authors>
-		<Description>Nada NZazu is a package with a UI form generator.</Description>
+		<Description>Microsoft extensions dependency injection adapter for MFFM. MFFM is an MVVM adaption for Windows Forms.</Description>
 		<PackageProjectUrl>https://github.com/OnkelMato/MFFM</PackageProjectUrl>
 		<PackageTags>library</PackageTags>
 		<IncludeSymbols>False</IncludeSymbols>
