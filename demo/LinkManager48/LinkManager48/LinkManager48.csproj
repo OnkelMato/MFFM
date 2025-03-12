@@ -98,6 +98,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FormModels\FormAdapters\FormExtensions.cs" />
     <Compile Include="Messages\CategoryAddedMessage.cs" />
     <Compile Include="FormModels\Commands\CreateCategoryCommand.cs" />
     <Compile Include="FormModels\CreateCategoryFormModel.cs" />

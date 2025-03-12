@@ -36,7 +36,10 @@
             this.LinkUrl = new System.Windows.Forms.TextBox();
             this.LinkCategory = new System.Windows.Forms.ComboBox();
             this.SaveCommand = new System.Windows.Forms.Button();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.DeleteLinkCommand = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -67,7 +70,7 @@
             this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.LinkUrl, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.LinkCategory, 1, 2);
-            this.tableLayoutPanel1.Controls.Add(this.SaveCommand, 1, 3);
+            this.tableLayoutPanel1.Controls.Add(this.panel1, 1, 3);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -116,12 +119,31 @@
             // 
             // SaveCommand
             // 
-            this.SaveCommand.Location = new System.Drawing.Point(118, 93);
+            this.SaveCommand.Location = new System.Drawing.Point(0, 3);
             this.SaveCommand.Name = "SaveCommand";
             this.SaveCommand.Size = new System.Drawing.Size(75, 23);
-            this.SaveCommand.TabIndex = 6;
+            this.SaveCommand.TabIndex = 7;
             this.SaveCommand.Text = "&Save";
             this.SaveCommand.UseVisualStyleBackColor = true;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.DeleteLinkCommand);
+            this.panel1.Controls.Add(this.SaveCommand);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(118, 93);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(436, 25);
+            this.panel1.TabIndex = 8;
+            // 
+            // DeleteLinkCommand
+            // 
+            this.DeleteLinkCommand.Location = new System.Drawing.Point(81, 3);
+            this.DeleteLinkCommand.Name = "DeleteLinkCommand";
+            this.DeleteLinkCommand.Size = new System.Drawing.Size(75, 23);
+            this.DeleteLinkCommand.TabIndex = 8;
+            this.DeleteLinkCommand.Text = "&Delete";
+            this.DeleteLinkCommand.UseVisualStyleBackColor = true;
             // 
             // LinkDetailControl
             // 
@@ -133,6 +155,7 @@
             this.Size = new System.Drawing.Size(557, 121);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -146,6 +169,8 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox LinkCategory;
+        private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Button SaveCommand;
+        private System.Windows.Forms.Button DeleteLinkCommand;
     }
 }

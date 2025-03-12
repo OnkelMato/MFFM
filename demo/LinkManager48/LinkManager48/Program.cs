@@ -3,6 +3,7 @@ using System;
 using System.Windows.Forms;
 using LinkManager48.FormModels;
 using LinkManager48.FormModels.Commands;
+using LinkManager48.FormModels.FormAdapters;
 using LinkManager48.Models;
 using Mffm.DependencyInjection.Autofac;
 
@@ -37,28 +38,31 @@ namespace LinkManager48
 
         private static void ConfigureAppServices(this ContainerBuilder services)
         {
+            // register control models as this is not part of the MFFM framework, yet
             services.RegisterType<LinkDetailControlModel>().AsSelf();
 
             // bunch of commands
             services.RegisterType<CreateCategoryCommand>().AsSelf();
 
-            // additional services
+            // adapter to the rest of the system
             services.RegisterType<MainFormMenuLinkManager>().AsSelf();
             services.RegisterType<LinkDragAndDropManager>().AsSelf();
+
+            // additional services
             services.RegisterType<DefaultHttpClient>().As<IHttpClient>();
             services.RegisterType<JsonLinkRepository>().As<ILinkRepository>().SingleInstance();
         }
 
-        /// <summary>
-        /// Get a service from the service provider.
-        /// This is a helper method to avoid direct access to the container.
-        /// </summary>
-        /// <typeparam name="TService"></typeparam>
-        /// <returns></returns>
-        public static TService GetService<TService>()
-            where TService : class
-        {
-            return _serviceProvider?.Resolve<TService>();
-        }
+        ///// <summary>
+        ///// Get a service from the service provider.
+        ///// This is a helper method to avoid direct access to the container.
+        ///// </summary>
+        ///// <typeparam name="TService"></typeparam>
+        ///// <returns></returns>
+        //public static TService GetService<TService>()
+        //    where TService : class
+        //{
+        //    return _serviceProvider?.Resolve<TService>();
+        //}
     }
 }

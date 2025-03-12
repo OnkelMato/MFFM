@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using LinkManager48.FormModels.Commands;
+using LinkManager48.FormModels.FormAdapters;
 using LinkManager48.MffmExtensions;
 using LinkManager48.Models;
 using Mffm.Contracts;
@@ -44,17 +45,20 @@ namespace LinkManager48.FormModels
 
             // get all links and categories.
             var allLinks = linkRepository.GetLinks().ToArray();
-            var categories = allLinks.Select(x => x.Category ?? "_").Distinct();
+            var categories = allLinks.Select(x => string.IsNullOrEmpty(x.Category) ? "<empty>" : x.Category).OrderBy(x => x).Distinct().ToArray();
 
             // create nodes for each category.
             var nodes = categories.ToDictionary(category => category, category => new TreeViewNodeModel() { Text = category });
 
             foreach (var link in allLinks)
-                nodes[link.Category ?? "_"].Children.Add(new TreeViewNodeModel()
+            {
+                var catName = string.IsNullOrEmpty(link.Category) ? "<empty>" : link.Category;
+                nodes[catName].Children.Add(new TreeViewNodeModel()
                 {
                     Text = link.Title,
                     Data = link
                 });
+            }
 
             CoreTreeView = new BindingList<TreeViewNodeModel>(nodes.Values.ToList());
             SelectedLink = selectedLink;
@@ -118,7 +122,11 @@ namespace LinkManager48.FormModels
                     var categoryNode = CoreTreeView.FirstOrDefault(x => x.Text == message.Link.Category);
                     if (categoryNode == null)
                     {
-                        categoryNode = new TreeViewNodeModel() { Text = message.Link.Category };
+                        categoryNode = new TreeViewNodeModel(
+
+
+                            )
+                        { Text = message.Link.Category };
                         CoreTreeView.Add(categoryNode);
                     }
                     categoryNode.Children.Add(new TreeViewNodeModel() { Text = message.Link.Title, Data = message.Link });

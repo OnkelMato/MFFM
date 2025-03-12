@@ -22,6 +22,7 @@ namespace LinkManager48.MffmExtensions
             if (propertyList.GetValue(formModel) is IEnumerable<object> list)
                 if (list.Contains(null))
                     throw new ArgumentException("List cannot contain null values");
+
             comboBox.DataBindings.Add(nameof(comboBox.DataSource), formModel, propertyList.Name, true, DataSourceUpdateMode.OnPropertyChanged);
             comboBox.DataBindings.Add(nameof(comboBox.SelectedItem), formModel, propertyText.Name, true, DataSourceUpdateMode.OnPropertyChanged);
             return true;

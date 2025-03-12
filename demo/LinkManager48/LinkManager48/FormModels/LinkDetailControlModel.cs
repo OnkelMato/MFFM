@@ -6,6 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Input;
 using LinkManager48.Models;
 using Mffm.Commands;
 using Mffm.Contracts;
@@ -25,6 +26,7 @@ namespace LinkManager48.FormModels
             _eventAggregator.Subscribe(this);
 
             SaveCommand = new FunctionToCommandAdapter(SaveLink);
+            DeleteLinkCommand = new FunctionToCommandAdapter(DeleteLink);
             LinkCategoryItems = new List<string> { string.Empty }
                 .Concat(_repository.GetLinks().Select(x => x.Category))
                 .Distinct()
@@ -32,7 +34,15 @@ namespace LinkManager48.FormModels
                 .OrderBy(x => x).ToArray();
         }
 
-        public FunctionToCommandAdapter SaveCommand { get; set; }
+        public ICommand DeleteLinkCommand { get; set; }
+
+        private void DeleteLink(object obj)
+        {
+            _repository.Delete(_context);
+            _eventAggregator.Publish(new LinkChangedMessage(_context, LinkChangedMessage.TypeOfChange.Deleted));
+        }
+
+        public ICommand SaveCommand { get; set; }
 
         private void SaveLink(object obj)
         {

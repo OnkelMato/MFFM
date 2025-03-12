@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using LinkManager48.FormModels.FormAdapters;
 using LinkManager48.Forms;
 using LinkManager48.Models;
 using Mffm.Contracts;
@@ -41,20 +42,6 @@ namespace LinkManager48.FormModels
                 _repository.SaveOrUpdate(linkModel);
                 _eventAggregator.Publish(new LinkChangedMessage(linkModel, LinkChangedMessage.TypeOfChange.Created));
             };
-        }
-    }
-
-    public static class FormExtensions
-    {
-        public static TControl Get<TControl>(this Form form)
-        where TControl : Control
-        {
-            var controlType = typeof(TControl).FullName;
-            foreach (var ctrl in form.Controls)
-                if (ctrl.GetType().FullName == controlType)
-                    return (TControl)ctrl;
-
-            return null;
         }
     }
 }
