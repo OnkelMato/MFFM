@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Input;
+using LinkManager48.Messages;
 using Mffm.Commands;
 using Mffm.Contracts;
 using Mffm.Core;

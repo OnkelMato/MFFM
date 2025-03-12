@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Windows.Forms;
-using LinkManager48.FormModels.FormAdapters;
 using LinkManager48.Forms;
+using LinkManager48.Messages;
 using LinkManager48.Models;
 using Mffm.Contracts;
 using Mffm.Core;
 
-namespace LinkManager48.FormModels
+namespace LinkManager48.FormModels.FormAdapters
 {
     internal class LinkDragAndDropManager : IFormAdapter
     {

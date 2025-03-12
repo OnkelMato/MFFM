@@ -1,7 +1,7 @@
 ﻿
 using LinkManager48.Models;
 
-namespace LinkManager48
+namespace LinkManager48.Messages
 {
     internal class LinkChangedMessage
     {
