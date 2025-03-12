@@ -43,6 +43,8 @@
             sendMessagesGroup = new GroupBox();
             statusStrip1 = new StatusStrip();
             LastLogMessage = new ToolStripStatusLabel();
+            FolderTreeView = new TreeView();
+            Folders = new ComboBox();
             menuStrip1.SuspendLayout();
             sendMessagesGroup.SuspendLayout();
             statusStrip1.SuspendLayout();
@@ -54,8 +56,8 @@
             menuStrip1.Items.AddRange(new ToolStripItem[] { fileToolStripMenuItem, editToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
-            menuStrip1.Padding = new Padding(5, 2, 0, 2);
-            menuStrip1.Size = new Size(1053, 24);
+            menuStrip1.Padding = new Padding(6, 3, 0, 3);
+            menuStrip1.Size = new Size(1345, 30);
             menuStrip1.TabIndex = 0;
             menuStrip1.Text = "menuStrip1";
             // 
@@ -63,56 +65,55 @@
             // 
             fileToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { MenuFileClose });
             fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            fileToolStripMenuItem.Size = new Size(37, 20);
+            fileToolStripMenuItem.Size = new Size(46, 24);
             fileToolStripMenuItem.Text = "&File";
             // 
             // MenuFileClose
             // 
             MenuFileClose.Name = "MenuFileClose";
-            MenuFileClose.Size = new Size(103, 22);
+            MenuFileClose.Size = new Size(128, 26);
             MenuFileClose.Text = "&Close";
             // 
             // editToolStripMenuItem
             // 
             editToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { MenuEditPerson, MenuEditProtocol, SendLogMessageMenu });
             editToolStripMenuItem.Name = "editToolStripMenuItem";
-            editToolStripMenuItem.Size = new Size(39, 20);
+            editToolStripMenuItem.Size = new Size(49, 24);
             editToolStripMenuItem.Text = "Edit";
             // 
             // MenuEditPerson
             // 
             MenuEditPerson.Name = "MenuEditPerson";
-            MenuEditPerson.Size = new Size(221, 22);
+            MenuEditPerson.Size = new Size(277, 26);
             MenuEditPerson.Text = "Person";
             // 
             // MenuEditProtocol
             // 
             MenuEditProtocol.Name = "MenuEditProtocol";
-            MenuEditProtocol.Size = new Size(221, 22);
+            MenuEditProtocol.Size = new Size(277, 26);
             MenuEditProtocol.Text = "Protocol";
             // 
             // SendLogMessageMenu
             // 
             SendLogMessageMenu.Name = "SendLogMessageMenu";
             SendLogMessageMenu.ShortcutKeys = Keys.Control | Keys.Shift | Keys.S;
-            SendLogMessageMenu.Size = new Size(221, 22);
+            SendLogMessageMenu.Size = new Size(277, 26);
             SendLogMessageMenu.Text = "Send Message";
             // 
             // LogMessages
             // 
             LogMessages.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            LogMessages.Location = new Point(5, 98);
+            LogMessages.Location = new Point(6, 131);
             LogMessages.Name = "LogMessages";
-            LogMessages.Size = new Size(359, 232);
+            LogMessages.Size = new Size(288, 330);
             LogMessages.TabIndex = 1;
             LogMessages.Text = "label1";
             // 
             // SendLogMessage
             // 
-            SendLogMessage.Location = new Point(5, 62);
-            SendLogMessage.Margin = new Padding(3, 2, 3, 2);
+            SendLogMessage.Location = new Point(6, 83);
             SendLogMessage.Name = "SendLogMessage";
-            SendLogMessage.Size = new Size(82, 22);
+            SendLogMessage.Size = new Size(94, 29);
             SendLogMessage.TabIndex = 2;
             SendLogMessage.Text = "Send Message";
             SendLogMessage.UseVisualStyleBackColor = true;
@@ -120,27 +121,24 @@
             // LogMessageToSend
             // 
             LogMessageToSend.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            LogMessageToSend.Location = new Point(5, 38);
-            LogMessageToSend.Margin = new Padding(3, 2, 3, 2);
+            LogMessageToSend.Location = new Point(6, 51);
             LogMessageToSend.Name = "LogMessageToSend";
-            LogMessageToSend.Size = new Size(359, 23);
+            LogMessageToSend.Size = new Size(288, 27);
             LogMessageToSend.TabIndex = 3;
             // 
             // People
             // 
             People.FormattingEnabled = true;
-            People.Location = new Point(16, 84);
-            People.Margin = new Padding(3, 2, 3, 2);
+            People.Location = new Point(18, 112);
             People.Name = "People";
-            People.Size = new Size(334, 349);
+            People.Size = new Size(381, 464);
             People.TabIndex = 4;
             // 
             // PeopleSelected
             // 
-            PeopleSelected.Location = new Point(16, 436);
-            PeopleSelected.Margin = new Padding(3, 2, 3, 2);
+            PeopleSelected.Location = new Point(18, 581);
             PeopleSelected.Name = "PeopleSelected";
-            PeopleSelected.Size = new Size(334, 23);
+            PeopleSelected.Size = new Size(381, 27);
             PeopleSelected.TabIndex = 5;
             // 
             // sendMessagesGroup
@@ -148,11 +146,9 @@
             sendMessagesGroup.Controls.Add(LogMessageToSend);
             sendMessagesGroup.Controls.Add(SendLogMessage);
             sendMessagesGroup.Controls.Add(LogMessages);
-            sendMessagesGroup.Location = new Point(371, 84);
-            sendMessagesGroup.Margin = new Padding(3, 2, 3, 2);
+            sendMessagesGroup.Location = new Point(424, 112);
             sendMessagesGroup.Name = "sendMessagesGroup";
-            sendMessagesGroup.Padding = new Padding(3, 2, 3, 2);
-            sendMessagesGroup.Size = new Size(369, 332);
+            sendMessagesGroup.Size = new Size(300, 464);
             sendMessagesGroup.TabIndex = 6;
             sendMessagesGroup.TabStop = false;
             sendMessagesGroup.Text = "Send Log Messages";
@@ -161,31 +157,46 @@
             // 
             statusStrip1.ImageScalingSize = new Size(20, 20);
             statusStrip1.Items.AddRange(new ToolStripItem[] { LastLogMessage });
-            statusStrip1.Location = new Point(0, 500);
+            statusStrip1.Location = new Point(0, 894);
             statusStrip1.Name = "statusStrip1";
-            statusStrip1.Padding = new Padding(1, 0, 12, 0);
-            statusStrip1.Size = new Size(1053, 22);
+            statusStrip1.Size = new Size(1345, 26);
             statusStrip1.TabIndex = 7;
             statusStrip1.Text = "statusStrip1";
             // 
             // LastLogMessage
             // 
             LastLogMessage.Name = "LastLogMessage";
-            LastLogMessage.Size = new Size(94, 17);
+            LastLogMessage.Size = new Size(118, 20);
             LastLogMessage.Text = "LastLogMessage";
+            // 
+            // FolderTreeView
+            // 
+            FolderTreeView.Location = new Point(745, 146);
+            FolderTreeView.Name = "FolderTreeView";
+            FolderTreeView.Size = new Size(287, 443);
+            FolderTreeView.TabIndex = 8;
+            // 
+            // FoldersItems
+            // 
+            Folders.FormattingEnabled = true;
+            Folders.Location = new Point(745, 112);
+            Folders.Name = "Folders";
+            Folders.Size = new Size(287, 28);
+            Folders.TabIndex = 9;
             // 
             // MainForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1053, 522);
+            ClientSize = new Size(1345, 920);
+            Controls.Add(Folders);
+            Controls.Add(FolderTreeView);
             Controls.Add(statusStrip1);
             Controls.Add(sendMessagesGroup);
             Controls.Add(PeopleSelected);
             Controls.Add(People);
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
-            Margin = new Padding(3, 2, 3, 2);
             Name = "MainForm";
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
@@ -214,5 +225,7 @@
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel LastLogMessage;
         private ToolStripMenuItem SendLogMessageMenu;
+        private TreeView FolderTreeView;
+        private ComboBox Folders;
     }
 }
