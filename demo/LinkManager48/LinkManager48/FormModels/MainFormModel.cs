@@ -7,9 +7,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using LinkManager48.FormModels.Commands;
 using LinkManager48.FormModels.FormAdapters;
-using LinkManager48.MffmExtensions;
 using LinkManager48.Models;
 using Mffm.Contracts;
+using Mffm.Core.Bindings;
 
 namespace LinkManager48.FormModels
 {
@@ -138,7 +138,7 @@ namespace LinkManager48.FormModels
                         .First(x => ((MyLink)x.Data).Id == message.Link.Id);
 
                     // check if we need to change the parent node
-                    var catNode = CoreTreeView.First(x => message.Link.Category == x.Text);
+                    var catNode = CoreTreeView.First(x => message.Link.Category.WithDefault("<empty>") == x.Text);
                     if (!catNode.Children.Contains(node))
                     {
                         var oldCategoryNode = CoreTreeView.First(x => x.Children.Contains(node));
@@ -164,6 +164,20 @@ namespace LinkManager48.FormModels
             }
 
             return Task.CompletedTask;
+        }
+    }
+
+    public static class StringExtensions
+    {
+        /// <summary>
+        /// Returns the default value if the source string is null or empty.
+        /// </summary>
+        /// <param name="source">Source string</param>
+        /// <param name="defaultValue">Default value</param>
+        /// <returns></returns>
+        public static string WithDefault(this string source, string defaultValue)
+        {
+            return string.IsNullOrEmpty(source) ? defaultValue : source;
         }
     }
 }

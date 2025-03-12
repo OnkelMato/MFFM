@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using LinkManager48.MffmExtensions;
 using LinkManager48.Models;
 using Mffm.Contracts;
 
