@@ -1,4 +1,4 @@
-# Use information hiding principle
+# Hide as many thing as possible from the user
 
 ## Context and Problem Statement
 
@@ -17,7 +17,7 @@ Choosen option is: "Use information hiding principle"
 * Only the "right way" is provided to the user
 * The system is simple and easy to use
 * No "paradox of choice", only one way to go
-* User cannot create an invalid configuration 
+* User cannot create an invalid configuration by default, but override defaults
 
 ### Consequences
 

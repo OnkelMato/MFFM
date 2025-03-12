@@ -5,13 +5,18 @@ namespace Mffm.Core;
 
 internal class BindingManager : IBindingManager
 {
+    private readonly IFormBinding _formBinding;
+    private readonly IMenuItemBinding _menuItemBinding;
+
     // we need to reverse the bindings to have the most specific bindings first.
     // this ensures the default can 
     private readonly IEnumerable<IControlBinding> _bindings;
 
-    public BindingManager(IEnumerable<IControlBinding> bindings)
+    public BindingManager(IEnumerable<IControlBinding> bindings, IFormBinding formBinding, IMenuItemBinding menuItemBinding)
     {
-        _bindings = bindings.Reverse() ?? [];
+        _formBinding = formBinding ?? throw new ArgumentNullException(nameof(formBinding));
+        _menuItemBinding = menuItemBinding ?? throw new ArgumentNullException(nameof(menuItemBinding));
+        _bindings = bindings.Reverse();
     }
 
     #region GetAllControls helper
@@ -63,6 +68,14 @@ internal class BindingManager : IBindingManager
 
     #endregion
 
+    public void CreateBindings(IFormModel formModel, Control control)
+    {
+        foreach (var formControl in GetControlsRecursively(control))
+            foreach (var binding in _bindings)
+                if (binding.Bind(formControl, formModel))
+                    break;
+    }
+
     public void CreateBindings(IFormModel formModel, Form form)
     {
         // let us iterate over all controls and let the binding handle the control to model binding
@@ -81,26 +94,15 @@ internal class BindingManager : IBindingManager
         }
 
         // the menu strip is a special case but not worth create a separate extensibility (like above with controls)
+        // refactor this to IBinding so it can be extended
         var allItems = GetMenuItemsRecursively(form.MainMenuStrip?.Items);
         foreach (var menuItem in allItems)
         {
             if (string.IsNullOrEmpty(menuItem.Name)) continue;
-            if (formModel.GetType().GetProperty(menuItem.Name) is null) continue;
-
-            menuItem.DataBindings.Add(new Binding(nameof(menuItem.CommandParameter), formModel, null, true, DataSourceUpdateMode.Never));
-            menuItem.DataBindings.Add(new Binding(nameof(menuItem.Command), formModel, menuItem.Name, true, DataSourceUpdateMode.OnPropertyChanged));
-
-
+            _menuItemBinding.Bind(menuItem, formModel);
         }
 
-        //foreach (var property in formModel.GetType().GetProperties())
-        //{
-        //    var menuItem = form.MainMenuStrip?.Items?.Find(property.Name, true)?.FirstOrDefault();
-        //    if (menuItem is not null)
-        //    {
-        //        // we have to bind the commandparameter first to have it passed during the binding of the command itself
-        //        continue;
-        //    }
-        //}
+        // let's bind the form itself
+        _formBinding.Bind(form, formModel);
     }
 }

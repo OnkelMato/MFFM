@@ -1,9 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFramework>net9.0-windows</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
+		<TargetFrameworks>net481;net9.0-windows</TargetFrameworks>
+		<LangVersion>12.0</LangVersion>
 		<Nullable>enable</Nullable>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Configurations>Debug;Release</Configurations>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'net9'">
+		<TargetFramework>net9.0-windows</TargetFramework>
+		<DefineConstants>$(DefineConstants);DEBUG</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)' == 'net48'">
+		<TargetFramework>net481</TargetFramework>
+		<DefineConstants>$(DefineConstants);DEBUG</DefineConstants>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Authors>Thomas Ley</Authors>
+		<Description>Autofac dependency injection adapter for MFFM. MFFM is an MVVM adaption for Windows Forms.</Description>
+		<PackageProjectUrl>https://github.com/OnkelMato/MFFM</PackageProjectUrl>
+		<PackageTags>library</PackageTags>
+		<IncludeSymbols>False</IncludeSymbols>
+		<PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+		<GenerateDocumentationFile>True</GenerateDocumentationFile>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -12,8 +35,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Mffm.Contracts\Mffm.Contracts.csproj" />
-	  <ProjectReference Include="..\Mffm\Mffm.csproj" />
+		<ProjectReference Include="..\Mffm.Contracts\Mffm.Contracts.csproj" />
+		<ProjectReference Include="..\Mffm\Mffm.csproj" />
 	</ItemGroup>
 
 </Project>

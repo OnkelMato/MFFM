@@ -2,7 +2,7 @@
 
 ## Context and Problem Statement
 
-The market provides a lot of ready-to-use products but also interfaces in several libraries. It needs to be decided if the predefined interfaces shall be used or a custom interface shall be created.
+The market provides a lot of ready-to-use products but also interfaces in several libraties. It needs to be decided if the predefined interfaces shall be used or a custom interface shall be created.
 
 ## Considered Options
 

@@ -12,6 +12,8 @@ public class ProtocolFormModel : INotifyPropertyChanged, IHandle<LogMessage>, IF
 
     private string _log = string.Empty;
 
+    public object? Context { get; set; }
+
     public ProtocolFormModel(CloseFormCommand closeFormCommand, IEventAggregator eventAggregator)
     {
         _closeFormCommand = closeFormCommand ?? throw new ArgumentNullException(nameof(closeFormCommand));

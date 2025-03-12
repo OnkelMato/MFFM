@@ -8,7 +8,7 @@ namespace Mffm.Core;
 public static class EventAggregatorExtensions
 {
     /// <summary>
-    ///     Publishes a message on the current thread (synchrone).
+    ///     Publishes a message on the current thread (sync).
     /// </summary>
     /// <param name="eventAggregator">The event aggregator.</param>
     /// <param name="message">The message instance.</param>

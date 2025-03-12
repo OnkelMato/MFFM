@@ -1,6 +1,6 @@
 ﻿using Mffm.Contracts;
 
-namespace Mffm.Core.ControlBindings;
+namespace Mffm.Core.Bindings;
 
 internal class ListBoxBinding : IControlBinding
 {

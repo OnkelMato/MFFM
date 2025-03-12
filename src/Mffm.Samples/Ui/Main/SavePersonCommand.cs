@@ -1,6 +1,7 @@
 ﻿using System.Windows.Input;
+using Mffm.Samples.Ui.EditUser;
 
-namespace Mffm.Samples.Ui.EditUser;
+namespace Mffm.Samples.Ui.Main;
 
 public class SavePersonCommand : ICommand
 {

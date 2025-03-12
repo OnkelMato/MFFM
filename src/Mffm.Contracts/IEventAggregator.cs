@@ -29,6 +29,7 @@ public interface IEventAggregator
     ///     Publishes a message.
     /// </summary>
     /// <param name="message">The message instance.</param>
+    /// <param name="cancellationToken"></param>
     /// <returns>A task that represents the asynchronous operation.</returns>
     Task PublishAsync(object message, CancellationToken cancellationToken);
 }

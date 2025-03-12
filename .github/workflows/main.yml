@@ -1,0 +1,46 @@
+name: .NET Build, Pack, and Publish
+
+on:
+  push:
+    tags:        
+      - '*'
+jobs:
+  build:
+
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: ./src
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        # Unshallow fetch of Git history allows correct version calculation.
+        fetch-depth: 0
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '9.0.x'
+
+    - name: Restore tools
+      run: dotnet tool restore
+
+    - name: Use GitVersion
+      id: gitversion
+      run: '"version=$(dotnet gitversion /output json /showvariable NuGetVersionV2)" | Out-File -FilePath $env:GITHUB_OUTPUT -Append -Encoding utf8'
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build
+      run: dotnet build --configuration Release --no-restore
+
+    - name: Test
+      run: dotnet test --no-restore --verbosity normal
+
+    - name: Pack
+      run: dotnet pack --no-build --configuration Release /p:Version=${{ steps.gitversion.outputs.version }} --output artifacts
+
+    - name: Publish
+      run: dotnet nuget push "artifacts\*.nupkg" --skip-duplicate --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
