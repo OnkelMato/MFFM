@@ -7,11 +7,7 @@ namespace Mffm.Commands;
 /// <summary>
 ///     class used for data binding in the MFFM framework. The command parameter is the model itself.
 /// </summary>
-<<<<<<<< HEAD:src/Mffm/Commands/FormModelAsParameterCommandDecorator.cs
-public class FormModelAsParameterCommandDecorator : ICommand
-========
 public class FormModelDecorator : ICommand
->>>>>>>> origin/main:src/Mffm/Commands/FormModelDecorator.cs
 {
     private readonly ICommand _command;
     private readonly IFormModel _model;

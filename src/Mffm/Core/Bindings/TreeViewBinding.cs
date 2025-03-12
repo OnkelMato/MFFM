@@ -20,7 +20,7 @@ namespace Mffm.Core.Bindings
             private readonly Func<object, TDataItem> _getDataItemFunc;
             private readonly Func<TDataItem, TreeNode> _addTreeNodeFunc;
             private readonly Action<TDataItem, TreeNode> _updateTreeNodeAction;
-            private TreeNode _currentAddItem;
+            private TreeNode _currentAddItem = null!;
             private readonly TreeNode _parentTreeNode;
 
             public TreeViewBindingAdapter(
@@ -135,7 +135,7 @@ namespace Mffm.Core.Bindings
                 }
 
                 _updateTreeNodeAction(dataItem, _currentAddItem);
-                _currentAddItem = null;
+                _currentAddItem = null!;
             }
 
             public void UpdateItem()
@@ -149,7 +149,7 @@ namespace Mffm.Core.Bindings
             private void DeleteItem(int index)
             {
                 _treeNodeCollection.RemoveAt(index);
-                _currentAddItem = null;
+                _currentAddItem = null!;
             }
 
             private void MoveItem(int oldIndex, int newIndex)

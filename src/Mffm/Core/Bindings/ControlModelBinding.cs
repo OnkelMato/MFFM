@@ -26,7 +26,7 @@ namespace Mffm.Core.Bindings
 
             // how to make the dynamic data binding? maybe use the binding manager?
             var bindingManager = _lazyBindingManager.Value;
-            bindingManager.CreateBindings(controlModel as IFormModel, control);
+            bindingManager.CreateBindings(controlModel as IFormModel ?? throw new ArgumentException("The control model needs to be an IFormModel but it is not"), control);
 
             return true;
         }
