@@ -22,3 +22,11 @@ Choosen option is: "Reuse predefined interfaces from dotnet core framework".
 * Adapter from 3rd party libries to dotnet core framework libraries are usually already available
 
 ### Consequences
+
+==marp==
+## Favour Buy over Make
+
+- .NET Features werden verwendet z.B. DataBinding
+- Interfaces aus .NET "Core" werden wiederverwendet
+- Eigenes DataBinding wenn nicht unterstützt
+- Eigene Interfaces wenn nötig

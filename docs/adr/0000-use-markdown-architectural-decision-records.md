@@ -23,3 +23,16 @@ Chosen option: "MADR 4.0.0", because
 * The MADR format is lean and fits our development style.
 * The MADR structure is comprehensible and facilitates usage & maintenance.
 * The MADR project is vivid.
+
+==marp==
+# Die Grundlagen
+
+## und das Ziel des Frameworks
+
+---
+## MADR für Entscheidungen
+
+- Entscheidungen werden notiert
+- Business- und Architekturentscheidungen
+- MADR für eine einfache Notation
+- Entscheidungen werden mit dem Code versioniert

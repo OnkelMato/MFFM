@@ -23,6 +23,9 @@ internal class DefaultFormMapperBuilder : IFormMapperBuilder
 
     public void RegisterAssembly(Assembly assembly)
     {
+        // a form model is the model for a form, i.e. the data that is displayed in the form
+        // the design of this framework says, that the FormModel is the base and a Form is attached
+        // (not the other way around)
         var formModels = GetServices<IFormModel>(assembly);
         var forms = GetServices<Form>(assembly);
 

@@ -26,3 +26,11 @@ Choosen option is: "Implicit convention"
 ### Consequences
 
 * A control `FirstnameList` and control `FirstnameListSelected` result in conflicts. `*Selected` is bount to the `SelectedItem` property of the control `FirstnameList` by naming convention.
+
+==marp==
+## Convention over Configuration
+
+- Implizit durch Namenskonvention
+- Beispiel: Textbox `Foo`/Eigenschaft `Text` => FormModel Eigenschaft `Foo`
+- "Magie, die funktioniert"
+- Weniger "Boilerplate-Code"

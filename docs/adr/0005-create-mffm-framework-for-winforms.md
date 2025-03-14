@@ -39,3 +39,18 @@ flowchart TD
     F --> G(FormModel)
     G --> H(*Model* i.g. Database, Business Logic, External Systems)
 ```
+==marp==
+## MFFM Framework
+
+- MVVM bei WPF
+- Trennung von UI und Model
+- Build-In Datenbindung nutzen
+- Erweiterbarer Core
+
+---
+## MFFM Erweiterungen
+
+- Benutzerdefinierte Controls (LoB, Xceed et.al.)
+- Austauschbarkeit der Form
+- Erweiterbarkeit der Datenbindung (Icons, Font)
+- Attribute-Binding oder Internationalisierung

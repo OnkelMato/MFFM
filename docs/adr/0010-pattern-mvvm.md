@@ -25,3 +25,19 @@ Choosen option is: "Implement MVVM for Windows Forms and call it MFFM"
 ### Consequences
 
 * The implementation will be a framework with classes to implement some of the design principles.
+
+==marp==
+## Design Pattern: MVVM
+
+- Model, View, ViewModel
+- Model: Geschäftslogik
+- View: Benutzeroberfläche
+- ViewModel: Transformation Model -> View
+
+---
+## Vorteile
+
+- UI kann ausgetauscht werden z.B. Accessibility
+- UI kennt die Geschäftslogik nicht
+- Geschäftslogik unabhängig von Oberfläche
+- Datentransformation (VM) spazialisiert für UI

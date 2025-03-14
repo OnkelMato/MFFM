@@ -22,3 +22,10 @@ Choosen option is: "Use information hiding principle"
 ### Consequences
 
 * The user has less options to reuse existing code
+
+==marp==
+## Information Hiding Principle
+
+- Möglichst viel auf `internal`
+- Registrierung mit korrekter Verwendung
+- "Works by Default"

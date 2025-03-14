@@ -16,3 +16,10 @@ The dotnet framework provides a class `System.IServiceProvider` to resolve class
 A similar interface for service registration does not exist. Therefore a custom interface `IServiceRegistrationAdapter` needs to be defined and used by MFFM core.
 
 ### Consequences
+
+==marp==
+## Dependency Injection Adapter
+
+- Wiederverwenden  `System.IServiceProvider`
+- Eigene Implementierung `IServiceRegistrationAdapter`
+- Klasse in MFFM Core zum Registrieren der `internals`

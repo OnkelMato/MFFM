@@ -34,7 +34,7 @@ public static class MicrosoftDependencyInjectionExtension
         where TFormModel : class, IFormModel
     {
         var windowManager = provider.GetService<IWindowManager>() ?? throw new ServiceNotFoundException("cannot find window manager for MFFM pattern");
-        // let's exit with code 0
+        // let's exit with code 0. DialogResult.None ist 1, hence we subtract 1
         return (int)windowManager.Run<TFormModel>() - 1;
     }
 }

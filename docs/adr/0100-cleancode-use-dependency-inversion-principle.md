@@ -20,3 +20,16 @@ Choosen option is: "Use dependency inversion principle and abstractions"
 * the system is more testable as the dependency can be mocked
 
 ### Consequences
+
+==marp==
+# Dependency Injection
+
+## Abhängigkeiten, aber wovon?
+
+---
+## DIP (Dependency Inversion Principle)
+
+- Unabhängig von Implementierung 
+- Austauschbarkeit (neue Implementierung)
+- Erweiterbarkeit (zusätzliche Implementierung)
+- Achtung: Eigenheiten des DI Frameworks
