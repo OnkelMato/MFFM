@@ -1,6 +1,4 @@
-﻿using LinkManager48.MffmExtensions;
-
-namespace LinkManager48.Forms
+﻿namespace LinkManager48.Forms
 {
     partial class MainForm
     {

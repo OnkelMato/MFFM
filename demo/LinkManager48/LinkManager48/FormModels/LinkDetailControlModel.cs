@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
+using LinkManager48.Messages;
 using LinkManager48.Models;
 using Mffm.Commands;
 using Mffm.Contracts;
