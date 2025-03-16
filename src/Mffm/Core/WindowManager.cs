@@ -1,6 +1,4 @@
 using Mffm.Contracts;
-using System;
-using System.Reflection;
 
 namespace Mffm.Core;
 
@@ -22,33 +20,47 @@ internal class WindowManager(IServiceProvider serviceProvider, IBindingManager b
 
     // keep track of all open windows so we can close them
     private readonly Dictionary<IFormModel, WeakReference<Form>> _openWindows = new();
-    private readonly List<Tuple<IFormModel, Action>> _deferredExecutionActions = new();
+
 
     private Form GetFormFor<TFormModel>(object? context = null)
         where TFormModel : class, IFormModel
     {
         // get form model and set the context
-        IFormModel formModel = _serviceProvider.GetService(typeof(TFormModel)) as TFormModel ?? throw new ServiceNotFoundException($"Cannot fond service for ${typeof(TFormModel).Name}");
+        var ctor = typeof(TFormModel)
+            .GetConstructors()
+            .OrderByDescending(c => c.GetParameters().Length)
+            .First();
+
+        var parameters = ctor
+            .GetParameters()
+            .Select(param =>
+            {
+                var ctorParam = _serviceProvider.GetService(param.ParameterType);
+                if (ctorParam is null) throw new ServiceNotFoundException($"Cannot find service for ${param.ParameterType.Name}");
+                return ctorParam;
+            });
+
+        IFormModel formModel = (ctor.Invoke(parameters.ToArray()) as TFormModel) ?? throw new ServiceNotFoundException($"Cannot find service for ${typeof(TFormModel).Name}");
         formModel.GetType().GetProperty(MffmConstants.ContextPropertyName)?.SetValue(formModel, context);
 
         // form mapper is responsible to getting the form for the form model
         var formType = _formMapper.GetFormFor<TFormModel>();
         var form = _serviceProvider.GetService(formType) as Form;
-        if (form is null) throw new ServiceNotFoundException($"Cannot fond service for ${formType.Name}");
+        if (form is null) throw new ServiceNotFoundException($"Cannot find service for ${formType.Name}");
+
+        // as we have the form now, we can attach the constructor IFormAdapter to the form
+        foreach (var parameter in parameters)
+            if (parameter is IFormAdapter formAdapter) formAdapter.InitializeWith(form!);
 
         // track forms and formModels
         _openWindows.Add(formModel, new WeakReference<Form>(form));
         form.FormClosed += (_, _) => _openWindows.Remove(formModel);
-        // execute deferred actions
-        foreach (var action in _deferredExecutionActions.ToArray())
-            if (action.Item1 == formModel)
-            {
-                action.Item2();
-                _deferredExecutionActions.Remove(action);
-            }
 
         // binding manager is responsible for the data binding and connection between the FormModel and the Form
         _bindingManager.CreateBindings(formModel, form);
+
+        // we can do the subscriber automatically here. No need in the form model
+        (_serviceProvider.GetService(typeof(IEventAggregator)) as IEventAggregator)?.Subscribe(formModel);
 
         return form;
     }
@@ -104,19 +116,18 @@ internal class WindowManager(IServiceProvider serviceProvider, IBindingManager b
         return _openWindows.ContainsKey(model);
     }
 
-    public void AttachToForm(IFormAdapter formAdapter, IFormModel formModel)
-    {
-        // it is a bit complicated here, as this is usually called during a constructor call. 
-        // so in that case the windows is not in dictionary, we need to wait until it is added
-        if (!_openWindows.TryGetValue(formModel, out var window))
-        {
-            _deferredExecutionActions.Add(new Tuple<IFormModel, Action>(formModel, () => AttachToForm(formAdapter, formModel)));
-            return;
-        }
+    //public void AttachToForm(IFormAdapter formAdapter, Form form)
+    //{
+    //    // it is a bit complicated here, as this is usually called during a constructor call. 
+    //    // so in that case the windows is not in dictionary, we need to wait until it is added
+    //    if (!_openWindows.TryGetValue(formModel, out var window))
+    //    {
+    //        _deferredExecutionActions.Add(new Tuple<IFormModel, Action>(formModel, () => AttachToForm(formAdapter, formModel)));
+    //        return;
+    //    }
 
-        var hasWindow = window.TryGetTarget(out var form);
-        if (!hasWindow) return;
+    //    var hasWindow = window.TryGetTarget(out var form);
+    //    if (!hasWindow) return;
 
-        formAdapter.InitializeWith(form!);
-    }
+    //}
 }

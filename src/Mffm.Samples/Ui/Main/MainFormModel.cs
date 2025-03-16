@@ -13,6 +13,7 @@ namespace Mffm.Samples.Ui.Main;
 public class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<LogMessage>
 {
     private readonly IWindowManager _windowManager;
+    private readonly MenuFormAdapter _formAdapter;
     private const string TitleDefault = "MFFM Sample Application";
 
     private string _lastLogMessage = string.Empty;
@@ -27,10 +28,13 @@ public class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<LogMess
 
     public MainFormModel(
         IWindowManager windowManager,
-        IEventAggregator eventAggregator)
+        IEventAggregator eventAggregator,
+        MenuFormAdapter formAdapter)
     {
         _windowManager = windowManager ?? throw new ArgumentNullException(nameof(windowManager));
-        eventAggregator.Subscribe(this);
+        _formAdapter = formAdapter ?? throw new ArgumentNullException(nameof(formAdapter));
+        // no need any longer
+        // eventAggregator.Subscribe(this);
 
         // this happens when you don't have a command and can use window manager directly
         MenuFileClose = new CloseApplicationCommand(windowManager);
@@ -215,4 +219,16 @@ public class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<LogMess
     }
 
     #endregion
+}
+
+public class MenuFormAdapter : IFormAdapter
+{
+    public void InitializeWith(Form form)
+    {
+        form.Text = "Menu Form";
+        form.FormBorderStyle = FormBorderStyle.FixedDialog;
+        form.MaximizeBox = false;
+        form.MinimizeBox = false;
+        form.StartPosition = FormStartPosition.CenterScreen;
+    }
 }

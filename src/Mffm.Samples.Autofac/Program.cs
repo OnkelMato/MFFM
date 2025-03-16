@@ -48,6 +48,7 @@ internal static class Program
         services.RegisterType<GreetingRepository>().As<IGreetingRepository>().SingleInstance();
 
         services.RegisterType<SavePersonCommand>().AsSelf();
+        services.RegisterType<MenuFormAdapter>().AsSelf();
     }
 
     #endregion

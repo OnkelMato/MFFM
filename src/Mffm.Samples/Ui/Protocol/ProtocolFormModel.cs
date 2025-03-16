@@ -18,7 +18,8 @@ public class ProtocolFormModel : INotifyPropertyChanged, IHandle<LogMessage>, IF
     {
         _closeFormCommand = closeFormCommand ?? throw new ArgumentNullException(nameof(closeFormCommand));
 
-        eventAggregator.Subscribe(this);
+        // no need any longer
+        // eventAggregator.Subscribe(this);
     }
 
     public ICommand CloseWindow => _closeFormCommand;
