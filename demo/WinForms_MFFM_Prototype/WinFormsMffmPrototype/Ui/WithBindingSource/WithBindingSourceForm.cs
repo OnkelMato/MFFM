@@ -5,6 +5,10 @@
         public WithBindingSourceForm()
         {
             InitializeComponent();
+
+            this.bindingSource1.DataSource = new WithBindingSourceFormModel()
+            {
+            };
         }
     }
 }

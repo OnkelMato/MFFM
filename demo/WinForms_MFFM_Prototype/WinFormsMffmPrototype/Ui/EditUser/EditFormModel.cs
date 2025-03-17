@@ -11,7 +11,9 @@ public class EditFormModel : IFormModel
     {
     }
 
-    public EditFormModel(IMffmLogger logger, CloseFormCommand closeFormCommand)
+    public EditFormModel(
+        IMffmLogger logger, 
+        CloseFormCommand closeFormCommand)
     {
         CloseForm = closeFormCommand ?? throw new ArgumentNullException(nameof(closeFormCommand));
 
