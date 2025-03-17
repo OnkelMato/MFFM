@@ -1,6 +1,6 @@
 ﻿using Mffm.Contracts;
 
-namespace Mffm.Core;
+namespace Mffm.Eventing;
 
 /// <summary>
 ///     Extensions for <see cref="IEventAggregator" />.

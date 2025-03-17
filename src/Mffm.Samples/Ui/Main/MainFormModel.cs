@@ -28,7 +28,7 @@ public class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<LogMess
 
     public MainFormModel(
         IWindowManager windowManager,
-        IEventAggregator eventAggregator,
+        IPublish<LogMessage> logMessagePublisher,
         MenuFormAdapter formAdapter)
     {
         _windowManager = windowManager ?? throw new ArgumentNullException(nameof(windowManager));
@@ -42,10 +42,10 @@ public class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<LogMess
         MenuEditProtocol = new FunctionToCommandAdapter(_ => windowManager.Show<ProtocolFormModel>());
 
         // use the regular command for the menu
-        SendLogMessageMenu = new SendLogMessageCommand(eventAggregator);
+        SendLogMessageMenu = new SendLogMessageCommand(logMessagePublisher);
         SendLogMessageMenuIcon = Image.FromStream(new MemoryStream(Resources.icon_senden));
 
-        SendLogMessage = new SendLogMessageCommand(eventAggregator);
+        SendLogMessage = new SendLogMessageCommand(logMessagePublisher);
 
         _title = TitleDefault;
 

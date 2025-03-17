@@ -3,6 +3,7 @@ using Mffm.Commands;
 using Mffm.Contracts;
 using Mffm.Core;
 using Mffm.Core.Bindings;
+using Mffm.Eventing;
 
 namespace Mffm;
 
@@ -38,6 +39,11 @@ public static class MffmDependencyInjectionRegistrations
 
         containerBuilder.RegisterTransientType(typeof(IFormBinding), typeof(DefaultFormBinding));
         containerBuilder.RegisterTransientType(typeof(IMenuItemBinding), typeof(DefaultMenuItemBinding));
+
+        containerBuilder.RegisterTransientType(typeof(IPublish<>), typeof(Publisher<>));
+        containerBuilder.RegisterTransientType(typeof(IPublish<,>), typeof(Publisher<,>));
+        containerBuilder.RegisterTransientType(typeof(IPublish<,,>), typeof(Publisher<,,>));
+
         return containerBuilder;
     }
 

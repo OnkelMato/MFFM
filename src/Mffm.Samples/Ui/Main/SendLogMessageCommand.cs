@@ -5,10 +5,10 @@ using Mffm.Samples.Ui.Protocol;
 
 namespace Mffm.Samples.Ui.Main;
 
-public class SendLogMessageCommand(IEventAggregator eventAggregator) : ICommand
+public class SendLogMessageCommand(IPublish<LogMessage> publisher) : ICommand
 {
-    private readonly IEventAggregator _eventAggregator =
-        eventAggregator ?? throw new ArgumentNullException(nameof(eventAggregator));
+    private readonly IPublish<LogMessage> _eventAggregator =
+        publisher ?? throw new ArgumentNullException(nameof(publisher));
 
     public bool CanExecute(object? parameter)
     {
@@ -28,7 +28,7 @@ public class SendLogMessageCommand(IEventAggregator eventAggregator) : ICommand
                 "It seems that the CommandParameter in Binding is not set to the model");
 
         var message = new LogMessage { Message = model.LogMessageToSend };
-        _eventAggregator.Publish(message);
+        _eventAggregator.PublishAsync(message, CancellationToken.None).Wait();
     }
 
     public event EventHandler? CanExecuteChanged;

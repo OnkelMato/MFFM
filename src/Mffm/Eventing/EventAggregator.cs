@@ -1,7 +1,8 @@
 ﻿using System.Reflection;
 using Mffm.Contracts;
+using Mffm.Core;
 
-namespace Mffm.Core;
+namespace Mffm.Eventing;
 
 internal class EventAggregator : IEventAggregator
 {

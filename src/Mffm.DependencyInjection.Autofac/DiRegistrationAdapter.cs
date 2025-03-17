@@ -15,7 +15,10 @@ internal class DiRegistrationAdapter(ContainerBuilder containerBuilder)
 
     public void RegisterTransientType(Type inf, Type impl)
     {
-        _containerBuilder.RegisterType(impl).As(inf);
+        if (inf.IsGenericTypeDefinition)
+            _containerBuilder.RegisterGeneric(impl).As(inf).InstancePerDependency();
+        else
+            _containerBuilder.RegisterType(impl).As(inf).InstancePerDependency();
     }
 
     public void RegisterSingletonInstance(Type inf, object impl)
