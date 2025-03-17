@@ -220,15 +220,3 @@ public class MainFormModel : IFormModel, INotifyPropertyChanged, IHandle<LogMess
 
     #endregion
 }
-
-public class MenuFormAdapter : IFormAdapter
-{
-    public void InitializeWith(Form form)
-    {
-        form.Text = "Menu Form";
-        form.FormBorderStyle = FormBorderStyle.FixedDialog;
-        form.MaximizeBox = false;
-        form.MinimizeBox = false;
-        form.StartPosition = FormStartPosition.CenterScreen;
-    }
-}

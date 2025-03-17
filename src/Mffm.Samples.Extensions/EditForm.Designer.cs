@@ -36,7 +36,7 @@
             Firstname = new TextBox();
             Lastname = new TextBox();
             label3 = new Label();
-            Coordinate = new Extensions.GeoComponent.GeolocationControl();
+            Coordinate = new GeoComponent.GeolocationControl();
             Save = new Button();
             SaveAndClose = new Button();
             tableLayoutPanel1.SuspendLayout();
@@ -122,7 +122,7 @@
             // 
             // Coordinate
             // 
-            Coordinate.Coordinate = (Extensions.GeoComponent.Coordinate)resources.GetObject("Coordinate.Coordinate");
+            Coordinate.Coordinate = (GeoComponent.Coordinate)resources.GetObject("Coordinate.Coordinate");
             Coordinate.Location = new Point(282, 205);
             Coordinate.MinimumSize = new Size(224, 71);
             Coordinate.Name = "Coordinate";

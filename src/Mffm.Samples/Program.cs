@@ -48,6 +48,8 @@ internal static class Program
         services.AddSingleton<IGreetingRepository, GreetingRepository>();
 
         services.AddTransient<SavePersonCommand>();
+
+        services.AddTransient<MenuFormAdapter>();
     }
 
     #endregion

@@ -12,7 +12,7 @@ namespace Mffm.Core.Bindings
         /// cf: stolen, I mean taken from https://schreibermartin.wordpress.com/2014/12/17/winforms-treeview-data-binding-part-2-of-2/
         /// </summary>
         /// <typeparam name="TDataItem"></typeparam>
-        public class TreeViewBindingAdapter<TDataItem> where TDataItem : class
+        private class TreeViewBindingAdapter<TDataItem> where TDataItem : class
         {
             private readonly TreeView _treeView;
             private readonly TreeNodeCollection _treeNodeCollection;

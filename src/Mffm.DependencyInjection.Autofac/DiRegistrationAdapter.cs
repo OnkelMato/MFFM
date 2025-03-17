@@ -3,7 +3,8 @@ using Mffm.Contracts;
 
 namespace Mffm.DependencyInjection.Autofac;
 
-internal class DiRegistrationAdapter(ContainerBuilder containerBuilder) : IServiceRegistrationAdapter
+internal class DiRegistrationAdapter(ContainerBuilder containerBuilder) 
+    : IServiceRegistrationAdapter
 {
     private readonly ContainerBuilder _containerBuilder = containerBuilder ?? throw new ArgumentNullException(nameof(containerBuilder));
 

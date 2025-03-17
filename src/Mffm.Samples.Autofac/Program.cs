@@ -1,4 +1,5 @@
 using Autofac;
+using Mffm.Contracts;
 using Mffm.DependencyInjection.Autofac;
 using Mffm.Samples.Core.Logging;
 using Mffm.Samples.Core.Services;
@@ -22,14 +23,14 @@ internal static class Program
 
         // Initialize Dependency Injection
         var serviceCollection = new ContainerBuilder();
-        serviceCollection.ConfigureDemoAppServices();
 
         // here is all the registration logic for the MFFM services and framework
         // this includes the user interface which is formModels and forms
         serviceCollection.ConfigureMffm(
-            typeof(MainFormModel).Assembly,
-            // the second assembly overrides the editform and adds some more mapping functionality
-            typeof(GeolocationControl).Assembly);
+            typeof(MainFormModel).Assembly);//,
+                                            // the second assembly overrides the editform and adds some more mapping functionality
+                                            //typeof(GeolocationControl).Assembly);
+        serviceCollection.ConfigureDemoAppServices();
 
         // create the service provider aka container
         var serviceProvider = serviceCollection.Build();
@@ -48,8 +49,49 @@ internal static class Program
         services.RegisterType<GreetingRepository>().As<IGreetingRepository>().SingleInstance();
 
         services.RegisterType<SavePersonCommand>().AsSelf();
+
+        services.RegisterType<I18nBinding>().AsImplementedInterfaces();
+        services.RegisterType<TranslationService>().AsImplementedInterfaces();
+
         services.RegisterType<MenuFormAdapter>().AsSelf();
     }
 
     #endregion
+}
+
+public class I18nBinding : IControlBinding
+{
+    private readonly ITranslationService _translationService;
+
+    public I18nBinding(ITranslationService translationService)
+    {
+        _translationService = translationService ?? throw new ArgumentNullException(nameof(translationService));
+    }
+
+    public bool Bind(Control control, IFormModel formModel)
+    {
+        if (control is Label or Button or GroupBox)
+        {
+            var formName = control.Parent.Name;
+            var controlName = control.Name;
+            var language = "de";
+            var translation = _translationService.Translate($"{formName}.{controlName}", language);
+            control.Text = translation;
+        };
+
+        return false;
+    }
+}
+
+public class TranslationService : ITranslationService
+{
+    public string Translate(string control, string language)
+    {
+        return $"{control} [{language}]";
+    }
+}
+
+public interface ITranslationService
+{
+    string Translate(string control, string language);
 }
