@@ -21,6 +21,12 @@ namespace Mffm.Core.Bindings
 
             comboBox.DataBindings.Add(nameof(comboBox.DataSource), formModel, propertyList.Name, true, DataSourceUpdateMode.OnPropertyChanged);
             comboBox.DataBindings.Add(nameof(comboBox.SelectedItem), formModel, propertyText.Name, true, DataSourceUpdateMode.OnPropertyChanged);
+
+            comboBox.SelectedIndexChanged += (sender, args) =>
+            {
+                //if (comboBox.SelectedItem == null) return;
+                propertyText.SetValue(formModel, comboBox.SelectedItem);
+            };
             return true;
         }
     }
